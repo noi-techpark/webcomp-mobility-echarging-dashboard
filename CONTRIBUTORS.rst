@@ -23,5 +23,6 @@
 **Contributors:**
 
 * Luca Fedrizzi <luca.fedrizzi@belkadigital.com>
+* Peter Moser <p.moser@noi.bz.it>
 
 *To update the contributors list just run this file with bash. Prefix a name with % in .mailmap to set a contact as preferred*
