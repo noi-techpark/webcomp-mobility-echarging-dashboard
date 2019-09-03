@@ -1,0 +1,47 @@
+.header {
+  @media only screen and (min-width: 320px) {
+    height: 304px;
+  }
+  @media only screen and (min-width: 768px) {
+    height: 256px;
+  }
+  background-color: $green;
+  position: relative;
+
+  .container {
+    height: 100%;
+  }
+}
+
+.header__logo {
+  background-color: $white;
+  display: inline-flex;
+  padding: 20px;
+  border-radius: 0 0 8px 8px;
+  .header__logo_image {
+    width: 104px;
+    height: 32px;
+    background-size: contain;
+    background-position: center;
+  }
+}
+
+.header__title_container {
+  display: flex;
+  align-content: center;
+}
+
+.sudtirol_logo {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 80px;
+  margin-top: -40px;
+}
+
+.moutain_illustration {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}

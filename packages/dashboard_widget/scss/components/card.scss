@@ -1,0 +1,313 @@
+$card-height: 304px;
+
+.card {
+  @media only screen and (min-width: 768px) {
+    height: $card-height;
+  }
+  background-color: $white;
+  transform: translateY(-56px);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(51, 51, 51, 0.07);
+  position: relative;
+}
+
+.card__header {
+  color: #067322;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  padding-bottom: 8px;
+}
+
+.card__divider {
+  height: 2px;
+  background-color: $black-50;
+  margin: 0 15px 0 15px;
+  width: calc(100% - 30px);
+}
+
+.card__body {
+  @media only screen and (min-width: 768px) {
+    $h: calc(#{$card-height} - 38px - 1rem);
+    height: $h;
+  }
+  padding: 15px;
+  padding-top: 8px;
+  position: relative;
+}
+
+.card__loader {
+  position: absolute;
+  z-index: 1;
+  background-color: $white;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes rotating {
+  from {
+    @each $engine in -webkit, -moz, -o, '' {
+      #{$engine}-transform: rotate(0deg);
+    }
+  }
+  to {
+    @each $engine in -webkit, -moz, -o, '' {
+      #{$engine}-transform: rotate(360deg);
+    }
+  }
+}
+.rotating {
+  @each $engine in -webkit, -moz, -o, '' {
+    #{$engine}-animation: rotating 2s linear infinite;
+  }
+}
+
+.card__loader_spinner {
+  @extend .rotating;
+  display: table;
+  margin: 0 auto;
+  width: 40px;
+}
+
+.card__reload_icon {
+  width: 24px;
+}
+
+/* Number of columns card content */
+.card {
+  .columns_number__container {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    .columns_number__container__number {
+      color: $orange;
+      font-size: 100px;
+      line-height: 100px;
+    }
+    .columns_number__container__divider {
+      background-color: $black-100;
+      height: 2px;
+      width: 98px;
+      margin: 0 auto;
+    }
+    .columns_number__container__description {
+      color: $black-300;
+    }
+  }
+}
+
+/* Working columns */
+.working_columns__container {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.working_columns {
+  position: relative;
+
+  .working_columns__chart_container {
+    height: 120px;
+    width: 200px;
+    @media only screen and (min-width: 320px) {
+      margin: 8px auto 48px auto;
+    }
+    @media only screen and (min-width: 375px) {
+      width: 300px;
+    }
+    @media only screen and (min-width: 768px) {
+      margin-top: 0;
+      margin-bottom: 48px;
+    }
+  }
+
+  .working_columns__divider {
+    background-color: $black-100;
+    height: 2px;
+    width: 98px;
+    margin: 0 auto;
+  }
+
+  .working_columns__description {
+    color: $black-300;
+  }
+
+  .working_columns__number__container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0.5rem;
+
+    .working_columns__number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        margin: 2.5rem auto 0.5rem auto;
+        display: table;
+        width: 32px;
+      }
+    }
+  }
+}
+
+/* Plugs */
+.chart_plugs__container {
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+
+  .plug_list_names {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media only screen and (min-width: 768px) {
+      width: 160px;
+      margin-left: 16px;
+    }
+
+    .plug_list_names__name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $black-100;
+      height: 24px;
+      color: $black-300;
+      margin-bottom: 0.5rem;
+      padding: 0rem 1rem;
+      border-radius: 4px;
+      width: 49%;
+      font-weight: 800;
+      font-size: 12px;
+      @media only screen and (min-width: 768px) {
+        width: 100%;
+        font-size: 14px;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &.type2_mannekes {
+        color: #4285f4;
+        background: #d6e6fe;
+      }
+      &.type2_230vac {
+        color: #de7000;
+        background-color: #fde1c9;
+      }
+      &.type2_400vac {
+        color: #ef80ff;
+        background-color: #ffe4ff;
+      }
+      &.type3a {
+        color: #97be0e;
+        background-color: #dbecae;
+      }
+      &.chademo {
+        color: #e6040e;
+        background-color: #ffcacd;
+      }
+      &.disabled {
+        background-color: $black-100;
+        color: $black-300;
+      }
+    }
+  }
+}
+
+.chart_plugs {
+  position: relative;
+  .chart_plugs__chart_container {
+    margin: 0 auto;
+    height: 200px;
+    width: 200px;
+    margin-bottom: 1.5rem;
+    @media only screen and (min-width: 768px) {
+      margin-bottom: 0;
+    }
+  }
+  .number__container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    .chart_plugs__description {
+      color: $black-300;
+    }
+    .chart_plugs__number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  }
+}
+
+/* Utilized */
+.chart_utilized__container {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.chart_utilized {
+  position: relative;
+
+  .number__container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    .number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      img {
+        margin: 0 auto;
+        display: table;
+        margin-bottom: 0.5rem;
+        width: 32px;
+      }
+    }
+  }
+  .chart_utilized__chart_container {
+    height: 152px;
+    width: 152px;
+    margin: 0 auto;
+    canvas {
+      margin: 0 auto;
+      height: 152px;
+      width: 152px;
+    }
+    @media only screen and (min-width: 375px) {
+      height: 200px;
+      width: 200px;
+    }
+    padding-bottom: 8px;
+  }
+}
+
+.chart_utilized__description {
+  color: $black-300;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 1.5rem;
+  width: 172px;
+  margin: 0 auto;
+  margin-top: 15px;
+  @media only screen and (min-width: 768px) {
+    text-align: left;
+    margin-top: 0;
+    margin-left: 15px;
+    margin-right: 0;
+  }
+}
