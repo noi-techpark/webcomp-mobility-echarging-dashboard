@@ -1,4 +1,5 @@
 const BASE_PATH = 'https://ipchannels.integreen-life.bz.it/emobility/rest/';
+const NINJA_BASE_PATH = 'https://ipchannels.integreen-life.bz.it/ninja/api/v2';
 const BASE_PATH_PLUGS = 'https://ipchannels.integreen-life.bz.it/emobility/rest/plugs/';
 import _ from 'lodash';
 
@@ -26,18 +27,46 @@ const STATION_STATES = {
 
 /** STATIONS DETAILS */
 
-async function request__get_stations_details() {
-  let response = await fetch(BASE_PATH + 'get-station-details', fetch_options);
-  return await response.json();
+async function request__get_stations_details(bz) {
+  try {
+    let response_all_bz = await fetch(
+      NINJA_BASE_PATH +
+        '/flat/EChargingStation?limit=-1&offset=0&where=scoordinate.bbi.(11.27539%2C46.444913%2C11.432577%2C46.530384)&shownull=false&distinct=true',
+      fetch_options
+    );
+    let response = bz
+      ? await fetch(
+          NINJA_BASE_PATH +
+            '/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true%2Cscoordinate.bbi.(11.27539%2C46.444913%2C11.432577%2C46.530384)&shownull=false&distinct=true',
+
+          fetch_options
+        )
+      : await fetch(BASE_PATH + 'get-station-details', fetch_options);
+
+    response_all_bz = await response_all_bz.json();
+    response = await response.json();
+
+    return bz ? [response_all_bz.data, response.data] : response;
+  } catch (e) {}
 }
 
 export async function get_available_stations_percentage() {
-  const stations = await request__get_stations_details();
-  const grouped_stations_by_state = _.groupBy(stations, 'state');
-  const number_of_stations = stations.length;
-  const number_of_active = grouped_stations_by_state[STATION_STATES.active].length;
-  const number_of_available = grouped_stations_by_state[STATION_STATES.available].length;
-  const sum = number_of_active + number_of_available;
+  let sum,
+    number_of_stations,
+    number_of_active = 0;
+  if (this.bz) {
+    const [stations_all, stations_active] = await request__get_stations_details(this.bz);
+    number_of_stations = stations_all.length;
+    number_of_active = stations_active.length;
+    sum = number_of_active;
+  } else {
+    const stations = await request__get_stations_details(this.bz);
+    const grouped_stations_by_state = _.groupBy(stations, 'state');
+    number_of_stations = stations.length;
+    number_of_active = grouped_stations_by_state[STATION_STATES.active].length;
+    const number_of_available = grouped_stations_by_state[STATION_STATES.available].length;
+    sum = number_of_active + number_of_available;
+  }
   const perc_available_stations = (sum * 100) / number_of_stations;
   this.chart_1_value = parseInt(perc_available_stations);
   return perc_available_stations;

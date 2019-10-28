@@ -1,5 +1,6 @@
 export const observed_properties = {
   language: { type: String },
+  bz: { type: Boolean },
   chart_1_value: { type: Number },
   number_of_stations: { type: Number },
   chart_2_value: { type: Object },
