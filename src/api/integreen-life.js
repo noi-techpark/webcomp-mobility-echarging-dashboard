@@ -73,8 +73,15 @@ export async function get_available_stations_percentage() {
 }
 
 export async function get_number_of_stations() {
-  const stations = await request__get_stations_details();
-  this.number_of_stations = stations.length;
+  let number_of_stations = 0;
+  if (this.bz) {
+    const [stations_all, stations_active] = await request__get_stations_details(this.bz);
+    number_of_stations = stations_all.length;
+  } else {
+    const stations = await request__get_stations_details(this.bz);
+    number_of_stations = stations.length;
+  }
+  this.number_of_stations = number_of_stations;
 }
 
 /** PLUG DETAILS */
