@@ -26,7 +26,7 @@ module.exports = {
           }
         ]
       },
-      {A
+      {
         test: /\.svg$/,
         loader: 'svg-inline-loader'
       }
