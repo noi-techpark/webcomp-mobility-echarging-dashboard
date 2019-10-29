@@ -1,14 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
-  entry: './dashboard_widget.js',
-  watch: true,
+  mode: 'production',
+  entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, '../../work/scripts'),
-    filename: 'dashboard_widget.js'
+    path: path.resolve(__dirname, './dist'),
+    filename: 'dashboard_widget.min.js'
   },
-  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -25,6 +23,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
       }
     ]
   }
