@@ -3,6 +3,7 @@
   "description": "Dashboard to access the Open Data Hub Mobility Information",
   "descriptionAbstract": "Dashboard to access the Open Data Hub Mobility Information",
   "license": "AGPL-3.0",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard",
   "authors": [
     {
       "name": "Belka",
