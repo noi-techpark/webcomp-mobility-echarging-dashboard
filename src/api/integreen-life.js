@@ -1,4 +1,8 @@
-import { request__get_stations_details, at_least_one_plug_used } from './integreen-life-requests';
+import {
+  request__get_stations_details,
+  at_least_one_plug_used,
+  request__get_plugs_details
+} from './integreen-life-requests';
 
 export async function get_available_stations_percentage() {
   const [stations_all, stations_active] = await request__get_stations_details(this.bz);
@@ -17,6 +21,7 @@ export async function get_number_of_stations() {
 }
 
 export async function get_plugs_type_distribution() {
+  request__get_plugs_details(this.bz);
   // this.load_perc_3 = this.load_perc_3 + 30;
   // const plugs_details = await request__get_plugs_details();
   // let tot_outlets = 0;

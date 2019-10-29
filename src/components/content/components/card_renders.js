@@ -60,16 +60,6 @@ export const render_plug_types = () => {
   `;
 };
 
-/* <div class="number__container">
-    <div class="chart_plugs__number">
-      <div>
-        <p class="fs-30 fw-600">27%</p>
-        <p class="fs-14 mt-2 chart_plugs__description">20 colonnine</p>
-      </div>
-    </div>
-  </div> 
-*/
-
 export const render_utilized_columns = props => {
   return html`
     <div class="d-md-flex chart_utilized__container">

@@ -38,7 +38,7 @@ export async function request__get_stations_details(bz) {
 
 /** PLUG DETAILS */
 
-async function request__get_plugs_details(bz) {
+export async function request__get_plugs_details(bz) {
   let request = bz
     ? await fetch(
         NINJA_BASE_PATH +
@@ -52,6 +52,8 @@ async function request__get_plugs_details(bz) {
       );
 
   let reponse = await request.json();
+  console.log(reponse);
+
   return reponse.data;
 }
 
