@@ -30,12 +30,9 @@ export async function get_plugs_type_distribution() {
   const only_outlets = plugs_details.map(o => {
     return o.smetadata.outlets;
   });
-  // console.log(plugs_details);
-  // console.log(only_outlets.flat());
   let count_by_type = countBy(only_outlets.flat(), o => {
     return o.outletTypeCode;
   });
-  console.log(plug_types, count_by_type);
   const tot_outlets = only_outlets.flat().length;
   let distribution_percentage = [];
   plug_types.map(type => {
@@ -43,33 +40,6 @@ export async function get_plugs_type_distribution() {
     distribution_percentage.push(perc);
   });
   this.chart_2_value = distribution_percentage;
-  // console.log({ count });
-  // this.load_perc_3 = this.load_perc_3 + 30;
-  // const plugs_details = await request__get_plugs_details();
-  // let tot_outlets = 0;
-  // let exctracted_outlet_types = [];
-  // this.load_perc_3 = this.load_perc_3 + 10;
-  // plugs_details.map(details => {
-  //   tot_outlets += details.outlets.length;
-  //   details.outlets.map(outlet => {
-  //     exctracted_outlet_types.push(outlet.outletTypeCode);
-  //   });
-  // });
-  // this.load_perc_3 = this.load_perc_3 + 10;
-  // const distribution_numbers = {};
-  // _.values(_.groupBy(exctracted_outlet_types)).map(d => {
-  //   distribution_numbers[d[0]] = d.length;
-  // });
-  // this.load_perc_3 = this.load_perc_3 + 10;
-  // const ordered_values = ['Type2Mennekes', 'Type2 - 230Vac', 'Type2 - 400Vac', 'Type 3A', 'CHAdeMO'];
-  // let distribution_percentage = [];
-  // this.load_perc_3 = this.load_perc_3 + 10;
-  // ordered_values.map(type => {
-  //   const perc = (distribution_numbers[type] * 100) / tot_outlets;
-  //   distribution_percentage.push(perc);
-  // });
-  // this.load_perc_3 = this.load_perc_3 + 20; // 90%
-  // this.chart_2_value = distribution_percentage;
 }
 
 export async function request__get_use_percentage() {

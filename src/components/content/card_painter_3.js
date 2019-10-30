@@ -16,7 +16,6 @@ export async function card_painter_3() {
   this.load_perc_3 = 0;
   await this.get_plugs_type_distribution();
   this.load_perc_3 = 100;
-  console.log(this.plug_types.map(o => color_mapper[o]));
 
   let ctx_2 = this.shadowRoot.getElementById('chart_2').getContext('2d');
   new Chart(ctx_2, {

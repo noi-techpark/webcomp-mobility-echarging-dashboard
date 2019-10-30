@@ -57,8 +57,6 @@ export async function request__get_plugs_details({ bz, outlets }) {
 
   let reponse = await request.json();
 
-  console.info(bz);
-
   if (outlets) {
     return reponse.data.filter(o => Boolean(o.smetadata.outlets));
   } else {
