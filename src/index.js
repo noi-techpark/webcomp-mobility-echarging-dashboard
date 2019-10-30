@@ -1,4 +1,3 @@
-import { Chart } from 'chart.js';
 import { html, LitElement } from 'lit-element';
 import {
   get_available_stations_percentage,
@@ -6,6 +5,10 @@ import {
   get_plugs_type_distribution,
   request__get_use_percentage
 } from './api/integreen-life';
+import { card_painter_1 } from './components/content/card_painter_1';
+import { card_painter_2 } from './components/content/card_painter_2';
+import { card_painter_3 } from './components/content/card_painter_3';
+import { card_painter_4 } from './components/content/card_painter_4';
 import { Content } from './components/content/index.js';
 import { Header } from './components/header/index.js';
 import { observed_properties } from './observed_properties';
@@ -14,10 +17,6 @@ import style from './scss/main.scss';
 import style__typography from './scss/typography.scss';
 import utilities from './scss/utilities.scss';
 import { getStyle } from './utilities';
-import { card_painter_1 } from './components/content/card_painter_1';
-import { card_painter_2 } from './components/content/card_painter_2';
-import { card_painter_3 } from './components/content/card_painter_3';
-import { card_painter_4 } from './components/content/card_painter_4';
 
 class EMobilityDashboard extends LitElement {
   constructor() {
@@ -41,9 +40,11 @@ class EMobilityDashboard extends LitElement {
     this.load_perc_2 = 0;
     this.load_perc_3 = 0;
     this.load_perc_4 = 0;
+    this.plug_types = [];
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
     this.language = userLanguage.split('-')[0];
+    this.bz = false;
   }
 
   static get properties() {

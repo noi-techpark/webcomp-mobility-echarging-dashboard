@@ -31,7 +31,8 @@ export function Content() {
                 load_perc: this.load_perc_3,
                 refresh_function: this.card_painter_3,
                 title: t['type_of_plugs'][this.language],
-                content: render_plug_types()
+                content: render_plug_types(this.plug_types),
+                big: true
               })}
               ${Card({
                 load_perc: this.load_perc_4,

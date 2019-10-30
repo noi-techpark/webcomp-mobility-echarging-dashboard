@@ -1,5 +1,17 @@
 let current_type_hover = '';
 
+const color_mapper = {
+  '700 bar small vehicles': 'green',
+  Type2Mennekes: '#4285F4',
+  CCS: 'purple',
+  UNKNOWN: 'red',
+  'Type2 - 230Vac': '#DE7000',
+  'Type2 - 400Vac': '#EF80FF',
+  CHAdeMO: '#E6040E',
+  'Type 3A': '#97BE0E',
+  Schuko: 'salmon'
+};
+
 export async function card_painter_3() {
   this.load_perc_3 = 0;
   await this.get_plugs_type_distribution();
@@ -9,11 +21,11 @@ export async function card_painter_3() {
   new Chart(ctx_2, {
     type: 'doughnut',
     data: {
-      labels: ['Type2Mennekes', 'Type2 - 230Vac', 'Type2 - 400Vac', 'Type 3A', 'CHAdeMO'],
+      labels: this.plug_types,
       datasets: [
         {
           data: this.chart_2_value,
-          backgroundColor: ['#4285F4', '#DE7000', '#EF80FF', '#97BE0E', '#E6040E']
+          backgroundColor: this.plug_types.map(o => color_mapper[o])
         }
       ]
     },
