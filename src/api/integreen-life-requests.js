@@ -4,7 +4,7 @@ const NINJA_BASE_PATH = 'https://ipchannels.integreen-life.bz.it/ninja/api/v2';
 
 /**
  * return the stations details
- * @param {{bz?: boolean, outlet?: boolean> param0
+ * @param {{bz?: boolean, outlet?: boolean}} param0
  */
 export async function request__get_stations_details(bz) {
   try {
