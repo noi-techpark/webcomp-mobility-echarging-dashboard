@@ -40,6 +40,7 @@ class EMobilityDashboard extends LitElement {
     this.load_perc_2 = 0;
     this.load_perc_3 = 0;
     this.load_perc_4 = 0;
+    this.plug_types = [];
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
     this.language = userLanguage.split('-')[0];

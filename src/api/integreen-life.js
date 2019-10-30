@@ -1,8 +1,11 @@
 import {
   request__get_stations_details,
   at_least_one_plug_used,
-  request__get_plugs_details
+  request__get_plugs_details,
+  request_plug_types
 } from './integreen-life-requests';
+
+import countBy from 'lodash/countBy';
 
 export async function get_available_stations_percentage() {
   const [stations_all, stations_active] = await request__get_stations_details(this.bz);
@@ -21,7 +24,26 @@ export async function get_number_of_stations() {
 }
 
 export async function get_plugs_type_distribution() {
-  request__get_plugs_details(this.bz);
+  const plugs_details = await request__get_plugs_details({ bz: this.bz, outlets: true });
+  const plug_types = await request_plug_types();
+  this.plug_types = [...plug_types];
+  const only_outlets = plugs_details.map(o => {
+    return o.smetadata.outlets;
+  });
+  // console.log(plugs_details);
+  // console.log(only_outlets.flat());
+  let count_by_type = countBy(only_outlets.flat(), o => {
+    return o.outletTypeCode;
+  });
+  console.log(plug_types, count_by_type);
+  const tot_outlets = only_outlets.flat().length;
+  let distribution_percentage = [];
+  plug_types.map(type => {
+    const perc = (count_by_type[type] * 100) / tot_outlets;
+    distribution_percentage.push(perc);
+  });
+  this.chart_2_value = distribution_percentage;
+  // console.log({ count });
   // this.load_perc_3 = this.load_perc_3 + 30;
   // const plugs_details = await request__get_plugs_details();
   // let tot_outlets = 0;

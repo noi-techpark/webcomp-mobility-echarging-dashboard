@@ -38,7 +38,11 @@ export async function request__get_stations_details(bz) {
 
 /** PLUG DETAILS */
 
-export async function request__get_plugs_details(bz) {
+/**
+ * return the stations with plugs details
+ * @param {{bz?: boolean, outlet?: boolean> param0
+ */
+export async function request__get_plugs_details({ bz, outlets }) {
   let request = bz
     ? await fetch(
         NINJA_BASE_PATH +
@@ -52,11 +56,20 @@ export async function request__get_plugs_details(bz) {
       );
 
   let reponse = await request.json();
-  console.log(reponse);
 
-  return reponse.data;
+  console.info(bz);
+
+  if (outlets) {
+    return reponse.data.filter(o => Boolean(o.smetadata.outlets));
+  } else {
+    return reponse.data;
+  }
 }
 
+/**
+ * return the plugs with at least one plug
+ * @param {boolean} bz
+ */
 export async function at_least_one_plug_used(bz) {
   try {
     const request = bz
@@ -70,5 +83,21 @@ export async function at_least_one_plug_used(bz) {
         );
     const reponse = await request.json();
     return reponse.data;
+  } catch (e) {}
+}
+
+/* Plug types */
+
+export async function request_plug_types() {
+  try {
+    const request = await fetch(
+      `${NINJA_BASE_PATH}/flat/EChargingPlug?limit=-1&offset=0&select=smetadata.outlets&where=sactive.eq.true&shownull=false&distinct=true`,
+      fetch_options
+    );
+    const reponse = await request.json();
+    const unique = Array.from(new Set(reponse.data.map(o => o['smetadata.outlets'][0].outletTypeCode))).filter(
+      v => v !== 'UNKNOWN'
+    );
+    return unique;
   } catch (e) {}
 }

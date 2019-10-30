@@ -41,7 +41,7 @@ export const render_columns_number = (n, language) => {
   `;
 };
 
-export const render_plug_types = () => {
+export const render_plug_types = plug_types => {
   return html`
     <div class="d-md-flex chart_plugs__container">
       <div class="chart_plugs">
@@ -50,11 +50,19 @@ export const render_plug_types = () => {
         </div>
       </div>
       <div class="plug_list_names">
-        <div id="Type2Mennekes" class="plug_list_names__name type2_mannekes">Type 2 - MANNEKES</div>
-        <div id="Type2-230Vac" class="plug_list_names__name type2_230vac">Type 2 - 230Vac</div>
-        <div id="Type2-400Vac" class="plug_list_names__name type2_400vac">Type 2 - 400Vac</div>
-        <div id="Type3A" class="plug_list_names__name type3a">Type 3A</div>
-        <div id="CHAdeMO" class="plug_list_names__name chademo">CHAdeMO</div>
+        ${plug_types.map(o => {
+          return html`
+            <div
+              id="${o.replace(/\s/g, '')}"
+              class="plug_list_names__name c${o
+                .replace('-', '_')
+                .toLowerCase()
+                .replace(/\s/g, '')}"
+            >
+              ${o}
+            </div>
+          `;
+        })}
       </div>
     </div>
   `;

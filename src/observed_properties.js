@@ -8,5 +8,6 @@ export const observed_properties = {
   load_perc_1: { type: Number },
   load_perc_2: { type: Number },
   load_perc_3: { type: Number },
-  load_perc_4: { type: Number }
+  load_perc_4: { type: Number },
+  plug_types: { type: Array }
 };
