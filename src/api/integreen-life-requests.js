@@ -2,6 +2,10 @@ import { fetch_options } from './utils';
 
 const NINJA_BASE_PATH = 'https://ipchannels.integreen-life.bz.it/ninja/api/v2';
 
+/**
+ * return the stations details
+ * @param {{bz?: boolean, outlet?: boolean> param0
+ */
 export async function request__get_stations_details(bz) {
   try {
     let response_all = bz
@@ -13,7 +17,6 @@ export async function request__get_stations_details(bz) {
       : await fetch(
           NINJA_BASE_PATH +
             '/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true',
-
           fetch_options
         );
     let response_active = bz
@@ -40,7 +43,7 @@ export async function request__get_stations_details(bz) {
 
 /**
  * return the stations with plugs details
- * @param {{bz?: boolean, outlet?: boolean> param0
+ * @param {{bz?: boolean, outlet?: boolean}} param0
  */
 export async function request__get_plugs_details({ bz, outlets }) {
   let request = bz

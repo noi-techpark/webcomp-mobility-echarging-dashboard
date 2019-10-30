@@ -10,9 +10,8 @@ import countBy from 'lodash/countBy';
 export async function get_available_stations_percentage() {
   const [stations_all, stations_active] = await request__get_stations_details(this.bz);
   let number_of_stations = stations_all.length;
-  let number_of_active = stations_active.length;
-  let sum = number_of_active;
-  const perc_available_stations = (sum * 100) / number_of_stations;
+  let number_of_working = stations_active.filter(o => o.smetadata.state === 'ACTIVE').length;
+  const perc_available_stations = (number_of_working * 100) / number_of_stations;
   this.chart_1_value = parseInt(perc_available_stations);
   return perc_available_stations;
 }
