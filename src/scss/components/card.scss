@@ -1,4 +1,5 @@
 $card-height: 304px;
+$card-height-mobile: 354px;
 $card-height-big: 404px;
 $card-height-big-mobile: 454px;
 
@@ -35,13 +36,13 @@ $card-height-big-mobile: 454px;
 }
 
 .card__body {
+  padding: 15px;
+  padding-top: 8px;
+  position: relative;
   @media only screen and (min-width: 768px) {
     $h: calc(#{$card-height} - 38px - 1rem);
     height: $h;
   }
-  padding: 15px;
-  padding-top: 8px;
-  position: relative;
 }
 
 .card {
@@ -128,15 +129,14 @@ $card-height-big-mobile: 454px;
 .working_columns__container {
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
 
 .working_columns {
   position: relative;
 
   .working_columns__chart_container {
-    height: 120px;
     width: 200px;
+    height: 120px;
     @media only screen and (min-width: 320px) {
       margin: 8px auto 48px auto;
     }

@@ -5,7 +5,7 @@ import { t } from '../../../translations';
 
 export const render_working_columns = (chart_1_value, language) => {
   return html`
-    <div class="d-md-flex working_columns__container">
+    <div class="d-md-flex working_columns__container mt-md-4">
       <div class="working_columns">
         <div class="working_columns__chart_container">
           <canvas id="chart_1"></canvas>
