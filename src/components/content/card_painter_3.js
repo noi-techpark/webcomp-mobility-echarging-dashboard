@@ -31,37 +31,15 @@ export async function card_painter_3() {
     },
     options: {
       tooltips: {
-        custom: tooltip => {
-          if (tooltip.opacity > 0) {
-          } else {
-            const all_dom_labels = this.shadowRoot.querySelectorAll('.plug_list_names__name');
-            for (let i = 0; i < all_dom_labels.length; i++) {
-              const element = all_dom_labels[i];
-              element.classList.remove('disabled', 'active');
-            }
-          }
-          return null;
-        },
+        enabled: true,
         callbacks: {
-          label: (tooltipItem, data) => {
-            const all_dom_labels = this.shadowRoot.querySelectorAll('.plug_list_names__name');
-            for (let i = 0; i < all_dom_labels.length; i++) {
-              const element = all_dom_labels[i];
-              element.classList.add('disabled');
-            }
-            const prev_dom_label = this.shadowRoot.getElementById(current_type_hover);
-            if (prev_dom_label) {
-              prev_dom_label.classList.remove('active');
-            }
-            current_type_hover = data.labels[tooltipItem.index].replace(/\s/g, '');
-            const dom_label = this.shadowRoot.getElementById(current_type_hover);
-            if (dom_label) {
-              dom_label.classList.add('active');
-              dom_label.classList.remove('disabled');
-            }
+          title: function(tooltipItems, data) {
+            return `${data.labels[tooltipItems[0].index]}`;
+          },
+          label: function(tooltipItems, data) {
+            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
           }
-        },
-        enabled: false
+        }
       },
       maintainAspectRatio: true,
       aspectRatio: 1,

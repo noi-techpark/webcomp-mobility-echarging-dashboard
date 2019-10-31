@@ -31,7 +31,7 @@ export async function card_painter_5() {
             return `${data.labels[tooltipItems[0].index]}`;
           },
           label: function(tooltipItems, data) {
-            return `${parseInt(data.datasets[0].data[tooltipItems.index])}`;
+            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
           }
         }
       },
