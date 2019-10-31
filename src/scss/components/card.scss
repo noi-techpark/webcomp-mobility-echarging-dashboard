@@ -1,7 +1,11 @@
 $card-height: 304px;
 $card-height-big: 404px;
+$card-height-big-mobile: 454px;
 
 .card {
+  &.big {
+    height: $card-height-big-mobile;
+  }
   @media only screen and (min-width: 768px) {
     height: $card-height;
     &.big {
@@ -43,8 +47,12 @@ $card-height-big: 404px;
 .card {
   &.big {
     .card__body {
-      $h: calc(#{$card-height-big} - 38px - 1rem);
+      $h: calc(#{$card-height-big-mobile} - 38px - 1rem);
       height: $h;
+      @media only screen and (min-width: 768px) {
+        $h: calc(#{$card-height-big} - 38px - 1rem);
+        height: $h;
+      }
     }
   }
 }
