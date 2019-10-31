@@ -76,12 +76,12 @@ export const render_utilized_columns = props => {
           <div class="number">
             <div>
               <img src="${orange_pin}" alt="" />
-              <p class="fs-30 fw-600">${props.chart_3_value}%</p>
+              <p class="fs-30 fw-600">${props.chart_4_value}%</p>
             </div>
           </div>
         </div>
         <div class="chart_utilized__chart_container">
-          <canvas id="chart_3"></canvas>
+          <canvas id="chart_4"></canvas>
         </div>
       </div>
       <div class="chart_utilized__description">

@@ -240,6 +240,18 @@ $card-height-big: 404px;
         color: white;
         background-color: salmon;
       }
+      &.cpublic {
+        color: #97be0e;
+        background-color: #dbecae;
+      }
+      &.cprivate_withpublicaccess {
+        color: #de7000;
+        background-color: #fde1c9;
+      }
+      &.cprivate {
+        color: #e6040e;
+        background-color: #ffcacd;
+      }
       &.disabled {
         background-color: $black-100;
         color: $black-300;

@@ -7,6 +7,7 @@ import {
   render_columns_number
 } from './components/card_renders';
 import { t } from '../../translations';
+import { card_render_5 } from './card_5/card_render_5';
 
 export function Content() {
   return html`
@@ -38,7 +39,16 @@ export function Content() {
                 load_perc: this.load_perc_4,
                 refresh_function: this.card_painter_4,
                 title: t['columns_used'][this.language],
-                content: render_utilized_columns({ chart_3_value: this.chart_3_value, language: this.language })
+                content: render_utilized_columns({ chart_4_value: this.chart_4_value, language: this.language })
+              })}
+              ${Card({
+                load_perc: this.load_perc_5,
+                refresh_function: this.card_painter_5,
+                title: t['charging_station_access'][this.language],
+                content: card_render_5({
+                  access_types: this.access_types,
+                  language: this.language
+                })
               })}
             </div>
           </div>

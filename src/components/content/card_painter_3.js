@@ -24,7 +24,7 @@ export async function card_painter_3() {
       labels: this.plug_types,
       datasets: [
         {
-          data: this.chart_2_value,
+          data: this.chart_3_value,
           backgroundColor: this.plug_types.map(o => color_mapper[o])
         }
       ]

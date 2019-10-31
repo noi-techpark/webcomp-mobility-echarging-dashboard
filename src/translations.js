@@ -1,13 +1,13 @@
 export const t = {
   columns_in_operation: {
-    en: 'Columns in operation',
-    de: 'Columns in operation',
+    en: 'Charging station in operation',
+    de: 'Charging station in operation',
     it: 'Colonnine in funzione',
-    nl: 'Columns in operation',
-    cs: 'Columns in operation',
-    pl: 'Columns in operation',
-    fr: 'Columns in operation',
-    ru: 'Columns in operation'
+    nl: 'Charging station in operation',
+    cs: 'Charging station in operation',
+    pl: 'Charging station in operation',
+    fr: 'Charging station in operation',
+    ru: 'Charging station in operation'
   },
   number_of_columns: {
     en: 'Number of columns',
@@ -30,14 +30,24 @@ export const t = {
     ru: 'Type of plugs'
   },
   columns_used: {
-    en: 'Columns used',
-    de: 'Columns used',
+    en: 'Charging station used',
+    de: 'Charging station used',
     it: 'Colonnine utilizzate',
-    nl: 'Columns used',
-    cs: 'Columns used',
-    pl: 'Columns used',
-    fr: 'Columns used',
-    ru: 'Columns used'
+    nl: 'Charging station used',
+    cs: 'Charging station used',
+    pl: 'Charging station used',
+    fr: 'Charging station used',
+    ru: 'Charging station used'
+  },
+  charging_station_access: {
+    en: 'Access to the Charging',
+    de: 'Access to the Charging',
+    it: 'Accesso alle colonnine',
+    nl: 'Access to the Charging',
+    cs: 'Access to the Charging',
+    pl: 'Access to the Charging',
+    fr: 'Access to the Charging',
+    ru: 'Access to the Charging'
   },
   current_number_of_columns: {
     en: 'Current number of columns',
@@ -50,23 +60,23 @@ export const t = {
     ru: 'Current number of columns'
   },
   of_the_columns_is_in_operation: {
-    en: 'of the columns is in operation!',
-    de: 'of the columns is in operation!',
+    en: 'of the charging station is in operation!',
+    de: 'of the charging station is in operation!',
     it: 'delle colonnine è in funzione!',
-    nl: 'of the columns is in operation!',
-    cs: 'of the columns is in operation!',
-    pl: 'of the columns is in operation!',
-    fr: 'of the columns is in operation!',
-    ru: 'of the columns is in operation!'
+    nl: 'of the charging station is in operation!',
+    cs: 'of the charging station is in operation!',
+    pl: 'of the charging station is in operation!',
+    fr: 'of the charging station is in operation!',
+    ru: 'of the charging station is in operation!'
   },
   percentage_of_columns_used_in_real_time: {
-    en: 'Percentage of columns used in real time',
-    de: 'Percentage of columns used in real time',
+    en: 'Percentage of charging station used in real time',
+    de: 'Percentage of charging station used in real time',
     it: 'Percentuale di colonnine utilizzate in tempo reale',
-    nl: 'Percentage of columns used in real time',
-    cs: 'Percentage of columns used in real time',
-    pl: 'Percentage of columns used in real time',
-    fr: 'Percentage of columns used in real time',
-    ru: 'Percentage of columns used in real time'
+    nl: 'Percentage of charging station used in real time',
+    cs: 'Percentage of charging station used in real time',
+    pl: 'Percentage of charging station used in real time',
+    fr: 'Percentage of charging station used in real time',
+    ru: 'Percentage of charging station used in real time'
   }
 };
