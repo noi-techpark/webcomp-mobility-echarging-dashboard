@@ -1,5 +1,17 @@
 let current_type_hover = '';
 
+const color_mapper = {
+  '700 bar small vehicles': 'green',
+  Type2Mennekes: '#4285F4',
+  CCS: 'purple',
+  UNKNOWN: 'red',
+  'Type2 - 230Vac': '#DE7000',
+  'Type2 - 400Vac': '#EF80FF',
+  CHAdeMO: '#E6040E',
+  'Type 3A': '#97BE0E',
+  Schuko: 'salmon'
+};
+
 export async function card_painter_3() {
   this.load_perc_3 = 0;
   await this.get_plugs_type_distribution();
@@ -9,47 +21,25 @@ export async function card_painter_3() {
   new Chart(ctx_2, {
     type: 'doughnut',
     data: {
-      labels: ['Type2Mennekes', 'Type2 - 230Vac', 'Type2 - 400Vac', 'Type 3A', 'CHAdeMO'],
+      labels: this.plug_types,
       datasets: [
         {
-          data: this.chart_2_value,
-          backgroundColor: ['#4285F4', '#DE7000', '#EF80FF', '#97BE0E', '#E6040E']
+          data: this.chart_3_value,
+          backgroundColor: this.plug_types.map(o => color_mapper[o])
         }
       ]
     },
     options: {
       tooltips: {
-        custom: tooltip => {
-          if (tooltip.opacity > 0) {
-          } else {
-            const all_dom_labels = this.shadowRoot.querySelectorAll('.plug_list_names__name');
-            for (let i = 0; i < all_dom_labels.length; i++) {
-              const element = all_dom_labels[i];
-              element.classList.remove('disabled', 'active');
-            }
-          }
-          return null;
-        },
+        enabled: true,
         callbacks: {
-          label: (tooltipItem, data) => {
-            const all_dom_labels = this.shadowRoot.querySelectorAll('.plug_list_names__name');
-            for (let i = 0; i < all_dom_labels.length; i++) {
-              const element = all_dom_labels[i];
-              element.classList.add('disabled');
-            }
-            const prev_dom_label = this.shadowRoot.getElementById(current_type_hover);
-            if (prev_dom_label) {
-              prev_dom_label.classList.remove('active');
-            }
-            current_type_hover = data.labels[tooltipItem.index].replace(/\s/g, '');
-            const dom_label = this.shadowRoot.getElementById(current_type_hover);
-            if (dom_label) {
-              dom_label.classList.add('active');
-              dom_label.classList.remove('disabled');
-            }
+          title: function(tooltipItems, data) {
+            return `${data.labels[tooltipItems[0].index]}`;
+          },
+          label: function(tooltipItems, data) {
+            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
           }
-        },
-        enabled: false
+        }
       },
       maintainAspectRatio: true,
       aspectRatio: 1,

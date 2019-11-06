@@ -1,3 +1,5 @@
+import Chart from 'chart.js';
+
 export async function card_painter_1() {
   this.load_perc_1 = 0;
   this.load_perc_1 = 10;

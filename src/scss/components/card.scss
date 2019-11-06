@@ -1,8 +1,17 @@
 $card-height: 304px;
+$card-height-mobile: 354px;
+$card-height-big: 404px;
+$card-height-big-mobile: 454px;
 
 .card {
+  &.big {
+    height: $card-height-big-mobile;
+  }
   @media only screen and (min-width: 768px) {
     height: $card-height;
+    &.big {
+      height: $card-height-big;
+    }
   }
   background-color: $white;
   transform: translateY(-56px);
@@ -27,13 +36,26 @@ $card-height: 304px;
 }
 
 .card__body {
+  padding: 15px;
+  padding-top: 8px;
+  position: relative;
   @media only screen and (min-width: 768px) {
     $h: calc(#{$card-height} - 38px - 1rem);
     height: $h;
   }
-  padding: 15px;
-  padding-top: 8px;
-  position: relative;
+}
+
+.card {
+  &.big {
+    .card__body {
+      $h: calc(#{$card-height-big-mobile} - 38px - 1rem);
+      height: $h;
+      @media only screen and (min-width: 768px) {
+        $h: calc(#{$card-height-big} - 38px - 1rem);
+        height: $h;
+      }
+    }
+  }
 }
 
 .card__loader {
@@ -107,15 +129,14 @@ $card-height: 304px;
 .working_columns__container {
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
 
 .working_columns {
   position: relative;
 
   .working_columns__chart_container {
-    height: 120px;
     width: 200px;
+    height: 120px;
     @media only screen and (min-width: 320px) {
       margin: 8px auto 48px auto;
     }
@@ -178,8 +199,9 @@ $card-height: 304px;
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
       background-color: $black-100;
-      height: 24px;
+      min-height: 24px;
       color: $black-300;
       margin-bottom: 0.5rem;
       padding: 0rem 1rem;
@@ -194,30 +216,54 @@ $card-height: 304px;
       &:last-child {
         margin-bottom: 0;
       }
-      &.type2_mannekes {
+      &.ctype2mennekes {
         color: #4285f4;
         background: #d6e6fe;
       }
-      &.type2_230vac {
+      &.ctype2_230vac {
         color: #de7000;
         background-color: #fde1c9;
       }
-      &.type2_400vac {
+      &.ctype2_400vac {
         color: #ef80ff;
         background-color: #ffe4ff;
       }
-      &.type3a {
+      &.ctype3a {
         color: #97be0e;
         background-color: #dbecae;
       }
-      &.chademo {
+      &.cchademo {
         color: #e6040e;
         background-color: #ffcacd;
       }
-      &.disabled {
-        background-color: $black-100;
-        color: $black-300;
+      &.c700barsmallvehicles {
+        color: white;
+        background-color: green;
       }
+      &.cccs {
+        color: white;
+        background-color: purple;
+      }
+      &.cschuko {
+        color: white;
+        background-color: salmon;
+      }
+      &.cpublic {
+        color: #97be0e;
+        background-color: #dbecae;
+      }
+      &.cprivate_withpublicaccess {
+        color: #de7000;
+        background-color: #fde1c9;
+      }
+      &.cprivate {
+        color: #e6040e;
+        background-color: #ffcacd;
+      }
+      // &.disabled {
+      //   background-color: $black-100;
+      //   color: $black-300;
+      // }
     }
   }
 }

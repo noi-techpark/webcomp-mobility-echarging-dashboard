@@ -5,10 +5,10 @@ import reload_img from '../../img/reload@2x.png';
  *
  * @param {Number} load_perc - 0 to 100, Percentage of the content loaded for the card
  */
-export function Card({ load_perc, refresh_function, title, content }) {
+export function Card({ load_perc, refresh_function, title, content, big }) {
   return html`
     <div class="col-12 col-lg-6">
-      <div class="card mb-4">
+      <div class="card ${big ? 'big' : ''} mb-4">
         <div class="card__header">
           <h3 class="fs-h4">${title}</h3>
           <div>
