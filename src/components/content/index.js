@@ -54,7 +54,7 @@ export function Content() {
               ${Card({
                 load_perc: this.load_perc_6,
                 refresh_function: this.card_painter_6,
-                title: t['charging_station_access'][this.language],
+                title: t['plugs_in_operation'][this.language],
                 content: card_render_6(this.chart_6_value, this.language)
               })}
             </div>

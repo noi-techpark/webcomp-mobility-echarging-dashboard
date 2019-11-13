@@ -49,6 +49,16 @@ export const t = {
     fr: 'Access to the Charging',
     ru: 'Access to the Charging'
   },
+  plugs_in_operation: {
+    en: 'Plugs in operation',
+    de: 'Plugs in operation',
+    it: 'Plug in funzione',
+    nl: 'Plugs in operation',
+    cs: 'Plugs in operation',
+    pl: 'Plugs in operation',
+    fr: 'Plugs in operation',
+    ru: 'Plugs in operation'
+  },
   current_number_of_columns: {
     en: 'Current number of columns',
     de: 'Current number of columns',
