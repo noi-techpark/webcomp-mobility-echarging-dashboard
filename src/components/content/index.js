@@ -8,6 +8,7 @@ import {
 } from './components/card_renders';
 import { t } from '../../translations';
 import { card_render_5 } from './card_5/card_render_5';
+import { card_render_6 } from './card_6/card_render_6';
 
 export function Content() {
   return html`
@@ -49,6 +50,12 @@ export function Content() {
                   access_types: this.access_types,
                   language: this.language
                 })
+              })}
+              ${Card({
+                load_perc: this.load_perc_6,
+                refresh_function: this.card_painter_6,
+                title: t['charging_station_access'][this.language],
+                content: card_render_6(this.chart_6_value, this.language)
               })}
             </div>
           </div>

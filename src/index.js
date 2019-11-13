@@ -3,15 +3,17 @@ import {
   get_available_stations_percentage,
   get_number_of_stations,
   get_plugs_type_distribution,
+  get_plugs_with_state_and_echargingstation,
   get_use_percentage
 } from './api/integreen-life';
+import { Content } from './components/content';
+import { card_painter_5 } from './components/content/card_5/card_painter_5';
+import { card_painter_6 } from './components/content/card_6/card_painter_6';
 import { card_painter_1 } from './components/content/card_painter_1';
 import { card_painter_2 } from './components/content/card_painter_2';
 import { card_painter_3 } from './components/content/card_painter_3';
 import { card_painter_4 } from './components/content/card_painter_4';
-import { card_painter_5 } from './components/content/card_5/card_painter_5';
-import { Content } from './components/content/index.js';
-import { Header } from './components/header/index.js';
+import { Header } from './components/header';
 import { observed_properties } from './observed_properties';
 import style__buttons from './scss/buttons.scss';
 import style from './scss/main.scss';
@@ -28,22 +30,26 @@ class EMobilityDashboard extends LitElement {
     this.get_available_stations_percentage = get_available_stations_percentage.bind(this);
     this.get_number_of_stations = get_number_of_stations.bind(this);
     this.get_plugs_type_distribution = get_plugs_type_distribution.bind(this);
+    this.get_plugs_with_state_and_echargingstation = get_plugs_with_state_and_echargingstation.bind(this);
     /** Card renders */
     this.card_painter_1 = card_painter_1.bind(this);
     this.card_painter_2 = card_painter_2.bind(this);
     this.card_painter_3 = card_painter_3.bind(this);
     this.card_painter_4 = card_painter_4.bind(this);
     this.card_painter_5 = card_painter_5.bind(this);
+    this.card_painter_6 = card_painter_6.bind(this);
     /** Observed values */
     this.chart_1_value = 0;
     this.number_of_stations = 0;
     this.chart_4_value = 0;
     this.chart_5_value = 0;
+    this.chart_6_value = 0;
     this.load_perc_1 = 0;
     this.load_perc_2 = 0;
     this.load_perc_3 = 0;
     this.load_perc_4 = 0;
     this.load_perc_5 = 0;
+    this.load_perc_6 = 0;
     this.plug_types = [];
     this.access_types = [];
     /* Parameters */
@@ -71,6 +77,9 @@ class EMobilityDashboard extends LitElement {
 
     /** Card 5 */
     await this.card_painter_5();
+
+    /** Card 6 */
+    await this.card_painter_6();
   }
 
   render() {

@@ -69,6 +69,16 @@ export const t = {
     fr: 'of the charging station is in operation!',
     ru: 'of the charging station is in operation!'
   },
+  of_the_plugs_is_in_operation: {
+    en: 'of the plugs is in operation!',
+    de: 'of the plugs is in operation!',
+    it: 'dei plug è in funzione!',
+    nl: 'of the plugs is in operation!',
+    cs: 'of the plugs is in operation!',
+    pl: 'of the plugs is in operation!',
+    fr: 'of the plugs is in operation!',
+    ru: 'of the plugs is in operation!'
+  },
   percentage_of_columns_used_in_real_time: {
     en: 'Percentage of charging station used in real time',
     de: 'Percentage of charging station used in real time',
