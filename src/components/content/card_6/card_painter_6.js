@@ -1,12 +1,6 @@
-// import { request_charging_stations_access_types } from '../../../api/integreen-life-requests';
-// import { get_stations_access_distribution } from '../../../api/integreen-life';
-
 export async function card_painter_6() {
   this.load_perc_6 = 0;
   this.load_perc_6 = 10;
-
-  // await this.get_available_stations_percentage();
-  console.log('lollllloo');
 
   await this.get_plugs_with_state_and_echargingstation();
 
