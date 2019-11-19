@@ -11,6 +11,7 @@ export const observed_properties = {
   load_perc_3: { type: Number },
   load_perc_4: { type: Number },
   load_perc_5: { type: Number },
+  load_perc_6: { type: Number },
   plug_types: { type: Array },
   access_types: { type: Array }
 };
