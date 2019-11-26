@@ -1,11 +1,3 @@
-Replace all `ToDo` notes in this file and adjust also the following files:
-    - package.json:
-        - Adjust the general parts like name, description, ...
-        - Adjust the three scripts `npm run start`, `npm run build` and `npm run test`
-    - wcs-manifest.json:
-        - Adjust the general parts like title, description, ...
-        - Adjust the configuration part with all possible configuration options (https://webcomponents.opendatahub.bz.it/getting-started)
-
 # webcomp-mobility-echarging-dashboard
 
 This project contains the dashboard web component for the [Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
