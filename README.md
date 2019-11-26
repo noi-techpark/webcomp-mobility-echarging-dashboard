@@ -30,7 +30,6 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- ToDo: Check the prerequisites
 - Node 12 / Yarn 1
 
 For a ready to use Docker environment with all prerequisites already installed and prepared, you can check out the [Docker environment](#docker-environment) section.
@@ -40,13 +39,13 @@ For a ready to use Docker environment with all prerequisites already installed a
 Get a copy of the repository:
 
 ```bash
-ToDo: git clone https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard.git
+git clone https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard.git
 ```
 
 Change directory:
 
 ```bash
-ToDo: cd webcomp-mobility-echarging-dashboard/
+cd webcomp-mobility-echarging-dashboard/
 ```
 
 ### Dependencies
@@ -64,6 +63,8 @@ Build and start the project:
 ```bash
 yarn run start
 ```
+
+The application will be served and can be accessed at [http://localhost:8000](http://localhost:8000).
 
 ## Deployment
 
@@ -123,7 +124,7 @@ docker-compose run --rm app /bin/bash -c "yarn run build"
 
 ### Support
 
-ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
 
 ### Contributing
 
