@@ -7,15 +7,15 @@ The data source for the components is the [Open Data Hub](https://opendatahub.bz
 
 ## Table of contents
 
-- [Component configuration](#component-configuration)
+- [Usage](#usage)
 - [Gettings started](#getting-started)
 - [Deployment](#deployment)
 - [Docker environment](#docker-environment)
 - [Information](#information)
 
-## Component configuration
+## Usage
 
-The HTML of the web component in action would look like this:
+Include the Javascript file `dist/dashboard_widget.min.js` in your HTML and define the web component like this:
 
 ```html
 <e-mobility-dashboard-widget></e-mobility-dashboard-widget>
