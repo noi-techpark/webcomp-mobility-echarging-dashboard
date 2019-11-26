@@ -7,7 +7,7 @@ services:
     volumes:
       - ./:/code
     working_dir: /code
-    command: npm run start
+    command: yarn run start
     ports:
       - "8000:8000"
     tty: true
