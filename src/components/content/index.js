@@ -7,6 +7,8 @@ import {
   render_columns_number
 } from './components/card_renders';
 import { t } from '../../translations';
+import { card_render_5 } from './card_5/card_render_5';
+import { card_render_6 } from './card_6/card_render_6';
 
 export function Content() {
   return html`
@@ -31,13 +33,29 @@ export function Content() {
                 load_perc: this.load_perc_3,
                 refresh_function: this.card_painter_3,
                 title: t['type_of_plugs'][this.language],
-                content: render_plug_types()
+                content: render_plug_types(this.plug_types),
+                big: true
               })}
               ${Card({
                 load_perc: this.load_perc_4,
                 refresh_function: this.card_painter_4,
                 title: t['columns_used'][this.language],
-                content: render_utilized_columns({ chart_3_value: this.chart_3_value, language: this.language })
+                content: render_utilized_columns({ chart_4_value: this.chart_4_value, language: this.language })
+              })}
+              ${Card({
+                load_perc: this.load_perc_5,
+                refresh_function: this.card_painter_5,
+                title: t['charging_station_access'][this.language],
+                content: card_render_5({
+                  access_types: this.access_types,
+                  language: this.language
+                })
+              })}
+              ${Card({
+                load_perc: this.load_perc_6,
+                refresh_function: this.card_painter_6,
+                title: t['plugs_in_operation'][this.language],
+                content: card_render_6(this.chart_6_value, this.language)
               })}
             </div>
           </div>

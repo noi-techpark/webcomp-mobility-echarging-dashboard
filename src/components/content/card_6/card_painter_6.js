@@ -1,24 +1,22 @@
-import Chart from 'chart.js';
+export async function card_painter_6() {
+  this.load_perc_6 = 0;
+  this.load_perc_6 = 10;
 
-export async function card_painter_1() {
-  this.load_perc_1 = 0;
-  this.load_perc_1 = 10;
+  await this.get_plugs_with_state_and_echargingstation();
 
-  await this.get_available_stations_percentage();
+  this.load_perc_6 = 30;
 
-  this.load_perc_1 = 30;
-
-  let ctx_1 = this.shadowRoot.getElementById('chart_1').getContext('2d');
-  let gradient = ctx_1.createLinearGradient(0, 0, 0, 30);
+  const ctx_6 = this.shadowRoot.getElementById('chart_6').getContext('2d');
+  const gradient = ctx_6.createLinearGradient(0, 0, 0, 30);
   gradient.addColorStop(0, '#DE7000');
   gradient.addColorStop(1, '#F1A900');
 
-  new Chart(ctx_1, {
+  new Chart(ctx_6, {
     type: 'doughnut',
     data: {
       datasets: [
         {
-          data: [this.chart_1_value, 100 - this.chart_1_value],
+          data: [this.chart_6_value, 100 - this.chart_6_value],
           backgroundColor: [gradient, '#f0f1f1']
         }
       ]
@@ -44,5 +42,6 @@ export async function card_painter_1() {
       circumference: 1 * Math.PI
     }
   });
-  this.load_perc_1 = 100;
+
+  this.load_perc_6 = 100;
 }
