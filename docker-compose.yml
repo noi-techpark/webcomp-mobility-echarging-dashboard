@@ -7,7 +7,7 @@ services:
     volumes:
       - ./:/code
     working_dir: /code
-    command: yarn run start
+    command: sh ./work/serve.sh
     ports:
-      - "8000:8000"
+      - "8999:8000"
     tty: true
