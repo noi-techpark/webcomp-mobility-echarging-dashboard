@@ -23,11 +23,23 @@ Include the Javascript file `dist/dashboard_widget.min.js` in your HTML and defi
 
 ### Options
 
+#### Show only data from the capital Bolzano/Bozen
+
 Add `bz` as attribute, if you want to show only data from Bolzano/Bozen.
 
 ```html
 <e-mobility-dashboard-widget bz></e-mobility-dashboard-widget>
 ```
+
+#### Translations
+
+Add `language` as attribute, if you want to translate the web component.
+
+```html
+<e-mobility-dashboard-widget language="en"></e-mobility-dashboard-widget>
+```
+
+Possible values are currently `en`, `de`, `it`, `nl`, `cs`, `pl`, `fr`, `ru` (see [/src/translations.js](/src/translations.js)).
 
 ## Getting started
 
