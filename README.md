@@ -21,6 +21,14 @@ Include the Javascript file `dist/dashboard_widget.min.js` in your HTML and defi
 <e-mobility-dashboard-widget></e-mobility-dashboard-widget>
 ```
 
+### Options
+
+Add `bz` as attribute, if you want to show only data from Bolzano/Bozen.
+
+```html
+<e-mobility-dashboard-widget bz></e-mobility-dashboard-widget>
+```
+
 ## Getting started
 
 These instructions will get you a copy of the project up and running
