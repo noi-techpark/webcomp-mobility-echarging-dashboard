@@ -91,7 +91,7 @@ class EMobilityDashboard extends LitElement {
         ${getStyle(style__buttons)}
       </style>
       <div class="e_mobility_dasboard">
-        ${Header()} ${this.Content()}
+        ${Header(this.language)} ${this.Content()}
       </div>
     `;
   }
