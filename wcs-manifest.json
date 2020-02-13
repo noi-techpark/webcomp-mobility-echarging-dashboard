@@ -38,11 +38,11 @@
     "options": [
       {
         "key": "bz",
+        "label": "Only Bolzano/Bozen?",
         "type": "null",
         "required": false,
         "options": {
-          "label": "Only Bolzano/Bozen?",
-          "default": null
+          "default": false
         }
       },
       {
