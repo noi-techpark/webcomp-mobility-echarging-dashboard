@@ -44,6 +44,16 @@
           "label": "Only Bolzano/Bozen?",
           "default": null
         }
+      },
+      {
+        "key": "language",
+        "type": "select",
+        "label": "Language",
+        "required": false,
+        "options": {
+          "values": ["en", "de", "it", "nl", "cs", "pl", "fr", "ru"],
+          "default": "en"
+        }
       }
     ]
   }
