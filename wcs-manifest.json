@@ -1,9 +1,22 @@
 {
   "title": "Mobility E-Charging Dashboard",
-  "description": "Dashboard to access the Open Data Hub Mobility Information",
-  "descriptionAbstract": "Dashboard to access the Open Data Hub Mobility Information",
-  "license": "AGPL-3.0",
-  "repositoryUrl": "https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard",
+  "description": "Dashboard to access the Open Data Hub E-Mobility Information, such as plug types, number of charging stations, accessibility of stations, operational states, and much more...",
+  "descriptionAbstract": "Dashboard to access the Open Data Hub E-Mobility Information",
+  "license": "AGPL-3.0-or-later",
+  "copyrightHolders": [
+    {
+      "name": "NOI",
+      "email": "info@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
+    },
+    {
+      "name": "STA",
+      "email": "info@sta.bz.it",
+      "organization": "STA - Südtiroler Transportstrukturen AG / Strutture Trasporto Alto Adige SpA",
+      "organizationUrl": "https://www.sta.bz.it"
+    }
+  ],
   "authors": [
     {
       "name": "Belka",
@@ -13,7 +26,7 @@
     }
   ],
   "image": "wcs-logo.png",
-  "searchTags": ["dashboard","sta","mobility"],
+  "searchTags": ["dashboard", "mobility"],
   "dist": {
     "basePath": "dist",
     "files": [
