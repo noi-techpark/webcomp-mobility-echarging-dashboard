@@ -2,8 +2,9 @@ import { html } from 'lit-element';
 
 import { moutain_illustration } from '../../img/moutain_illustration.svg.js';
 import { sudtirol_logo } from '../../img/sudtirol_logo.svg.js';
+import { t } from '../../translations';
 
-export const Header = props => {
+export const Header = (language) => {
   return html`
     <div class="header">
       <div class="container">
@@ -16,7 +17,7 @@ export const Header = props => {
               ></div>
             </div>
             <div class="header__title_container mt-3">
-              <h1 class="fs-h1 color-white mt-5">Tutti i dati delle colonnine</h1>
+              <h1 class="fs-h1 color-white mt-5">${t['title'][language]}</h1>
             </div>
             ${sudtirol_logo}
           </div>
