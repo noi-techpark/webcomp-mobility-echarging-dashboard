@@ -25,7 +25,7 @@ export const t = {
     it: 'Colonnine utilizzate',
   },
   charging_station_access: {
-    en: 'Access to the Charging Stations',
+    en: 'Access to charging stations',
     de: 'Zugang zu den Ladestationen',
     it: 'Accesso alle colonnine',
   },
@@ -35,7 +35,7 @@ export const t = {
     it: 'Plug in funzione',
   },
   current_number_of_columns: {
-    en: 'Current number of Charging Stations',
+    en: 'Current number of charging stations',
     de: 'Aktuelle Anzahl der Ladestationen',
     it: 'Colonnine presenti',
   },
