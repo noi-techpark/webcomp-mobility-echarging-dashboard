@@ -38,7 +38,7 @@
     "options": [
       {
         "key": "bz",
-        "label": "Show only data of the Province of Bolzano/Bozen?",
+        "label": "In order to visualize data of the Province of Bolzano/Bozen only",
         "type": "null",
         "required": false,
         "options": {
