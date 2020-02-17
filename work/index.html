@@ -10,24 +10,30 @@
     <link rel="stylesheet" href="./fonts/fonts.css" />
     <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
+  <body style="margin: 20px">
+
     <h1>All</h1>
     <div class="widget-container">
-      <e-mobility-dashboard-widget></e-mobility-dashboard-widget>
-    </div>
-
-    <h1>Only Bolzano</h1>
-    <div class="widget-container">
-      <e-mobility-dashboard-widget bz></e-mobility-dashboard-widget>
-    </div>
-
-    <div class="widget-container">
-      <h2>Snippet</h2>
       <div class="code_snippet">
-        <xmp><e-mobility-dashboard-widget></e-mobility-dashboard-widget>
+        <xmp><e-mobility-dashboard-widget language="en"></e-mobility-dashboard-widget>
 <script src="./scripts/dashboard_widget.js"></script>
 </xmp>
       </div>
+    </div>
+    <div class="widget-container">
+      <e-mobility-dashboard-widget language="en"></e-mobility-dashboard-widget>
+    </div>
+
+    <h1 style="padding-top: 30px">Only Province of Bolzano</h1>
+    <div class="widget-container">
+      <div class="code_snippet">
+        <xmp><e-mobility-dashboard-widget language="en" bz></e-mobility-dashboard-widget>
+<script src="./scripts/dashboard_widget.js"></script>
+</xmp>
+      </div>
+    </div>
+    <div class="widget-container">
+      <e-mobility-dashboard-widget language="en" bz></e-mobility-dashboard-widget>
     </div>
 
     <script src="./scripts/dashboard_widget.js"></script>
