@@ -14,7 +14,7 @@ export async function request__get_stations_details(bz) {
   try {
     const request = bz
       ? await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true%2Cscoordinate.bbi.(11.27539%2C46.444913%2C11.432577%2C46.530384)&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
           fetch_options
         )
       : await fetch(
@@ -39,7 +39,7 @@ export async function request__get_stations_details(bz) {
 export async function request__get_plugs_details({ bz, outlets }) {
   const request = bz
     ? await fetch(
-        `${NINJA_BASE_PATH}/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true%2Cscoordinate.bbi.(11.27539%2C46.444913%2C11.432577%2C46.530384)&shownull=false&distinct=true`,
+        `${NINJA_BASE_PATH}/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
         fetch_options
       )
     : await fetch(
@@ -64,7 +64,7 @@ export async function request_at_least_one_plug_used(bz) {
   try {
     const request = bz
       ? await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(11.27539%2C46.444913%2C11.432577%2C46.530384)&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
           fetch_options
         )
       : await fetch(
@@ -121,7 +121,7 @@ export async function request_plugs_with_state_and_echargingstation(bz) {
   try {
     const request = bz
       ? await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(11.27539%2C46.444913%2C11.432577%2C46.530384)&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
           fetch_options
         )
       : await fetch(
