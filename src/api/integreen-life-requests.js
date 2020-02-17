@@ -4,7 +4,7 @@ import { fetch_options } from './utils';
  * Just the basic api calls
  */
 
-const NINJA_BASE_PATH = 'https://ipchannels.integreen-life.bz.it/ninja/api/v2';
+const NINJA_BASE_PATH = 'https://mobility.api.opendatahub.bz.it/v2/api';
 
 /**
  * return the stations details
