@@ -6,7 +6,7 @@ export const t = {
   },
   columns_in_operation: {
     en: 'Charging station in operation',
-    de: 'Laufende Ladestationen',
+    de: 'Ladestationen in Betrieb',
     it: 'Colonnine in funzione',
   },
   number_of_columns: {
@@ -16,12 +16,12 @@ export const t = {
   },
   type_of_plugs: {
     en: 'Type of plugs',
-    de: 'Anschlusstypen',
+    de: 'Steckertypen',
     it: 'Tipologia di prese',
   },
   columns_used: {
-    en: 'Charging station used',
-    de: 'Verwendete Ladestationen',
+    en: 'Charging stations in use',
+    de: 'Ladestationen im Einsatz',
     it: 'Colonnine utilizzate',
   },
   charging_station_access: {
@@ -31,27 +31,27 @@ export const t = {
   },
   plugs_in_operation: {
     en: 'Plugs in operation',
-    de: 'Verwendete Anschlüsse',
+    de: 'Stecker im Einsatz',
     it: 'Plug in funzione',
   },
   current_number_of_columns: {
     en: 'Current number of charging stations',
     de: 'Aktuelle Anzahl der Ladestationen',
-    it: 'Colonnine presenti',
+    it: 'Numero corrente di colonnine',
   },
   of_the_columns_is_in_operation: {
     en: 'of the charging station is in operation!',
-    de: 'der Ladestationen sind in Verwendung!',
+    de: 'der Ladestationen sind im Einsatz!',
     it: 'delle colonnine è in funzione!',
   },
   of_the_plugs_is_in_operation: {
     en: 'of the plugs is in operation!',
-    de: 'der Anschlüsse sind in Verwendung!',
+    de: 'der Stecker sind im Einsatz!',
     it: 'dei plug è in funzione!',
   },
   percentage_of_columns_used_in_real_time: {
     en: 'Percentage of charging station used in real time',
-    de: 'Prozent der Ladestationen in Verwendung in Echtzeit',
+    de: 'Prozent der Ladestationen im Einsatz in Echtzeit',
     it: 'Percentuale di colonnine utilizzate in tempo reale',
   }
 };
