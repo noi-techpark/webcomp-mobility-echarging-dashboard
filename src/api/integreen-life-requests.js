@@ -4,7 +4,7 @@ import { fetch_options } from './utils';
  * Just the basic api calls
  */
 
-const NINJA_BASE_PATH = 'https://mobility.api.opendatahub.bz.it/v2/api';
+const NINJA_BASE_PATH = 'https://mobility.api.opendatahub.bz.it/v2';
 
 /**
  * return the stations details
