@@ -64,11 +64,11 @@ export async function request_at_least_one_plug_used(bz) {
   try {
     const request = bz
       ? await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status/latest?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
           fetch_options
         )
       : await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status/latest?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0&shownull=false&distinct=true`,
           fetch_options
         );
     const reponse = await request.json();
@@ -121,11 +121,11 @@ export async function request_plugs_with_state_and_echargingstation(bz) {
   try {
     const request = bz
       ? await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status/latest?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true`,
           fetch_options
         )
       : await fetch(
-          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true`,
+          `${NINJA_BASE_PATH}/flat/EChargingPlug/echarging-plug-status/latest?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true`,
           fetch_options
         );
     const reponse = await request.json();
