@@ -1,0 +1,31 @@
+@host=https://mobility.api.opendatahub.bz.it/v2
+
+### request__get_stations_details (Bolzano only)
+GET {{host}}/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+
+### request__get_stations_details (All data)
+GET {{host}}/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+
+### request__get_plugs_details (Bolzano only)
+GET {{host}}/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+
+### request__get_plugs_details (All data)
+GET {{host}}/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+
+### request_at_least_one_plug_used (Bolzano only)
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+
+### request_at_least_one_plug_used (All data)
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0&shownull=false&distinct=true
+
+### request_plug_types
+GET {{host}}/flat/EChargingPlug?limit=-1&offset=0&select=smetadata.outlets&where=sactive.eq.true&shownull=false&distinct=true
+
+### request_charging_stations_access_types
+GET {{host}}/flat/EChargingStation?limit=-1&offset=0&select=smetadata.accessType&where=sactive.eq.true&shownull=false&distinct=false
+
+### request_plugs_with_state_and_echargingstation (Bolzano only)
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+
+### request_plugs_with_state_and_echargingstation (All data)
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
