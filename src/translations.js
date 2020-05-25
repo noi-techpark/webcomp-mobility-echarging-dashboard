@@ -21,7 +21,7 @@ export const t = {
   },
   columns_used: {
     en: 'Charging stations in use',
-    de: 'Ladestationen im Einsatz',
+    de: 'Ladestationen werden im Moment verwendet',
     it: 'Colonnine utilizzate',
   },
   charging_station_access: {
@@ -31,7 +31,7 @@ export const t = {
   },
   plugs_in_operation: {
     en: 'Plugs in operation',
-    de: 'Stecker im Einsatz',
+    de: 'Stecker in Betrieb',
     it: 'Plug in funzione',
   },
   current_number_of_columns: {
@@ -41,17 +41,34 @@ export const t = {
   },
   of_the_columns_is_in_operation: {
     en: 'of the charging station is in operation!',
-    de: 'der Ladestationen sind im Einsatz!',
+    de: 'der Ladestationen sind in Betrieb!',
     it: 'delle colonnine è in funzione!',
   },
   of_the_plugs_is_in_operation: {
     en: 'of the plugs is in operation!',
-    de: 'der Stecker sind im Einsatz!',
+    de: 'der Stecker sind in Betrieb!',
     it: 'dei plug è in funzione!',
   },
   percentage_of_columns_used_in_real_time: {
     en: 'Percentage of charging station used in real time',
     de: 'Prozent der Ladestationen im Einsatz in Echtzeit',
     it: 'Percentuale di colonnine utilizzate in tempo reale',
+  },
+  access_to_stations: {
+    PRIVATE: {
+      en: 'Private',
+      de: 'Privat',
+      it: 'Privato'
+    },
+    PRIVATE_WITHPUBLICACCESS: {
+      en: 'Private with public access',
+      de: 'Privat mit öffentlichem Zugang',
+      it: 'Privato con accesso pubblico'
+    },
+    PUBLIC: {
+      en: 'Public',
+      de: 'Öffentlich',
+      it: 'Pubblico'
+    }
   }
 };

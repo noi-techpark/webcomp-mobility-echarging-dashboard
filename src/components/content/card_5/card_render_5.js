@@ -1,5 +1,5 @@
 import { html } from 'lit-html';
-// import { t } from '../../../translations';
+import { t } from '../../../translations';
 
 export const card_render_5 = props => {
   return html`
@@ -19,7 +19,7 @@ export const card_render_5 = props => {
                 .toLowerCase()
                 .replace(/\s/g, '')}"
             >
-              ${o.replace('PRIVATE_WITHPUBLICACCESS', 'PRIVATE WITH PUBLIC ACCESS')}
+              ${t['access_to_stations'][o] ? t['access_to_stations'][o][props.language].toUpperCase() : "UNKNOWN"}
             </div>
           `;
         })}

@@ -1,5 +1,12 @@
 import { request_charging_stations_access_types } from '../../../api/integreen-life-requests';
 import { get_stations_access_distribution } from '../../../api/integreen-life';
+import { t } from '../../../translations';
+
+const color_mapper = {
+  PRIVATE: '#e6040e',
+  PUBLIC: '#97be0e',
+  PRIVATE_WITHPUBLICACCESS: '#de7000'
+}
 
 export async function card_painter_5() {
   this.load_perc_5 = 0;
@@ -12,11 +19,11 @@ export async function card_painter_5() {
   new Chart(ctx_5, {
     type: 'doughnut',
     data: {
-      labels: this.access_types.map(o => o.replace('PRIVATE_WITHPUBLICACCESS', 'PRIVATE WITH PUBLIC ACCESS')),
+      labels: this.access_types.map(o => t['access_to_stations'][o] ? t['access_to_stations'][o][this.language].toUpperCase() : "UNKNOWN"),
       datasets: [
         {
           data: this.chart_5_value,
-          backgroundColor: ['#97be0e', '#de7000', '#e6040e']
+          backgroundColor: this.access_types.map(o => color_mapper[o])
         }
       ]
     },
