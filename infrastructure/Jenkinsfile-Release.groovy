@@ -17,7 +17,10 @@ pipeline {
     stages {
         stage('Clean') {
             steps {
-                sh 'rm -rf dist'
+                sh '''
+                  rm -rf dist node_modules
+                  yarn cache clean
+                '''
             }
         }
         stage('Dependencies') {
