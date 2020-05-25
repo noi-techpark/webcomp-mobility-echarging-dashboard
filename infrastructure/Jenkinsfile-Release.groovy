@@ -1,7 +1,7 @@
 pipeline {
     agent {
         dockerfile {
-            filename 'docker/Dockerfile'
+            filename 'infrastructure/docker/Dockerfile'
             additionalBuildArgs '--build-arg JENKINS_USER_ID=`id -u jenkins` --build-arg JENKINS_GROUP_ID=`id -g jenkins`'
         }
     }
@@ -38,8 +38,8 @@ pipeline {
                         sh 'git config --global user.name "Jenkins"'
                         sh 'git remote set-url origin ${GIT_REPOSITORY}'
                         sh 'git add -A'
-                        sh 'git commit -m "Verion ${VERSION}"'
-                        sh 'git tag -s -a v${VERSION} -m "Version ${VERSION}"'
+                        sh 'git commit -m "Version ${VERSION}"'
+                        sh 'git tag -a v${VERSION} -m "Version ${VERSION}"'
                         sh 'git push origin HEAD:master'
                         sh 'git push origin --tags'
                     }
