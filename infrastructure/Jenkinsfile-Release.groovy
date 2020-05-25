@@ -42,7 +42,7 @@ pipeline {
                           git config --global user.name "Jenkins"
                           git remote set-url origin ${GIT_REPOSITORY}
                           git add -A
-                          git commit -m "Version ${VERSION}"
+                          git commit -m "Version ${VERSION} --allow-empty"
                           git tag --delete v${VERSION} || true
                           git tag -a v${VERSION} -m "Version ${VERSION}"
                           mkdir -p ~/.ssh
