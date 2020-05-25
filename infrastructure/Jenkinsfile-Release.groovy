@@ -34,14 +34,17 @@ pipeline {
             steps {
                 ansiColor('xterm') {
                     sshagent (credentials: ['jenkins_github_ssh_key']) {
-                        sh 'git config --global user.email "info@opendatahub.bz.it"'
-                        sh 'git config --global user.name "Jenkins"'
-                        sh 'git remote set-url origin ${GIT_REPOSITORY}'
-                        sh 'git add -A'
-                        sh 'git commit -m "Version ${VERSION}"'
-                        sh 'git tag -a v${VERSION} -m "Version ${VERSION}"'
-                        sh 'git push origin HEAD:master'
-                        sh 'git push origin --tags'
+                        sh """
+                          git config --global user.email "info@opendatahub.bz.it"
+                          git config --global user.name "Jenkins"
+                          git remote set-url origin ${GIT_REPOSITORY}
+                          git add -A
+                          git commit -m "Version ${VERSION}"
+                          git tag --delete v${VERSION} || true
+                          git tag -a v${VERSION} -m "Version ${VERSION}"
+                          git push origin HEAD:master
+                          git push origin --tags
+                        """
                     }
                 }
             }
