@@ -1,31 +1,59 @@
 @host=https://mobility.api.opendatahub.bz.it/v2
+#@host=http://localhost:8081
 
-### request__get_stations_details (Bolzano only)
-GET {{host}}/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+######################## OVERVIEW ###############################################################################
+# See src/api/integreen-life.js and src/api/integreen-life-requests.js for details
 
-### request__get_stations_details (All data)
-GET {{host}}/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+### CHART1: Charging station in operation (percentage)
+# Uses request__get_stations_details
 
-### request__get_plugs_details (Bolzano only)
-GET {{host}}/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+### CHART2: Number of charging stations
+# Uses request__get_stations_active_count
 
-### request__get_plugs_details (All data)
-GET {{host}}/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+### CHART3: Type of plugs
+# Uses request__get_plugs_details and request_plug_types
 
-### request_at_least_one_plug_used (Bolzano only)
-GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+### CHART4: Charging station used (percentage)
+# Uses request_at_least_one_plug_used_active_count
 
-### request_at_least_one_plug_used (All data)
-GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=pcode&limit=-1&offset=0&where=sactive.eq.true,mvalue.eq.0&shownull=false&distinct=true
+### CHART5: Access to charging stations (percentages)
+# Uses request_charging_stations_access_types and request__get_stations_details
 
-### request_plug_types
-GET {{host}}/flat/EChargingPlug?limit=-1&offset=0&select=smetadata.outlets&where=sactive.eq.true&shownull=false&distinct=true
+### CHART6: Plugs in operation (percentage)
+# Uses request_plugs_with_state_and_echargingstation
+
+######################### REQUESTS ##############################################################################
+# See src/api/integreen-life-requests.js for details
+# FOR BOLZANO-ONLY-CALLS: Just add scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544) to the WHERE clause
+
+### request__get_stations_details
+GET {{host}}/flat/EChargingStation?select=scode,smetadata.state,smetadata.accessType&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+
+### request__get_stations_active_count (NEW)
+GET {{host}}/flat/EChargingStation?select=count(scode)&where=sactive.eq.true
+
+### request__get_plugs_details
+GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+
+### request_at_least_one_plug_used_active_count (NEW)
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=count(pcode)&where=sactive.eq.true,mvalue.eq.0
+
+### request_plug_types (NEW)
+GET {{host}}/flat/EChargingPlug?limit=-1&offset=0&select=smetadata.outlets.0.outletTypeCode&where=sactive.eq.true,smetadata.outlets.0.outletTypeCode.neq.UNKNOWN&shownull=false&distinct=true
 
 ### request_charging_stations_access_types
-GET {{host}}/flat/EChargingStation?limit=-1&offset=0&select=smetadata.accessType&where=sactive.eq.true&shownull=false&distinct=false
+GET {{host}}/flat/EChargingStation?limit=-1&offset=0&select=smetadata.accessType&where=sactive.eq.true&shownull=false&distinct=true
 
-### request_plugs_with_state_and_echargingstation (Bolzano only)
-GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
-
-### request_plugs_with_state_and_echargingstation (All data)
+### request_plugs_with_state_and_echargingstation
 GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=scode,pcode,mvalue&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+
+################################ JUST TESTING (PLEASE IGNORE) #######################################
+
+### T1
+GET https://mobility.api.opendatahub.bz.it/v2/flat/EChargingStation?limit=-1&offset=0&where=sactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)&shownull=false&distinct=true
+
+### T2
+GET https://mobility.api.opendatahub.bz.it/v2/flat/EChargingStation,EChargingPlug?limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
+
+### T3
+GET https://mobility.api.opendatahub.bz.it/v2/flat/EChargingStation?select=scode,smetadata.accessType,smetadata.state
