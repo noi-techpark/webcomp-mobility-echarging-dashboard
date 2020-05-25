@@ -42,6 +42,8 @@ pipeline {
                           git commit -m "Version ${VERSION}"
                           git tag --delete v${VERSION} || true
                           git tag -a v${VERSION} -m "Version ${VERSION}"
+                          mkdir -p ~/.ssh
+                          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
                           git push origin HEAD:master
                           git push origin --tags
                         """
