@@ -6,6 +6,10 @@ pipeline {
         }
     }
 
+    options {
+        ansiColor('xterm')
+    }
+
     parameters {
         string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version')
     }
