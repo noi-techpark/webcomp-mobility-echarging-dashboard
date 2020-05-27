@@ -21,7 +21,7 @@ export const t = {
   },
   columns_used: {
     en: 'Charging stations in use',
-    de: 'Ladestationen werden im Moment verwendet',
+    de: 'Ladestationen in Verwendung',
     it: 'Colonnine utilizzate',
   },
   charging_station_access: {
