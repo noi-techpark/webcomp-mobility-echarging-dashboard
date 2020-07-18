@@ -10,7 +10,7 @@
     "chart.js": "^2.9.1",
     "leaflet": "^1.4.0",
     "lit-element": "^2.1.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "css-loader": "^2.1.1",
