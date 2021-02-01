@@ -1,17 +1,13 @@
 version: "3"
 services:
   app:
-    image: node:12
+    build:
+      context: .
+      dockerfile: infrastructure/docker/node.dockerfile
     volumes:
       - ./:/code
     working_dir: /code
-    command: yarn start
-  serve:
-    image: python:3.6-alpine
-    volumes:
-      - ./:/code
-    working_dir: /code/work
-    command: python -m http.server
+    command: sh -c "test -d node_modules || yarn; yarn start"
     ports:
       - "8999:8000"
     tty: true
