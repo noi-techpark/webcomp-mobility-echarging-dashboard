@@ -17,7 +17,7 @@ export function Content() {
               ${Card({
                 load_perc: this.card1_loading_percentage,
                 refresh_function: this.card1_painter,
-                title: t['charging_station_access'][this.language],
+                title: t['charging_station_status'][this.language],
                 content: card1_renderer({
                   station_states: this.station_state_labels,
                   language: this.language,

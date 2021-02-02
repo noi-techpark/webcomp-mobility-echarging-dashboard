@@ -4,13 +4,11 @@
 
 import countBy from 'lodash/countBy';
 import {
-  request_plugs_with_state_and_echargingstation,
   request_plug_types,
   request__get_plugs_details,
   request__get_stations_details,
   request__get_stations_active_count,
   request_at_least_one_plug_used_active_count,
-  request_charging_stations_access_types
 } from './integreen-life-requests';
 
 export async function get_available_stations_percentage() {
@@ -51,12 +49,11 @@ export async function get_plug_type_distribution() {
 export async function get_use_percentage() {
   const used_length = await request_at_least_one_plug_used_active_count(this.bz);
   this.stations_used_percentage = parseInt((used_length * 100) / this.number_of_stations, 10);
-  return undefined;
 }
 
-export async function get_stations_access_distribution(bz, access_types) {
+export async function get_stations_access_distribution() {
   const distribution_percentage = [];
-  const stations_details = await request__get_stations_details(bz);
+  const stations_details = await request__get_stations_details(this.bz);
   const tot_stations = stations_details.length;
 
   const only_accessType = stations_details.map(o => {
@@ -64,24 +61,14 @@ export async function get_stations_access_distribution(bz, access_types) {
   });
   const count_by_type = countBy(only_accessType);
 
+  const access_types = only_accessType.filter((v, i, a) => a.indexOf(v) === i);
+
   access_types.map(type => {
     const perc = (count_by_type[type] * 100) / tot_stations;
     distribution_percentage.push(perc);
     return false;
   });
 
-  return distribution_percentage;
-}
-
-export async function get_plugs_with_state_and_echargingstation() {
-  const plugs_data = await request_plugs_with_state_and_echargingstation(this.bz);
-  const number_of_plugs = plugs_data.length;
-  const number_of_working = plugs_data.filter(o => o.mvalue > 0).length;
-  const perc_working_plugs = (number_of_working * 100) / number_of_plugs;
-  this.chart_6_value = parseInt(perc_working_plugs, 10);
-}
-
-export async function get_charging_stations_access_types() {
-  const access_types = await request_charging_stations_access_types();
-  return access_types;
+  this.access_types = access_types;
+  this.station_access_distribution = distribution_percentage;
 }

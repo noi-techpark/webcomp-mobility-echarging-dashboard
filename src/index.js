@@ -3,9 +3,7 @@ import {
   get_available_stations_percentage,
   get_number_of_stations,
   get_plug_type_distribution,
-  get_plugs_with_state_and_echargingstation,
   get_use_percentage,
-  get_charging_stations_access_types,
   get_stations_access_distribution
 } from './api/integreen-life';
 import { Content } from './components/content';
@@ -31,7 +29,7 @@ class EMobilityDashboard extends LitElement {
     this.get_available_stations_percentage = get_available_stations_percentage.bind(this);
     this.get_number_of_stations = get_number_of_stations.bind(this);
     this.get_plug_type_distribution = get_plug_type_distribution.bind(this);
-    this.get_plugs_with_state_and_echargingstation = get_plugs_with_state_and_echargingstation.bind(this);
+    this.get_stations_access_distribution = get_stations_access_distribution.bind(this);
     /** Card renderers */
     this.card1_painter = card1_painter.bind(this);
     this.card2_painter = card2_painter.bind(this);
@@ -65,16 +63,6 @@ class EMobilityDashboard extends LitElement {
   }
 
   async firstUpdated() {
-    await this.get_number_of_stations();
-    
-    this.access_types = await get_charging_stations_access_types();
-    this.station_access_distribution = await get_stations_access_distribution(this.bz, this.access_types);
-
-    await this.get_plug_type_distribution();
-
-    await this.get_available_stations_percentage();
-    await this.get_use_percentage();
-
     /** Card 1 */
     await this.card1_painter();
 

@@ -6,7 +6,7 @@ export const observed_properties = {
   number_of_stations: { type: Number },
   number_of_plugs: { type: Number },
   station_access_distribution: { type: Array },
-  card2_loading_percentage: { type: Number },
+  card1_loading_percentage: { type: Number },
   card2_loading_percentage: { type: Number },
   card3_loading_percentage: { type: Number },
   plug_types: { type: Array },

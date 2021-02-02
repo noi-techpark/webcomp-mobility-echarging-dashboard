@@ -1,6 +1,5 @@
 import Chart from 'chart.js';
 import { t } from '../../translations';
-import { get_stations_access_distribution, get_charging_stations_access_types } from '../../api/integreen-life';
 
 const state_color_mapper = {
   NOT_OPERATIONAL: '#e6040e',
@@ -10,11 +9,9 @@ const state_color_mapper = {
 
 export async function card1_painter() {
   this.card1_loading_percentage = 0;
-
-  // await this.get_number_of_stations();
-  // await this.get_available_stations_percentage();
-  // await this.get_use_percentage();
-
+  await this.get_number_of_stations();
+  await this.get_use_percentage();
+  await this.get_available_stations_percentage();
   this.card1_loading_percentage = 100;
 
   const data_mapper = {
@@ -23,9 +20,9 @@ export async function card1_painter() {
     OPERATIONAL_NOT_IN_USE: 100 - this.stations_used_percentage
   }
 
-  let ctx_5 = this.shadowRoot.getElementById('chart_station_states').getContext('2d');
+  let ctx_1 = this.shadowRoot.getElementById('chart_station_states').getContext('2d');
 
-  new Chart(ctx_5, {
+  new Chart(ctx_1, {
     type: 'doughnut',
     data: {
       labels: this.station_state_labels.map(o => t['station_states'][o] ? t['station_states'][o][this.language].toUpperCase() : "UNKNOWN"),
@@ -81,7 +78,7 @@ const plugs_color_mapper = {
 
 export async function card2_painter() {
   this.card2_loading_percentage = 0;
-  //await this.get_plug_type_distribution();
+  await this.get_plug_type_distribution();
   this.card2_loading_percentage = 100;
 
   let ctx_2 = this.shadowRoot.getElementById('chart_plug_types').getContext('2d');
@@ -133,15 +130,12 @@ const access_color_mapper = {
 
 export async function card3_painter() {
   this.card3_loading_percentage = 0;
-
-  // this.access_types = await get_charging_stations_access_types();
-  // this.station_access_distribution = await get_stations_access_distribution(this.bz, this.access_types);
-
+  await this.get_stations_access_distribution();
   this.card3_loading_percentage = 100;
 
-  let ctx_5 = this.shadowRoot.getElementById('chart_access_types').getContext('2d');
+  let ctx_3 = this.shadowRoot.getElementById('chart_access_types').getContext('2d');
 
-  new Chart(ctx_5, {
+  new Chart(ctx_3, {
     type: 'doughnut',
     data: {
       labels: this.access_types.map(o => t['access_to_stations'][o] ? t['access_to_stations'][o][this.language].toUpperCase() : "UNKNOWN"),
