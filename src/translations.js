@@ -15,7 +15,7 @@ export const t = {
     it: 'Numero di colonnine',
   },
   type_of_plugs: {
-    en: 'Type of plugs',
+    en: 'Types of plugs',
     de: 'Steckertypen',
     it: 'Tipologia di prese',
   },
@@ -69,6 +69,23 @@ export const t = {
       en: 'Public',
       de: 'Öffentlich',
       it: 'Pubblico'
+    }
+  },
+  station_states: {
+    NOT_OPERATIONAL: {
+      en: 'Not operational',
+      de: 'Nicht in Funktion',
+      it: 'Non funzionante'
+    },
+    OPERATIONAL_IN_USE: {
+      en: 'In use',
+      de: 'Benutzt',
+      it: 'Usato'
+    },
+    OPERATIONAL_NOT_IN_USE: {
+      en: 'Not in use',
+      de: 'Nicht benutzt',
+      it: 'Non usato'
     }
   }
 };

@@ -260,6 +260,18 @@ $card-height-big-mobile: 454px;
         color: #e6040e;
         background-color: #ffcacd;
       }
+      &.coperational_in_use {
+        color: #97be0e;
+        background-color: #dbecae;
+      }
+      &.coperational_not_in_use {
+        color: #de7000;
+        background-color: #fde1c9;
+      }
+      &.cnot_operational {
+        color: #e6040e;
+        background-color: #ffcacd;
+      }
       // &.disabled {
       //   background-color: $black-100;
       //   color: $black-300;
@@ -270,6 +282,7 @@ $card-height-big-mobile: 454px;
 
 .chart_plugs {
   position: relative;
+  z-index: 100;
   .chart_plugs__chart_container {
     margin: 0 auto;
     height: 200px;
@@ -277,21 +290,6 @@ $card-height-big-mobile: 454px;
     margin-bottom: 1.5rem;
     @media only screen and (min-width: 768px) {
       margin-bottom: 0;
-    }
-  }
-  .number__container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    .chart_plugs__description {
-      color: $black-300;
-    }
-    .chart_plugs__number {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
     }
   }
 }
@@ -303,32 +301,36 @@ $card-height-big-mobile: 454px;
   height: 100%;
 }
 
+.number__container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  top: 0;
+
+  .number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    img {
+      margin: 0 auto;
+      display: table;
+      margin-bottom: 0.5rem;
+      width: 32px;
+    }
+  }
+}
+
 .chart_utilized {
   position: relative;
 
-  .number__container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-
-    .number {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      img {
-        margin: 0 auto;
-        display: table;
-        margin-bottom: 0.5rem;
-        width: 32px;
-      }
-    }
-  }
   .chart_utilized__chart_container {
     height: 152px;
     width: 152px;
     margin: 0 auto;
     canvas {
+      z-index: 10000;
       margin: 0 auto;
       height: 152px;
       width: 152px;

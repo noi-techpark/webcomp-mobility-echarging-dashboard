@@ -2,17 +2,18 @@ import { html, LitElement } from 'lit-element';
 import {
   get_available_stations_percentage,
   get_number_of_stations,
-  get_plugs_type_distribution,
+  get_plug_type_distribution,
   get_plugs_with_state_and_echargingstation,
-  get_use_percentage
+  get_use_percentage,
+  get_charging_stations_access_types,
+  get_stations_access_distribution
 } from './api/integreen-life';
 import { Content } from './components/content';
-import { card_painter_5 } from './components/content/card_5/card_painter_5';
-import { card_painter_6 } from './components/content/card_6/card_painter_6';
-import { card_painter_1 } from './components/content/card_painter_1';
-import { card_painter_2 } from './components/content/card_painter_2';
-import { card_painter_3 } from './components/content/card_painter_3';
-import { card_painter_4 } from './components/content/card_painter_4';
+import {
+  card2_painter,
+  card3_painter,
+  card1_painter
+} from './components/content/card_painters';
 import { Header } from './components/header';
 import { observed_properties } from './observed_properties';
 import style__buttons from './scss/buttons.scss';
@@ -29,29 +30,30 @@ class EMobilityDashboard extends LitElement {
     this.get_use_percentage = get_use_percentage.bind(this);
     this.get_available_stations_percentage = get_available_stations_percentage.bind(this);
     this.get_number_of_stations = get_number_of_stations.bind(this);
-    this.get_plugs_type_distribution = get_plugs_type_distribution.bind(this);
+    this.get_plug_type_distribution = get_plug_type_distribution.bind(this);
     this.get_plugs_with_state_and_echargingstation = get_plugs_with_state_and_echargingstation.bind(this);
-    /** Card renders */
-    this.card_painter_1 = card_painter_1.bind(this);
-    this.card_painter_2 = card_painter_2.bind(this);
-    this.card_painter_3 = card_painter_3.bind(this);
-    this.card_painter_4 = card_painter_4.bind(this);
-    this.card_painter_5 = card_painter_5.bind(this);
-    this.card_painter_6 = card_painter_6.bind(this);
+    /** Card renderers */
+    this.card1_painter = card1_painter.bind(this);
+    this.card2_painter = card2_painter.bind(this);
+    this.card3_painter = card3_painter.bind(this);
     /** Observed values */
-    this.chart_1_value = 0;
+    this.stations_operational_percentage = 0;
+    this.stations_operational_count = 0;
     this.number_of_stations = 0;
-    this.chart_4_value = 0;
-    this.chart_5_value = 0;
-    this.chart_6_value = 0;
-    this.load_perc_1 = 0;
-    this.load_perc_2 = 0;
-    this.load_perc_3 = 0;
-    this.load_perc_4 = 0;
-    this.load_perc_5 = 0;
-    this.load_perc_6 = 0;
+    this.number_of_plugs = 0;
+    this.station_access_distribution = 0;
+    this.card1_loading_percentage = 0;
+    this.card2_loading_percentage = 0;
+    this.card3_loading_percentage = 0;
     this.plug_types = [];
     this.access_types = [];
+
+    this.station_state_labels = [
+      "NOT_OPERATIONAL",
+      "OPERATIONAL_IN_USE",
+      "OPERATIONAL_NOT_IN_USE"
+    ]
+
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
     this.language = userLanguage.split('-')[0];
@@ -63,23 +65,24 @@ class EMobilityDashboard extends LitElement {
   }
 
   async firstUpdated() {
+    await this.get_number_of_stations();
+    
+    this.access_types = await get_charging_stations_access_types();
+    this.station_access_distribution = await get_stations_access_distribution(this.bz, this.access_types);
+
+    await this.get_plug_type_distribution();
+
+    await this.get_available_stations_percentage();
+    await this.get_use_percentage();
+
     /** Card 1 */
-    await this.card_painter_1();
+    await this.card1_painter();
 
     /** Card 2 */
-    await this.card_painter_2();
+    await this.card2_painter();
 
     /** Card 3 */
-    await this.card_painter_3();
-
-    /** Card 4 */
-    await this.card_painter_4();
-
-    /** Card 5 */
-    await this.card_painter_5();
-
-    /** Card 6 */
-    await this.card_painter_6();
+    await this.card3_painter();
   }
 
   render() {

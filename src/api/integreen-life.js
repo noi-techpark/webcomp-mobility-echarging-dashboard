@@ -9,23 +9,25 @@ import {
   request__get_plugs_details,
   request__get_stations_details,
   request__get_stations_active_count,
-  request_at_least_one_plug_used_active_count
+  request_at_least_one_plug_used_active_count,
+  request_charging_stations_access_types
 } from './integreen-life-requests';
 
 export async function get_available_stations_percentage() {
   const stations_active = await request__get_stations_details(this.bz);
   const number_of_stations = stations_active.length;
-  const number_of_working = stations_active.filter(o => o["smetadata.state"] === 'ACTIVE').length;
-  const perc_available_stations = (number_of_working * 100) / number_of_stations;
-  this.chart_1_value = parseInt(perc_available_stations, 10);
-  return perc_available_stations;
+  const stations_operational_count = stations_active.filter(o => o["smetadata.state"] === 'ACTIVE').length;
+  const stations_operational_percentage = (stations_operational_count * 100) / number_of_stations;
+  this.stations_operational_percentage = parseInt(stations_operational_percentage, 10);
+  this.stations_operational_count = stations_operational_count;
+  return stations_operational_percentage;
 }
 
 export async function get_number_of_stations() {
   this.number_of_stations = await request__get_stations_active_count(this.bz);
 }
 
-export async function get_plugs_type_distribution() {
+export async function get_plug_type_distribution() {
   const plugs_details = await request__get_plugs_details({ bz: this.bz, outlets: true });
   const plug_types = await request_plug_types();
   this.plug_types = [...plug_types];
@@ -42,12 +44,13 @@ export async function get_plugs_type_distribution() {
     distribution_percentage.push(perc);
     return false;
   });
-  this.chart_3_value = distribution_percentage;
+  this.plug_type_distribution = distribution_percentage;
+  this.number_of_plugs = tot_outlets;
 }
 
 export async function get_use_percentage() {
   const used_length = await request_at_least_one_plug_used_active_count(this.bz);
-  this.chart_4_value = parseInt((used_length * 100) / this.number_of_stations, 10);
+  this.stations_used_percentage = parseInt((used_length * 100) / this.number_of_stations, 10);
   return undefined;
 }
 
@@ -76,4 +79,9 @@ export async function get_plugs_with_state_and_echargingstation() {
   const number_of_working = plugs_data.filter(o => o.mvalue > 0).length;
   const perc_working_plugs = (number_of_working * 100) / number_of_plugs;
   this.chart_6_value = parseInt(perc_working_plugs, 10);
+}
+
+export async function get_charging_stations_access_types() {
+  const access_types = await request_charging_stations_access_types();
+  return access_types;
 }
