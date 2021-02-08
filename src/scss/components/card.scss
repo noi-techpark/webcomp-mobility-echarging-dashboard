@@ -60,7 +60,7 @@ $card-height-big-mobile: 454px;
 
 .card__loader {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   background-color: $white;
   width: 100%;
   height: 100%;
@@ -265,24 +265,24 @@ $card-height-big-mobile: 454px;
         background-color: #dbecae;
       }
       &.coperational_not_in_use {
-        color: #de7000;
-        background-color: #fde1c9;
+        color: #4285f4;
+        background: #d6e6fe;
       }
       &.cnot_operational {
         color: #e6040e;
         background-color: #ffcacd;
       }
-      // &.disabled {
-      //   background-color: $black-100;
-      //   color: $black-300;
-      // }
+      &.cunknown {
+        color: $black-300;
+        background-color: $black-100;
+      }
     }
   }
 }
 
 .chart_plugs {
   position: relative;
-  z-index: 100;
+  z-index: 1;
   .chart_plugs__chart_container {
     margin: 0 auto;
     height: 200px;
@@ -330,7 +330,7 @@ $card-height-big-mobile: 454px;
     width: 152px;
     margin: 0 auto;
     canvas {
-      z-index: 10000;
+      z-index: 2;
       margin: 0 auto;
       height: 152px;
       width: 152px;

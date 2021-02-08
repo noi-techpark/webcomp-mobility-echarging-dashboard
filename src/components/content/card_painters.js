@@ -4,32 +4,24 @@ import { t } from '../../translations';
 const state_color_mapper = {
   NOT_OPERATIONAL: '#e6040e',
   OPERATIONAL_IN_USE: '#97be0e',
-  OPERATIONAL_NOT_IN_USE: '#de7000'
+  OPERATIONAL_NOT_IN_USE: '#4285f4'
 }
 
 export async function card1_painter() {
   this.card1_loading_percentage = 0;
-  await this.get_number_of_stations();
-  await this.get_use_percentage();
-  await this.get_available_stations_percentage();
+  await this.get_station_status_distribution();
   this.card1_loading_percentage = 100;
-
-  const data_mapper = {
-    NOT_OPERATIONAL: 100 - this.stations_operational_percentage,
-    OPERATIONAL_IN_USE: this.stations_used_percentage,
-    OPERATIONAL_NOT_IN_USE: 100 - this.stations_used_percentage
-  }
 
   let ctx_1 = this.shadowRoot.getElementById('chart_station_states').getContext('2d');
 
   new Chart(ctx_1, {
     type: 'doughnut',
     data: {
-      labels: this.station_state_labels.map(o => t['station_states'][o] ? t['station_states'][o][this.language].toUpperCase() : "UNKNOWN"),
+      labels: this.state_labels.map(o => t['states'][o] ? t['states'][o][this.language].toUpperCase() : "UNKNOWN"),
       datasets: [
         {
-          data: this.station_state_labels.map(o => data_mapper[o]),
-          backgroundColor: this.station_state_labels.map(o => state_color_mapper[o])
+          data: this.station_status_distribution, 
+          backgroundColor: this.state_labels.map(o => state_color_mapper[o])
         }
       ]
     },
@@ -175,4 +167,52 @@ export async function card3_painter() {
     }
   });
 
+}
+
+
+export async function card4_painter() {
+  this.card4_loading_percentage = 0;
+  await this.get_station_status_distribution();
+  this.card4_loading_percentage = 100;
+  let ctx_4 = this.shadowRoot.getElementById('chart_outlet_states').getContext('2d');
+
+  new Chart(ctx_4, {
+    type: 'doughnut',
+    data: {
+      labels: this.state_labels.map(o => t['states'][o] ? t['states'][o][this.language].toUpperCase() : "UNKNOWN"),
+      datasets: [
+        {
+          data: this.plug_status_distribution,
+          backgroundColor: this.state_labels.map(o => state_color_mapper[o])
+        }
+      ]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: true,
+        callbacks: {
+          title: function(tooltipItems, data) {
+            return `${data.labels[tooltipItems[0].index]}`;
+          },
+          label: function(tooltipItems, data) {
+            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
+          }
+        }
+      },
+      hover: { mode: null },
+      maintainAspectRatio: true,
+      aspectRatio: 1,
+      title: {
+        display: false
+      },
+      cutoutPercentage: 80,
+      animation: {
+        animateScale: true,
+        animateRotate: true
+      }
+    }
+  });
 }

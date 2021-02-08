@@ -8,11 +8,11 @@ export const card1_renderer = props => {
     <div class="d-md-flex chart_plugs__container">
       <div class="chart_plugs">
         <div class="chart_plugs__chart_container">
-          <canvas id="chart_station_states"></canvas>
+          <canvas id="${props.canvas_id}"></canvas>
         </div>
       </div>
       <div class="plug_list_names">
-        ${props.station_states.map(o => {
+        ${props.states.map(o => {
           return html`
             <div
               id="${o.replace(/\s/g, '')}"
@@ -21,7 +21,7 @@ export const card1_renderer = props => {
                 .toLowerCase()
                 .replace(/\s/g, '')}"
             >
-              ${t['station_states'][o] ? t['station_states'][o][props.language].toUpperCase() : "UNKNOWN"}
+              ${t['states'][o] ? t['states'][o][props.language].toUpperCase() : "UNKNOWN"}
             </div>
           `;
         })}

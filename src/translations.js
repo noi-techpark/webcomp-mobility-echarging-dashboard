@@ -11,13 +11,18 @@ export const t = {
   },
   type_of_plugs: {
     en: 'Number and types of plugs',
-    de: 'Anzahl und Typen der Stecker',
+    de: 'Anzahl und Typen der Anschlüsse',
     it: 'Quantità e tipologia di prese',
   },
   charging_station_access: {
     en: 'Access to charging stations',
     de: 'Zugang zu den Ladestationen',
     it: 'Accesso alle colonnine',
+  },
+  outlet_status: {
+    en: 'Current functioning of plugs',
+    de: 'Momentaner Zustand der Anschlüsse',
+    it: 'Funzionamento momentaneamente delle prese',
   },
   access_to_stations: {
     PRIVATE: {
@@ -36,7 +41,7 @@ export const t = {
       it: 'Pubblico'
     }
   },
-  station_states: {
+  states: {
     NOT_OPERATIONAL: {
       en: 'Not operational',
       de: 'Nicht in Funktion',
@@ -51,6 +56,11 @@ export const t = {
       en: 'Not in use',
       de: 'Nicht benutzt',
       it: 'Non usato'
+    },
+    UNKNOWN: {
+      en: 'Unknown',
+      de: 'Unbekannt',
+      it: 'Sconosciuto'
     }
   }
 };
