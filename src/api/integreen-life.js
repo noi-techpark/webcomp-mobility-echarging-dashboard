@@ -120,7 +120,7 @@ export async function get_station_status_distribution() {
 
 export async function get_plug_type_distribution() {
   const plugs_details = await request_plug_details({ bz: this.bz, outlets: true });
-  const plug_types = await request_plug_types();
+  const plug_types = await request_plug_types(this.bz);
   this.plug_types = [...plug_types];
   const only_outlets = plugs_details.map(o => {
     return o["smetadata.outlets"];
