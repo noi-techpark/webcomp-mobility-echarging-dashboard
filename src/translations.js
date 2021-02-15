@@ -22,7 +22,7 @@ export const t = {
   outlet_status: {
     en: 'Current functioning of plugs',
     de: 'Momentaner Zustand der Anschlüsse',
-    it: 'Funzionamento momentaneamente delle prese',
+    it: 'Funzionamento momentaneo delle prese',
   },
   access_to_stations: {
     PRIVATE: {
