@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: path.resolve(__dirname, './src/index.js'),
   watch: true,
   output: {
     path: path.resolve(__dirname, './work/scripts'),
@@ -33,9 +33,14 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: path.join(__dirname, 'work'),
+    contentBase: path.resolve(__dirname, './work'),
     compress: true,
     writeToDisk: true,
-    port: 8000
+    port: 8000,
+    publicPath: "/scripts/",
+    watchContentBase: true,
+    open: true,
+    openPage: "",
+    overlay: true,    
   }
 };

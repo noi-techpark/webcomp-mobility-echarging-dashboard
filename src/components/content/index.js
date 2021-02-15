@@ -1,14 +1,11 @@
 import { html } from 'lit-element';
 import { Card } from '../card';
 import {
-  render_working_columns,
-  render_plug_types,
-  render_utilized_columns,
-  render_columns_number
-} from './components/card_renders';
+  card1_renderer,
+  card2_renderer,
+  card3_renderer,
+} from './card_renderers';
 import { t } from '../../translations';
-import { card_render_5 } from './card_5/card_render_5';
-import { card_render_6 } from './card_6/card_render_6';
 
 export function Content() {
   return html`
@@ -18,44 +15,43 @@ export function Content() {
           <div class="col-lg-12">
             <div class="row">
               ${Card({
-                load_perc: this.load_perc_1,
-                refresh_function: this.card_painter_1,
-                title: t['columns_in_operation'][this.language],
-                content: render_working_columns(this.chart_1_value, this.language)
-              })}
-              ${Card({
-                load_perc: this.load_perc_2,
-                refresh_function: this.card_painter_2,
-                title: t['number_of_columns'][this.language],
-                content: render_columns_number(this.number_of_stations, this.language)
-              })}
-              ${Card({
-                load_perc: this.load_perc_3,
-                refresh_function: this.card_painter_3,
-                title: t['type_of_plugs'][this.language],
-                content: render_plug_types(this.plug_types),
-                big: true
-              })}
-              ${Card({
-                load_perc: this.load_perc_4,
-                refresh_function: this.card_painter_4,
-                title: t['columns_used'][this.language],
-                content: render_utilized_columns({ chart_4_value: this.chart_4_value, language: this.language })
-              })}
-              ${Card({
-                load_perc: this.load_perc_5,
-                refresh_function: this.card_painter_5,
-                title: t['charging_station_access'][this.language],
-                content: card_render_5({
-                  access_types: this.access_types,
-                  language: this.language
+                load_perc: this.card1_loading_percentage,
+                refresh_function: this.card1_painter,
+                title: t['charging_station_status'][this.language],
+                content: card1_renderer({
+                  canvas_id: "chart_station_states",
+                  states: this.state_labels,
+                  language: this.language,
+                  big: true
                 })
               })}
               ${Card({
-                load_perc: this.load_perc_6,
-                refresh_function: this.card_painter_6,
-                title: t['plugs_in_operation'][this.language],
-                content: card_render_6(this.chart_6_value, this.language)
+                load_perc: this.card3_loading_percentage,
+                refresh_function: this.card3_painter,
+                title: t['charging_station_access'][this.language],
+                content: card3_renderer({
+                  access_types: this.access_types,
+                  language: this.language,
+                  number_of_stations: this.number_of_stations
+                })
+              })}              
+              ${Card({
+                load_perc: this.card2_loading_percentage,
+                refresh_function: this.card2_painter,
+                title: t['type_of_plugs'][this.language],
+                content: card2_renderer(this.plug_types, this.number_of_plugs),
+                big: true
+              })}
+              ${Card({
+                load_perc: this.card4_loading_percentage,
+                refresh_function: this.card4_painter,
+                title: t['outlet_status'][this.language],
+                content: card1_renderer({
+                  canvas_id: "chart_outlet_states",
+                  states: this.state_labels,
+                  language: this.language,
+                  big: true
+                })
               })}
             </div>
           </div>

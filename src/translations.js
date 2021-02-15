@@ -4,55 +4,25 @@ export const t = {
     de: 'Gesamte Daten der Ladestationen',
     it: 'Tutti i dati delle colonnine',
   },
-  columns_in_operation: {
-    en: 'Charging station in operation',
-    de: 'Ladestationen in Betrieb',
-    it: 'Colonnine in funzione',
-  },
-  number_of_columns: {
-    en: 'Number of charging stations',
-    de: 'Anzahl der Ladestationen',
-    it: 'Numero di colonnine',
+  charging_station_status: {
+    en: 'Current functioning of charging stations',
+    de: 'Momentaner Zustand der Ladestationen',
+    it: 'Funzionamento momentaneo delle colonnine',
   },
   type_of_plugs: {
-    en: 'Type of plugs',
-    de: 'Steckertypen',
-    it: 'Tipologia di prese',
-  },
-  columns_used: {
-    en: 'Charging stations in use',
-    de: 'Ladestationen in Verwendung',
-    it: 'Colonnine utilizzate',
+    en: 'Number and types of plugs',
+    de: 'Anzahl und Typen der Anschlüsse',
+    it: 'Quantità e tipologia di prese',
   },
   charging_station_access: {
     en: 'Access to charging stations',
     de: 'Zugang zu den Ladestationen',
     it: 'Accesso alle colonnine',
   },
-  plugs_in_operation: {
-    en: 'Plugs in operation',
-    de: 'Stecker in Betrieb',
-    it: 'Plug in funzione',
-  },
-  current_number_of_columns: {
-    en: 'Current number of charging stations',
-    de: 'Aktuelle Anzahl der Ladestationen',
-    it: 'Numero corrente di colonnine',
-  },
-  of_the_columns_is_in_operation: {
-    en: 'of the charging station is in operation!',
-    de: 'der Ladestationen sind in Betrieb!',
-    it: 'delle colonnine è in funzione!',
-  },
-  of_the_plugs_is_in_operation: {
-    en: 'of the plugs is in operation!',
-    de: 'der Stecker sind in Betrieb!',
-    it: 'dei plug è in funzione!',
-  },
-  percentage_of_columns_used_in_real_time: {
-    en: 'Percentage of charging station used in real time',
-    de: 'Prozent der Ladestationen im Einsatz in Echtzeit',
-    it: 'Percentuale di colonnine utilizzate in tempo reale',
+  outlet_status: {
+    en: 'Current functioning of plugs',
+    de: 'Momentaner Zustand der Anschlüsse',
+    it: 'Funzionamento momentaneo delle prese',
   },
   access_to_stations: {
     PRIVATE: {
@@ -69,6 +39,28 @@ export const t = {
       en: 'Public',
       de: 'Öffentlich',
       it: 'Pubblico'
+    }
+  },
+  states: {
+    NOT_OPERATIONAL: {
+      en: 'Not operational',
+      de: 'Nicht in Funktion',
+      it: 'Non funzionante'
+    },
+    OPERATIONAL_IN_USE: {
+      en: 'In use',
+      de: 'Benutzt',
+      it: 'Usato'
+    },
+    OPERATIONAL_NOT_IN_USE: {
+      en: 'Not in use',
+      de: 'Nicht benutzt',
+      it: 'Non usato'
+    },
+    UNKNOWN: {
+      en: 'Unknown',
+      de: 'Unbekannt',
+      it: 'Sconosciuto'
     }
   }
 };

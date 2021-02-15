@@ -1,4 +1,4 @@
-@host=mobility.api.opendatahub.bz.it/v2
+@host=https://mobility.api.opendatahub.bz.it/v2
 #@host=http://localhost:8081
 
 
@@ -13,24 +13,42 @@ GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
 ###
 GET {{host}}/flat/EChargingStation
 ?select=count(scode)
+#&where=sactive.eq.true
+&distinct=false
+
+###
+GET {{host}}/tree/EChargingPlug/echarging-plug-status/latest
+#?select=count(pcode)
+?select=pcode,pmetadata.state,mvalue
+&where=sactive.eq.true,pactive.eq.true
+#,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)
+&limit=-1
+
+###
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
+?select=mvalue,pname,pcode,sname,smetadata,pmetadata
+#,smetadata, pcode
+#count(pcode)
+&where=pactive.eq.true,pname.eq."CR_ALTA_VALSUGANA_04"
+
+
+###
+GET {{host}}/flat/EChargingStation
+?select=smetadata.state
 &where=sactive.eq.true
+&limit=-1
 
 ###
 GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
-?select=count(pcode)
-&where=sactive.eq.true,mvalue.eq.0,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)
+?limit=-1
+&select=pcode,count(mvalue)
+&where=sactive.eq.true,pactive.eq.true
+&shownull=false
+&distinct=true
 
 ###
-GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
-?select=count(pcode)
-&where=sactive.eq.true,mvalue.eq.0
-
-
-
-
-
-
-
+GET {{host}}/flat/EChargingPlug/echarging-plug-status
+?select=smetadata
 
 ######################## OVERVIEW ###############################################################################
 # See src/api/integreen-life.js and src/api/integreen-life-requests.js for details
@@ -38,14 +56,8 @@ GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
 ### CHART1: Charging station in operation (percentage)
 # Uses request__get_stations_details
 
-### CHART2: Number of charging stations
-# Uses request__get_stations_active_count
-
 ### CHART3: Type of plugs
 # Uses request__get_plugs_details and request_plug_types
-
-### CHART4: Charging station used (percentage)
-# Uses request_at_least_one_plug_used_active_count
 
 ### CHART5: Access to charging stations (percentages)
 # Uses request_charging_stations_access_types and request__get_stations_details
@@ -60,13 +72,10 @@ GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
 ### request__get_stations_details
 GET {{host}}/flat/EChargingStation?select=scode,smetadata.state,smetadata.accessType&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
 
-### request__get_stations_active_count (NEW)
-GET {{host}}/flat/EChargingStation?select=count(scode)&where=sactive.eq.true
-
 ### request__get_plugs_details
 GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets&limit=-1&offset=0&where=sactive.eq.true&shownull=false&distinct=true
 
-### request_at_least_one_plug_used_active_count (NEW)
+### request__at_least_one_plug_used_active_count (NEW)
 GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest?select=count(pcode)&where=sactive.eq.true,mvalue.eq.0
 
 ### request_plug_types (NEW)
@@ -88,3 +97,4 @@ GET https://mobility.api.opendatahub.bz.it/v2/flat/EChargingStation,EChargingPlu
 
 ### T3
 GET https://mobility.api.opendatahub.bz.it/v2/flat/EChargingStation?select=scode,smetadata.accessType,smetadata.state
+

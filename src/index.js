@@ -1,18 +1,16 @@
 import { html, LitElement } from 'lit-element';
 import {
-  get_available_stations_percentage,
-  get_number_of_stations,
-  get_plugs_type_distribution,
-  get_plugs_with_state_and_echargingstation,
-  get_use_percentage
+  get_station_status_distribution,
+  get_plug_type_distribution,
+  get_stations_access_distribution
 } from './api/integreen-life';
 import { Content } from './components/content';
-import { card_painter_5 } from './components/content/card_5/card_painter_5';
-import { card_painter_6 } from './components/content/card_6/card_painter_6';
-import { card_painter_1 } from './components/content/card_painter_1';
-import { card_painter_2 } from './components/content/card_painter_2';
-import { card_painter_3 } from './components/content/card_painter_3';
-import { card_painter_4 } from './components/content/card_painter_4';
+import {
+  card1_painter,
+  card2_painter,
+  card3_painter,
+  card4_painter,
+} from './components/content/card_painters';
 import { Header } from './components/header';
 import { observed_properties } from './observed_properties';
 import style__buttons from './scss/buttons.scss';
@@ -26,32 +24,35 @@ class EMobilityDashboard extends LitElement {
     super();
     this.Header = Header.bind(this);
     this.Content = Content.bind(this);
-    this.get_use_percentage = get_use_percentage.bind(this);
-    this.get_available_stations_percentage = get_available_stations_percentage.bind(this);
-    this.get_number_of_stations = get_number_of_stations.bind(this);
-    this.get_plugs_type_distribution = get_plugs_type_distribution.bind(this);
-    this.get_plugs_with_state_and_echargingstation = get_plugs_with_state_and_echargingstation.bind(this);
-    /** Card renders */
-    this.card_painter_1 = card_painter_1.bind(this);
-    this.card_painter_2 = card_painter_2.bind(this);
-    this.card_painter_3 = card_painter_3.bind(this);
-    this.card_painter_4 = card_painter_4.bind(this);
-    this.card_painter_5 = card_painter_5.bind(this);
-    this.card_painter_6 = card_painter_6.bind(this);
+    this.get_station_status_distribution = get_station_status_distribution.bind(this);
+    this.get_stations_access_distribution = get_stations_access_distribution.bind(this);
+    this.get_plug_type_distribution = get_plug_type_distribution.bind(this);
+    /** Card renderers */
+    this.card1_painter = card1_painter.bind(this);
+    this.card2_painter = card2_painter.bind(this);
+    this.card3_painter = card3_painter.bind(this);
+    this.card4_painter = card4_painter.bind(this);
     /** Observed values */
-    this.chart_1_value = 0;
     this.number_of_stations = 0;
-    this.chart_4_value = 0;
-    this.chart_5_value = 0;
-    this.chart_6_value = 0;
-    this.load_perc_1 = 0;
-    this.load_perc_2 = 0;
-    this.load_perc_3 = 0;
-    this.load_perc_4 = 0;
-    this.load_perc_5 = 0;
-    this.load_perc_6 = 0;
+    this.number_of_plugs = 0;
+    this.card1_loading_percentage = 0;
+    this.card2_loading_percentage = 0;
+    this.card3_loading_percentage = 0;
+    this.card4_loading_percentage = 0;
     this.plug_types = [];
     this.access_types = [];
+    this.station_access_distribution = [];
+    this.station_status_distribution = [];
+    this.plug_type_distribution = [];
+    this.plug_status_distribution = [];
+
+    this.state_labels = [
+      "OPERATIONAL_IN_USE",
+      "OPERATIONAL_NOT_IN_USE",
+      "NOT_OPERATIONAL",
+      "UNKNOWN"
+    ]
+
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
     this.language = userLanguage.split('-')[0];
@@ -64,22 +65,16 @@ class EMobilityDashboard extends LitElement {
 
   async firstUpdated() {
     /** Card 1 */
-    await this.card_painter_1();
+    await this.card1_painter();
 
     /** Card 2 */
-    await this.card_painter_2();
+    await this.card2_painter();
 
     /** Card 3 */
-    await this.card_painter_3();
+    await this.card3_painter();
 
     /** Card 4 */
-    await this.card_painter_4();
-
-    /** Card 5 */
-    await this.card_painter_5();
-
-    /** Card 6 */
-    await this.card_painter_6();
+    await this.card4_painter();
   }
 
   render() {
