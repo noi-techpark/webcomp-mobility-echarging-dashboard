@@ -7,7 +7,7 @@ export const t = {
   charging_station_status: {
     en: 'Current functioning of charging stations',
     de: 'Momentaner Zustand der Ladestationen',
-    it: 'Funzionamento momentaneamente delle colonnine',
+    it: 'Funzionamento momentaneo delle colonnine',
   },
   type_of_plugs: {
     en: 'Number and types of plugs',
