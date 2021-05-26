@@ -1,11 +1,15 @@
-# webcomp-mobility-echarging-dashboard
+# Mobility E-Charging Dashboard
 
-This project contains the dashboard web component for the [Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
+This project contains the dashboard web component for the
+[Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
 
-[Green Mobility South Tyrol](https://www.greenmobility.bz.it/it/) wants to split the existing functionalities of the website into reusable and independent components. Using these webcomponents, a developer can easily integrate the functionality of the single components into any website.
-The data source for the components is the [Open Data Hub](https://opendatahub.bz.it/) project.
+[Green Mobility South Tyrol](https://www.greenmobility.bz.it/it/) wants to split
+the existing functionalities of the website into reusable and independent
+components. Using these webcomponents, a developer can easily integrate the
+functionality of the single components into any website. The data source for the
+components is the [Open Data Hub](https://opendatahub.bz.it/) project.
 
-- [webcomp-mobility-echarging-dashboard](#webcomp-mobility-echarging-dashboard)
+- [Mobility E-Charging Dashboard](#mobility-e-charging-dashboard)
   - [Usage](#usage)
     - [Options](#options)
       - [Show only data from the capital Bolzano/Bozen](#show-only-data-from-the-capital-bolzanobozen)
