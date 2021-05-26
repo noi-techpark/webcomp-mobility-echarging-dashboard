@@ -1,5 +1,7 @@
 # Mobility E-Charging Dashboard
 
+[![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)
+
 This project contains the dashboard web component for the
 [Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
 
@@ -8,6 +10,11 @@ the existing functionalities of the website into reusable and independent
 components. Using these webcomponents, a developer can easily integrate the
 functionality of the single components into any website. The data source for the
 components is the [Open Data Hub](https://opendatahub.bz.it/) project.
+
+Dashboard to access the Open Data Hub E-Mobility information for South Tyrol,
+such as plug types, number of charging stations, accessibility of stations,
+operational states, and much more... Do you want to see it in action? Go to our
+[web component store](https://webcomponents.opendatahub.bz.it/webcomponent/f594de36-0136-4c27-a0e6-570fa7014129)!
 
 - [Mobility E-Charging Dashboard](#mobility-e-charging-dashboard)
   - [Usage](#usage)
