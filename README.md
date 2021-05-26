@@ -5,13 +5,28 @@ This project contains the dashboard web component for the [Green Mobility South 
 [Green Mobility South Tyrol](https://www.greenmobility.bz.it/it/) wants to split the existing functionalities of the website into reusable and independent components. Using these webcomponents, a developer can easily integrate the functionality of the single components into any website.
 The data source for the components is the [Open Data Hub](https://opendatahub.bz.it/) project.
 
-## Table of contents
-
-- [Usage](#usage)
-- [Gettings started](#getting-started)
-- [Deployment](#deployment)
-- [Docker environment](#docker-environment)
-- [Information](#information)
+- [webcomp-mobility-echarging-dashboard](#webcomp-mobility-echarging-dashboard)
+  - [Usage](#usage)
+    - [Options](#options)
+      - [Show only data from the capital Bolzano/Bozen](#show-only-data-from-the-capital-bolzanobozen)
+      - [Translations](#translations)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Source code](#source-code)
+    - [Dependencies](#dependencies)
+    - [Build](#build)
+  - [Deployment](#deployment)
+  - [Docker environment](#docker-environment)
+    - [Installation](#installation)
+    - [Dependenices](#dependenices)
+    - [Start and stop the containers](#start-and-stop-the-containers)
+    - [Running commands inside the container](#running-commands-inside-the-container)
+  - [Information](#information)
+    - [Support](#support)
+    - [Contributing](#contributing)
+    - [Documentation](#documentation)
+    - [Boilerplate](#boilerplate)
+    - [License](#license)
 
 ## Usage
 

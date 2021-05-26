@@ -3,7 +3,6 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: path.resolve(__dirname, './src/index.js'),
-  watch: true,
   output: {
     path: path.resolve(__dirname, './work/scripts'),
     filename: 'dashboard_widget.js'
@@ -36,11 +35,11 @@ module.exports = {
     contentBase: path.resolve(__dirname, './work'),
     compress: true,
     writeToDisk: true,
-    port: 8000,
+    port: 8999,
     publicPath: "/scripts/",
     watchContentBase: true,
     open: true,
     openPage: "",
-    overlay: true,    
+    overlay: true,
   }
 };
