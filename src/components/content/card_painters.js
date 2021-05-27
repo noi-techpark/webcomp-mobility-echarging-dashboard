@@ -199,7 +199,7 @@ export async function card4_painter() {
 
   let ctx = this.shadowRoot.getElementById('chart_outlet_states').getContext('2d');
   let number = this.shadowRoot.getElementById('chart_outlet_states_number');
-  number.innerHTML = this.station_status_distribution[0][1];
+  number.innerHTML = this.plug_status_distribution[0][1];
 
   new Chart(ctx, {
     type: 'doughnut',

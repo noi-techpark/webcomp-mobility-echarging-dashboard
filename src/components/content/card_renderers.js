@@ -11,7 +11,7 @@ export const card_renderer = props => {
           <div class="number">
             <div>
               <img src="${props.pin}" alt="" />
-              <p class="fs-30 fw-600" id='${props.canvas_id}_number'>${props.number}</p>
+              <p class="fw-600" id='${props.canvas_id}_number'>${props.number}</p>
             </div>
           </div>
         </div>
