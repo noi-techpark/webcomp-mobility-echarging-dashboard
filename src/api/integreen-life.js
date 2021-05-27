@@ -104,17 +104,17 @@ export async function get_station_status_distribution() {
 
   /* See src/index.js for ordering of elements inside this distribution */
   this.station_status_distribution = [
-    make_percentage(used, total),
-    make_percentage(not_used, total),
-    make_percentage(not_operational, total),
-    make_percentage(unknown, total)
+    [used, total, make_percentage(used, total)],
+    [not_used, total, make_percentage(not_used, total)],
+    [not_operational, total, make_percentage(not_operational, total)],
+    [unknown, total, make_percentage(unknown, total)]
   ]
 
   this.plug_status_distribution = [
-    make_percentage(outlets_used, outlets_total),
-    make_percentage(outlets_not_used, outlets_total),
-    make_percentage(outlets_not_operational, outlets_total),
-    make_percentage(outlets_unknown, outlets_total)
+    [outlets_used, outlets_total, make_percentage(outlets_used, outlets_total)],
+    [outlets_not_used, outlets_total, make_percentage(outlets_not_used, outlets_total)],
+    [outlets_not_operational, outlets_total, make_percentage(outlets_not_operational, outlets_total)],
+    [outlets_unknown, outlets_total, make_percentage(outlets_unknown, outlets_total)]
   ]
 }
 
@@ -131,8 +131,13 @@ export async function get_plug_type_distribution() {
   const tot_outlets = only_outlets.flat().length;
   const distribution_percentage = [];
   plug_types.map(type => {
-    const perc = make_percentage(count_by_type[type], tot_outlets);
-    distribution_percentage.push(perc);
+    distribution_percentage.push(
+      [
+        count_by_type[type],
+        tot_outlets,
+        make_percentage(count_by_type[type], tot_outlets)
+      ]
+    );
     return false;
   });
   this.plug_type_distribution = distribution_percentage;
@@ -152,8 +157,13 @@ export async function get_stations_access_distribution() {
   const access_types = only_accessType.filter((v, i, a) => a.indexOf(v) === i);
 
   access_types.map(type => {
-    const perc = make_percentage(count_by_type[type], tot_stations);
-    distribution_percentage.push(perc);
+    distribution_percentage.push(
+      [
+        count_by_type[type],
+        tot_stations,
+        make_percentage(count_by_type[type], tot_stations)
+      ]
+    );
     return false;
   });
 

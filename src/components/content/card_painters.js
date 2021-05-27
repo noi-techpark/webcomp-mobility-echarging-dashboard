@@ -7,21 +7,32 @@ const state_color_mapper = {
   OPERATIONAL_NOT_IN_USE: '#4285f4'
 }
 
+function drawNumber(tooltipItems, data, number) {
+  let activeItem = data.datasets[0].distrib[tooltipItems.index]
+  let color = data.datasets[0].backgroundColor[tooltipItems.index]
+  number.innerHTML = `<span style='border-bottom: 3px solid ${color ? color : "#e2e2e2"}'>${activeItem[0]}/${activeItem[1]}</span>`;
+  return ` ${activeItem[0]} / ${activeItem[1]}  (${parseInt(activeItem[2])}%)`;
+}
+
 export async function card1_painter() {
   this.card1_loading_percentage = 0;
   await this.get_station_status_distribution();
+  let percentages = this.station_status_distribution.map(o => o[2])
   this.card1_loading_percentage = 100;
 
-  let ctx_1 = this.shadowRoot.getElementById('chart_station_states').getContext('2d');
+  let ctx = this.shadowRoot.getElementById('chart_station_states').getContext('2d');
+  let number = this.shadowRoot.getElementById('chart_station_states_number');
+  number.innerHTML = this.station_status_distribution[0][1];
 
-  new Chart(ctx_1, {
+  new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: this.state_labels.map(o => t['states'][o] ? t['states'][o][this.language].toUpperCase() : "UNKNOWN"),
       datasets: [
         {
-          data: this.station_status_distribution, 
-          backgroundColor: this.state_labels.map(o => state_color_mapper[o])
+          data: percentages,
+          backgroundColor: this.state_labels.map(o => state_color_mapper[o]),
+          distrib: this.station_status_distribution
         }
       ]
     },
@@ -36,7 +47,7 @@ export async function card1_painter() {
             return `${data.labels[tooltipItems[0].index]}`;
           },
           label: function(tooltipItems, data) {
-            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
+            return drawNumber(tooltipItems, data, number);
           }
         }
       },
@@ -71,17 +82,22 @@ const plugs_color_mapper = {
 export async function card2_painter() {
   this.card2_loading_percentage = 0;
   await this.get_plug_type_distribution();
+  let percentages = this.plug_type_distribution.map(o => o[2])
   this.card2_loading_percentage = 100;
 
-  let ctx_2 = this.shadowRoot.getElementById('chart_plug_types').getContext('2d');
-  new Chart(ctx_2, {
+  let ctx = this.shadowRoot.getElementById('chart_plug_types').getContext('2d');
+  let number = this.shadowRoot.getElementById('chart_plug_types_number');
+  number.innerHTML = this.plug_type_distribution[0][1];
+
+  new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: this.plug_types,
       datasets: [
         {
-          data: this.plug_type_distribution,
-          backgroundColor: this.plug_types.map(o => plugs_color_mapper[o])
+          data: percentages,
+          backgroundColor: this.plug_types.map(o => plugs_color_mapper[o]),
+          distrib: this.plug_type_distribution
         }
       ]
     },
@@ -93,10 +109,11 @@ export async function card2_painter() {
             return `${data.labels[tooltipItems[0].index]}`;
           },
           label: function(tooltipItems, data) {
-            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
+            return drawNumber(tooltipItems, data, number)
           }
         }
       },
+      hover: { mode: null },
       maintainAspectRatio: true,
       aspectRatio: 1,
       title: {
@@ -123,18 +140,22 @@ const access_color_mapper = {
 export async function card3_painter() {
   this.card3_loading_percentage = 0;
   await this.get_stations_access_distribution();
+  let percentages = this.station_access_distribution.map(o => o[2])
   this.card3_loading_percentage = 100;
 
-  let ctx_3 = this.shadowRoot.getElementById('chart_access_types').getContext('2d');
+  let ctx = this.shadowRoot.getElementById('chart_access_types').getContext('2d');
+  let number = this.shadowRoot.getElementById('chart_access_types_number');
+  number.innerHTML = this.station_access_distribution[0][1];
 
-  new Chart(ctx_3, {
+  new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: this.access_types.map(o => t['access_to_stations'][o] ? t['access_to_stations'][o][this.language].toUpperCase() : "UNKNOWN"),
       datasets: [
         {
-          data: this.station_access_distribution,
-          backgroundColor: this.access_types.map(o => access_color_mapper[o])
+          data: percentages,
+          backgroundColor: this.access_types.map(o => access_color_mapper[o]),
+          distrib: this.station_access_distribution
         }
       ]
     },
@@ -149,7 +170,7 @@ export async function card3_painter() {
             return `${data.labels[tooltipItems[0].index]}`;
           },
           label: function(tooltipItems, data) {
-            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
+            return drawNumber(tooltipItems, data, number)
           }
         }
       },
@@ -173,17 +194,22 @@ export async function card3_painter() {
 export async function card4_painter() {
   this.card4_loading_percentage = 0;
   await this.get_station_status_distribution();
+  let percentages = this.station_status_distribution.map(o => o[2])
   this.card4_loading_percentage = 100;
-  let ctx_4 = this.shadowRoot.getElementById('chart_outlet_states').getContext('2d');
 
-  new Chart(ctx_4, {
+  let ctx = this.shadowRoot.getElementById('chart_outlet_states').getContext('2d');
+  let number = this.shadowRoot.getElementById('chart_outlet_states_number');
+  number.innerHTML = this.station_status_distribution[0][1];
+
+  new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: this.state_labels.map(o => t['states'][o] ? t['states'][o][this.language].toUpperCase() : "UNKNOWN"),
       datasets: [
         {
-          data: this.plug_status_distribution,
-          backgroundColor: this.state_labels.map(o => state_color_mapper[o])
+          data: percentages,
+          backgroundColor: this.state_labels.map(o => state_color_mapper[o]),
+          distrib: this.plug_status_distribution
         }
       ]
     },
@@ -198,7 +224,7 @@ export async function card4_painter() {
             return `${data.labels[tooltipItems[0].index]}`;
           },
           label: function(tooltipItems, data) {
-            return `${parseInt(data.datasets[0].data[tooltipItems.index])}%`;
+            return drawNumber(tooltipItems, data, number)
           }
         }
       },
