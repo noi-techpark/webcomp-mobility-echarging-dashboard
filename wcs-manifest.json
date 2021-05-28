@@ -26,11 +26,15 @@
     }
   ],
   "image": "wcs-logo.png",
-  "searchTags": ["dashboard", "mobility"],
+  "searchTags": [
+    "dashboard",
+    "mobility"
+  ],
   "dist": {
     "basePath": "dist",
     "files": [
-      "dashboard_widget.min.js"
+      "dashboard_widget.min.js",
+      "dashboard_widget.min.js.LICENSE.txt"
     ],
     "scripts": [
       {
@@ -57,7 +61,11 @@
         "label": "Language",
         "required": false,
         "options": {
-          "values": ["en", "de", "it"],
+          "values": [
+            "en",
+            "de",
+            "it"
+          ],
           "default": "en"
         }
       }
