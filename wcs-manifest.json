@@ -31,6 +31,12 @@
     "basePath": "dist",
     "files": [
       "dashboard_widget.min.js"
+    ],
+    "scripts": [
+      {
+        "file": "dashboard_widget.min.js",
+        "parameter": ""
+      }
     ]
   },
   "configuration": {

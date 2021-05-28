@@ -1,17 +1,43 @@
-# webcomp-mobility-echarging-dashboard
+# Mobility E-Charging Dashboard
 
-This project contains the dashboard web component for the [Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
+[![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)
 
-[Green Mobility South Tyrol](https://www.greenmobility.bz.it/it/) wants to split the existing functionalities of the website into reusable and independent components. Using these webcomponents, a developer can easily integrate the functionality of the single components into any website.
-The data source for the components is the [Open Data Hub](https://opendatahub.bz.it/) project.
+This project contains the dashboard web component for the
+[Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
 
-## Table of contents
+[Green Mobility South Tyrol](https://www.greenmobility.bz.it/it/) wants to split
+the existing functionalities of the website into reusable and independent
+components. Using these webcomponents, a developer can easily integrate the
+functionality of the single components into any website. The data source for the
+components is the [Open Data Hub](https://opendatahub.bz.it/) project.
 
-- [Usage](#usage)
-- [Gettings started](#getting-started)
-- [Deployment](#deployment)
-- [Docker environment](#docker-environment)
-- [Information](#information)
+Dashboard to access the Open Data Hub E-Mobility information for South Tyrol,
+such as plug types, number of charging stations, accessibility of stations,
+operational states, and much more... Do you want to see it in action? Go to our
+[web component store](https://webcomponents.opendatahub.bz.it/webcomponent/f594de36-0136-4c27-a0e6-570fa7014129)!
+
+- [Mobility E-Charging Dashboard](#mobility-e-charging-dashboard)
+  - [Usage](#usage)
+    - [Options](#options)
+      - [Show only data from the capital Bolzano/Bozen](#show-only-data-from-the-capital-bolzanobozen)
+      - [Translations](#translations)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Source code](#source-code)
+    - [Dependencies](#dependencies)
+    - [Build](#build)
+  - [Deployment](#deployment)
+  - [Docker environment](#docker-environment)
+    - [Installation](#installation)
+    - [Dependenices](#dependenices)
+    - [Start and stop the containers](#start-and-stop-the-containers)
+    - [Running commands inside the container](#running-commands-inside-the-container)
+  - [Information](#information)
+    - [Support](#support)
+    - [Contributing](#contributing)
+    - [Documentation](#documentation)
+    - [Boilerplate](#boilerplate)
+    - [License](#license)
 
 ## Usage
 
@@ -144,7 +170,7 @@ docker-compose run --rm app /bin/bash -c "yarn run build"
 
 ### Support
 
-For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
 
 ### Contributing
 
