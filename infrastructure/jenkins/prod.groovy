@@ -38,14 +38,14 @@ pipeline {
 				stage("Dependencies") {
 					steps {
 						sh '''
-							yarn
+							yarn install
 						'''
 					}
 				}
 				stage("Build") {
 					steps {
 						sh '''
-							yarn build
+							yarn run build
 						'''
 					}
 				}

@@ -33,14 +33,14 @@ pipeline {
 				stage("Dependencies") {
 					steps {
 						sh '''
-							yarn
+							yarn install
 						'''
 					}
 				}
 				stage("Build") {
 					steps {
 						sh '''
-							yarn build
+							yarn run build
 						'''
 					}
 				}
@@ -53,7 +53,6 @@ pipeline {
 					steps {
 						sshagent (credentials: ['tomcatkey', 'jenkins_github_ssh_key']) {
 							sh '''
-								cp /webcompbuild/.env .env
 								WHEN=$(date "+%Y%m%dT%H%M")
 								WC_NAME=${GIT_URL##*/}
 								WC_NAME=${WC_NAME%.git}

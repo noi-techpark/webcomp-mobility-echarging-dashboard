@@ -14,12 +14,12 @@ pipeline {
 			stages {
 				stage('Dependencies') {
 					steps {
-						sh 'yarn'
+						sh 'yarn install'
 					}
 				}
 				stage('Build') {
 					steps {
-						sh 'yarn build'
+						sh 'yarn run build'
 					}
 				}
 			}
