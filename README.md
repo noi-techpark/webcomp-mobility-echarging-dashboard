@@ -1,6 +1,7 @@
 # Mobility E-Charging Dashboard
 
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)
+[![CI](https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard/actions/workflows/ci.yml)
 
 This project contains the dashboard web component for the
 [Green Mobility South Tyrol](https://www.greenmobility.bz.it/) project.
