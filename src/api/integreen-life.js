@@ -121,7 +121,7 @@ export async function get_station_status_distribution() {
 export async function get_plug_type_distribution() {
   const plugs_details = await request_plug_details({ bz: this.bz, outlets: true });
   const plug_types = await request_plug_types(this.bz);
-  this.plug_types = [...plug_types];
+
   const only_outlets = plugs_details.map(o => {
     return o["smetadata.outlets"];
   });
@@ -129,17 +129,32 @@ export async function get_plug_type_distribution() {
     return o.outletTypeCode;
   });
   const tot_outlets = only_outlets.flat().length;
-  const distribution_percentage = [];
-  plug_types.map(type => {
+  let distribution_percentage = [];
+  plug_types.forEach(type => {
     distribution_percentage.push(
       [
         count_by_type[type],
         tot_outlets,
-        make_percentage(count_by_type[type], tot_outlets)
+        make_percentage(count_by_type[type], tot_outlets),
+        type
       ]
     );
-    return false;
   });
+
+  // clezag 02.2023 https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard/issues/58
+  distribution_percentage = distribution_percentage
+    .filter(e => e[0] > 0) // exclude unused plugs
+    .map(e => e[3] === '700 bar small vehicles' ? [...e.slice(0,3),'H2-Station: 700 bar small vehicles'] : e) // change specific description
+    .sort(([cnt1, tot, prc, type], [cnt2, tot2, prc2, type2]) => { // Sort by count descending, OTHERS always last
+      if (type === 'OTHER')
+        return 1;
+      if (type2 === 'OTHER')
+        return -1;
+      else
+        return cnt2 - cnt1
+    });
+
+  this.plug_types = distribution_percentage.map(e => e[3]);
   this.plug_type_distribution = distribution_percentage;
   this.number_of_plugs = tot_outlets;
 }

@@ -23,6 +23,7 @@ export const card_renderer = props => {
                 id="${o.replace(/\s/g, '')}"
                 class="plug_list_names__name c${o
                   .replace('-', '_')
+                  .replace(':', '_')
                   .toLowerCase()
                   .replace(/\s/g, '')}"
               >

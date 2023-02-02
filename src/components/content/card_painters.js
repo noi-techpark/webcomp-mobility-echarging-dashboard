@@ -68,7 +68,7 @@ export async function card1_painter() {
 
 
 const plugs_color_mapper = {
-  '700 bar small vehicles': 'green',
+  'H2-Station: 700 bar small vehicles': 'green',
   Type2Mennekes: '#4285F4',
   CCS: 'purple',
   UNKNOWN: 'red',
