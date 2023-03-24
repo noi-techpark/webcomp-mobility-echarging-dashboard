@@ -55,8 +55,8 @@ export async function get_station_status_distribution() {
   let last_pcode = "";
   let curr_is_used = false;
   let unknown = 0;
-  for (let key in station_states_sorted) {
 
+  for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
     let curr_outlet_count = rec["smetadata.outlets"].length;
 
@@ -76,7 +76,7 @@ export async function get_station_status_distribution() {
       if (rec["pcode"] != last_pcode) {
         not_operational++;
       }
-    } else if (OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
+    } else if (OPERATIONAL_STATES.includes(rec["pmetadata.state"]) && Boolean(rec["mvalue"])) {
       if (curr_is_used) {
         outlets_used += curr_outlet_count;
         if (rec["pcode"] != last_pcode) {
