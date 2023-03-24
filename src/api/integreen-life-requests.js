@@ -73,7 +73,7 @@ export async function request_station_states(bz) {
   // since the measurement API does not return stations without measurement, we have to do two calls
   const plugs_status = await request_plug_status(bz);
   const plugs = await request_plugs(bz)
-  const plugs_with_status = plugs.map(p => ({...p, mvalue: plugs_status[p.pcode]}));
+  const plugs_with_status = plugs.map(p => ({...p, mvalue: plugs_status[p.scode]}));
   return plugs_with_status;
 }
 
@@ -81,13 +81,13 @@ async function request_plug_status(bz) {
   try {
     const url = fetch_url(
       "flat/EChargingPlug/echarging-plug-status/latest", 
-      "pcode,mvalue", 
+      "scode,mvalue", 
       "sactive.eq.true,pactive.eq.true", 
       bz
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-    const status_by_plug = Object.fromEntries(response.data.map(e => [e.pcode, e.mvalue]));
+    const status_by_plug = Object.fromEntries(response.data.map(e => [e.scode, e.mvalue]));
     return status_by_plug;
   } catch (e) {
     console.log(e);
@@ -99,7 +99,7 @@ async function request_plugs(bz) {
   try {
     const url = fetch_url(
       "flat/EChargingPlug", 
-      "pcode,pmetadata.state,smetadata.outlets", 
+      "pcode,scode,pmetadata.state,smetadata.outlets", 
       "sactive.eq.true,pactive.eq.true", 
       bz
     );

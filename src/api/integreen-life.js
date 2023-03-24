@@ -71,12 +71,15 @@ export async function get_station_status_distribution() {
     if (rec["pcode"] != last_pcode) {
       total++;
     }
+
+    const is_state_known = rec["mvalue"] >= 0;
+
     if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
       outlets_not_operational += curr_outlet_count;
       if (rec["pcode"] != last_pcode) {
         not_operational++;
       }
-    } else if (OPERATIONAL_STATES.includes(rec["pmetadata.state"]) && Boolean(rec["mvalue"])) {
+    } else if (OPERATIONAL_STATES.includes(rec["pmetadata.state"]) && is_state_known) {
       if (curr_is_used) {
         outlets_used += curr_outlet_count;
         if (rec["pcode"] != last_pcode) {
