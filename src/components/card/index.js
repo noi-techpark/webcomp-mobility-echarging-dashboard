@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 NOI Techpark <digital@noi.bz.it>
+// SPDX-FileCopyrightText: 2021 STA <info@sta.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { html } from 'lit-element';
 import loader_img from '../../img/loader@2x.png';
 import reload_img from '../../img/reload@2x.png';

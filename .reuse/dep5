@@ -1,15 +1,15 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: webcomp-mobility-echarging-dashboard
-Upstream-Contact: Peter Moser <p.moser@noi.bz.it>
+Upstream-Contact: NOI Techpark <digital@noi.bz.it>
 Source: https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard
 
 Files: src/* work/* dist/*.js odh-*.js
-Copyright: (c) 2020-2021 NOI Techpark <info@noi.bz.it>
+Copyright: (c) 2020-2021 NOI Techpark <digital@noi.bz.it>
            (c) 2020-2021 STA <info@sta.bz.it>
 License: AGPL-3.0-or-later
 
 Files: *.md *.txt .env* .eslintrc.js .mailmap screenshots/* *.rst *.json *.yml 
        .prettierrc infrastructure/* .editorconfig .gitignore yarn.lock webpack.* wcs-logo.png
-Copyright: (c) 2020-2021 NOI Techpark <info@noi.bz.it>
+Copyright: (c) 2020-2021 NOI Techpark <digital@noi.bz.it>
            (c) 2020-2021 STA <info@sta.bz.it>
 License: CC0-1.0

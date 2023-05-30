@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2021 NOI Techpark <digital@noi.bz.it>
+SPDX-FileCopyrightText: 2021 STA <info@sta.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # Mobility E-Charging Dashboard
 
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)

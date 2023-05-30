@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 NOI Techpark <digital@noi.bz.it>
+// SPDX-FileCopyrightText: 2021 STA <info@sta.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 const NINJA_BASE_PATH = 'https://mobility.api.opendatahub.bz.it/v2';
 const BZ_ONLY_FILTER = 'scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)';
 const DEFAULT_PARAMS = 'distinct=true&shownull=false&offset=0&limit=-1&origin=webcomp-mobility-echarging-dashboard';
