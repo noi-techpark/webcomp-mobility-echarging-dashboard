@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: CC0-1.0
 
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
@@ -46,5 +47,8 @@ module.exports = {
     open: true,
     openPage: "",
     overlay: true,
-  }
+  },
+  plugins: [
+    new Dotenv()
+  ]
 };

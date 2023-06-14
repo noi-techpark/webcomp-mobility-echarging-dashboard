@@ -3,7 +3,7 @@ Upstream-Name: webcomp-mobility-echarging-dashboard
 Upstream-Contact: NOI Techpark <digital@noi.bz.it>
 Source: https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard
 
-Files: .github/* infrastructure/* .gitignore .pre-commit-config.yaml LICENSE.md .editorconfig .mailmap .prettierrc CONTRIBUTORS.rst *.png *.json *.ttf
+Files: .github/* infrastructure/* .gitignore .env.example .pre-commit-config.yaml LICENSE.md .editorconfig .mailmap .prettierrc CONTRIBUTORS.rst *.png *.json *.ttf
 Copyright: (c) NOI Techpark <digital@noi.bz.it>
            (c) 2020 - 2021 STA <info@sta.bz.it>
 License: CC0-1.0
