@@ -5,7 +5,7 @@ SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
 SPDX-License-Identifier: CC0-1.0
 -->
 
-# Mobility E-Charging Dashboard
+# Mobility E-Charging Dashboard 
 
 [![REUSE Compliance](https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard/actions/workflows/reuse.yml/badge.svg)](https://github.com/noi-techpark/odh-docs/wiki/REUSE#badges)
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-mobility-echarging-dashboard)
