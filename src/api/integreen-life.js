@@ -63,12 +63,11 @@ export async function get_station_status_distribution() {
 
   for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
-    let curr_outlet_count = rec["smetadata.outlets"].length;
+    let curr_outlet_count = (rec["smetadata.outlets"] || rec["smetadata.connectors"] || []).length;
 
     total_plugs++;
     outlets_total += curr_outlet_count;
 
-    // mvalue == 0, means that it is in use (it is the free value count)
     if (rec["mvalue"] == 0) {
       curr_is_used = true;
     }
@@ -106,11 +105,6 @@ export async function get_station_status_distribution() {
     last_pcode = rec["pcode"];
   }
 
-  // console.log(`total = ${total}; used = ${used}; not used = ${not_used}; not op = ${not_operational} ==> diff = ${total-used-not_used-not_operational}`)
-  // console.log(`outlets_total = ${outlets_total}; used = ${outlets_used}; not used = ${outlets_not_used}; not op = ${outlets_not_operational} ==> diff = ${outlets_total-outlets_used-outlets_not_used-outlets_not_operational}`)
-  // console.log("total_plugs = " + total_plugs)
-
-  /* See src/index.js for ordering of elements inside this distribution */
   this.station_status_distribution = [
     [used, total, make_percentage(used, total)],
     [not_used, total, make_percentage(not_used, total)],
@@ -127,14 +121,14 @@ export async function get_station_status_distribution() {
 }
 
 export async function get_plug_type_distribution() {
-  const plugs_details = await request_plug_details({ bz: this.bz, outlets: true });
-  const plug_types = await request_plug_types(this.bz);
+  const plugs_details = await request_plug_details({ bz: this.bz, outlets: true }) || [];
+  const plug_types = (await request_plug_types(this.bz)) || [];
 
   const only_outlets = plugs_details.map(o => {
-    return o["smetadata.outlets"];
+    return o["smetadata.outlets"] || o["smetadata.connectors"] || [];
   });
   const count_by_type = countBy(only_outlets.flat(), o => {
-    return o.outletTypeCode;
+    return o.outletTypeCode || o.standard;
   });
   const tot_outlets = only_outlets.flat().length;
   let distribution_percentage = [];
@@ -149,11 +143,10 @@ export async function get_plug_type_distribution() {
     );
   });
 
-  // clezag 02.2023 https://github.com/noi-techpark/webcomp-mobility-echarging-dashboard/issues/58
   distribution_percentage = distribution_percentage
-    .filter(e => e[0] > 0) // exclude unused plugs
-    .map(e => e[3] === '700 bar small vehicles' ? [...e.slice(0,3),'H2-Station: 700 bar small vehicles'] : e) // change specific description
-    .sort(([cnt1, tot, prc, type], [cnt2, tot2, prc2, type2]) => { // Sort by count descending, OTHERS always last
+    .filter(e => e[0] > 0)
+    .map(e => e[3] === '700 bar small vehicles' ? [...e.slice(0,3),'H2-Station: 700 bar small vehicles'] : e)
+    .sort(([cnt1, tot, prc, type], [cnt2, tot2, prc2, type2]) => {
       if (type === 'OTHER')
         return 1;
       if (type2 === 'OTHER')

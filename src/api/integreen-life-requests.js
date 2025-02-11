@@ -38,14 +38,16 @@ export async function request_plug_details({ bz, outlets }) {
   try {
     const url = fetch_url(
       "flat/EChargingStation,EChargingPlug", 
-      "scode,smetadata.outlets", 
+      "scode,smetadata.outlets,smetadata.connectors", // Request both fields
       "sactive.eq.true,pactive.eq.true", 
       bz
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
     if (outlets) {
-      return response.data.filter(o => Boolean(o["smetadata.outlets"]));
+      return response.data.filter(o => 
+        Boolean(o["smetadata.outlets"]) || Boolean(o["smetadata.connectors"])
+      );
     }
     return response.data;
   } catch (e) {
@@ -54,24 +56,46 @@ export async function request_plug_details({ bz, outlets }) {
   }
 }
 
+
 /* Plug types */
 export async function request_plug_types(bz) {
   try {
+    // Function to normalize connector/outlet type
+    function normalizePlugType(item) {
+      if (item["smetadata.outlets"]) {
+        return item["smetadata.outlets.0.outletTypeCode"];
+      }
+      if (item["smetadata.connectors"]) {
+        return item["smetadata.connectors.0.standard"];
+      }
+      return null;
+    }
+
+    // Request both fields
     const url = fetch_url(
       "flat/EChargingPlug", 
-      "smetadata.outlets.0.outletTypeCode", 
-      "sactive.eq.true,smetadata.outlets.0.outletTypeCode.neq.UNKNOWN",
+      "smetadata.outlets.0.outletTypeCode,smetadata.connectors.0.standard", 
+      "sactive.eq.true", 
       bz
     );
+
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-    const response_array = Array.from(new Set(response.data.map(o => o["smetadata.outlets.0.outletTypeCode"])));
+
+    // Filter out nulls and create unique array
+    const response_array = Array.from(new Set(
+      response.data
+        .map(normalizePlugType)
+        .filter(type => type && type !== 'UNKNOWN')
+    ));
+
     return response_array;
   } catch (e) {
     console.log(e);
     return undefined;
   }
 }
+
 
 export async function request_station_states(bz) {
   // not all stations have status measurements.
@@ -104,13 +128,22 @@ async function request_plugs(bz) {
   try {
     const url = fetch_url(
       "flat/EChargingPlug", 
-      "pcode,scode,pmetadata.state,smetadata.outlets", 
+      "pcode,scode,pmetadata.state,smetadata.outlets,smetadata.connectors", // Request both fields
       "sactive.eq.true,pactive.eq.true", 
       bz
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-    return response.data;
+
+    // Normalize the data to handle both structures
+    const normalizedData = response.data.map(item => ({
+      pcode: item.pcode,
+      scode: item.scode,
+      state: item.pmetadata?.state,
+      plugDetails: item.smetadata?.outlets || item.smetadata?.connectors || []
+    }));
+
+    return normalizedData;
   } catch (e) {
     console.log(e);
     return undefined;

@@ -1,0 +1,28 @@
+@host={{$dotenv NINJA_BASE_PATH}}
+
+###
+GET {{host}}/flat/EChargingStation
+
+###
+GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
+?select=scode,mvalue&where=sactive.eq.true,pactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)
+&offset=0
+&limit=-1
+
+
+###
+GET {{host}}/flat/EChargingStation?where=sorigin.eq.ALPERIA&limit=1
+###
+GET {{host}}/flat/EChargingPlug?where=sorigin.eq.Neogy&limit=5
+
+ALPERIA
+DRIWE
+DRIWE-OCPI
+IIT
+Neogy
+Nevicam
+route220
+
+###
+
+GET {{host}}/flat/EChargingPlug?where=sorigin.eq.ALPERIA&limit=5
