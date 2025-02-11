@@ -38,7 +38,7 @@ export async function request_plug_details({ bz, outlets }) {
   try {
     const url = fetch_url(
       "flat/EChargingStation,EChargingPlug", 
-      "scode,smetadata.outlets,smetadata.connectors", // Request both fields
+      "scode,smetadata.outlets,smetadata.connectors", 
       "sactive.eq.true,pactive.eq.true", 
       bz
     );
@@ -62,10 +62,10 @@ export async function request_plug_types(bz) {
   try {
     // Function to normalize connector/outlet type
     function normalizePlugType(item) {
-      if (item["smetadata.outlets"]) {
+      if (item["smetadata.outlets.0.outletTypeCode"]) {
         return item["smetadata.outlets.0.outletTypeCode"];
       }
-      if (item["smetadata.connectors"]) {
+      if (item["smetadata.connectors.0.standard"]) {
         return item["smetadata.connectors.0.standard"];
       }
       return null;
@@ -81,6 +81,7 @@ export async function request_plug_types(bz) {
 
     const request = await fetch(url, fetch_options);
     const response = await request.json();
+    console.log(response.data)
 
     // Filter out nulls and create unique array
     const response_array = Array.from(new Set(

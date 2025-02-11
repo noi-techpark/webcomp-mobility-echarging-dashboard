@@ -123,9 +123,10 @@ export async function get_station_status_distribution() {
 export async function get_plug_type_distribution() {
   const plugs_details = await request_plug_details({ bz: this.bz, outlets: true }) || [];
   const plug_types = (await request_plug_types(this.bz)) || [];
+  console.log("a",plug_types)
 
   const only_outlets = plugs_details.map(o => {
-    return o["smetadata.outlets"] || o["smetadata.connectors"] || [];
+    return (o["smetadata.outlets"] ?? o["smetadata.connectors"]) ?? [];
   });
   const count_by_type = countBy(only_outlets.flat(), o => {
     return o.outletTypeCode || o.standard;
@@ -168,6 +169,8 @@ export async function get_stations_access_distribution() {
   const only_accessType = stations_details.map(o => {
     return o["smetadata.accessType"];
   });
+  console.log(stations_details)
+  console.log(only_accessType)
   const count_by_type = countBy(only_accessType);
 
   const access_types = only_accessType.filter((v, i, a) => a.indexOf(v) === i);
@@ -184,6 +187,7 @@ export async function get_stations_access_distribution() {
   });
 
   this.access_types = access_types;
+  console.log(access_types)
   this.station_access_distribution = distribution_percentage;
   this.number_of_stations = tot_stations;
 }

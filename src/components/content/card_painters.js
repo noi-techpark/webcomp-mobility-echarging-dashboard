@@ -87,6 +87,7 @@ const plugs_color_mapper = {
 export async function card2_painter() {
   this.card2_loading_percentage = 0;
   await this.get_plug_type_distribution();
+  console.log(this.plug_type_distribution)
   let percentages = this.plug_type_distribution.map(o => o[2])
   this.card2_loading_percentage = 100;
 
