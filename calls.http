@@ -1,13 +1,16 @@
+#  SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#  SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 @host={{$dotenv NINJA_BASE_PATH}}
 
 ###
 GET {{host}}/flat/EChargingStation
 
 ###
-GET {{host}}/flat/EChargingPlug/echarging-plug-status/latest
-?select=scode,mvalue&where=sactive.eq.true,pactive.eq.true,scoordinate.bbi.(10.380587,46.219386,12.479683,47.097544)
-&offset=0
-&limit=-1
+GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets,smetadata.connectors&where=sactive.eq.true,pactive.eq.true&distinct=true&shownull=false&offset=0&limit=-1&origin=webcomp-mobility-echarging-dashboard
+
 
 
 ###
