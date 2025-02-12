@@ -14,7 +14,7 @@ GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets,
 
 
 ###
-GET {{host}}/flat/EChargingStation?where=sorigin.eq.ALPERIA&limit=1
+GET {{host}}/flat/EChargingStation?where=sorigin.eq.ALPERIA,sactive.eq.true
 ###
 GET {{host}}/flat/EChargingPlug?where=sorigin.eq.Neogy&limit=5
 
@@ -29,3 +29,7 @@ route220
 ###
 
 GET {{host}}/flat/EChargingPlug?where=sorigin.eq.ALPERIA&limit=5
+
+###
+
+GET {{host}}/flat/EChargingStation?select=scode,smetadata.state,smetadata.accessType&where=sactive.eq.true
