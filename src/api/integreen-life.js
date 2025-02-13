@@ -166,8 +166,9 @@ export async function get_stations_access_distribution() {
   const stations_details = await request_station_active_details(this.bz);
   const tot_stations = stations_details.length;
 
+  //possible fix: if accessType is not present, set it to PUBLIC... TBD
   const only_accessType = stations_details.map(o => {
-    return o["smetadata.accessType"];
+    return o["smetadata.accessType"] || "PUBLIC";
   });
   console.log(stations_details)
   console.log(only_accessType)
