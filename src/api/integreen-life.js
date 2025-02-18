@@ -28,7 +28,7 @@ const OPERATIONAL_STATES = [
 const NOT_OPERATIONAL_STATES = [
   "TEMPORARYUNAVAILABLE",
   "FAULT",
-  "UNKNOWN" // Explicitly handle
+  "UNKNOWN" 
 ];
 
 const UNKNOWN_STATES = ["UNKNOWN"]; 
@@ -101,7 +101,10 @@ export async function get_station_status_distribution() {
 
     const is_state_known = rec["mvalue"] >= 0;
 
-    if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
+    if (rec["pmetadata.state"] === "UNKNOWN") { // Handle unknowns first
+      outlets_unknown += curr_outlet_count;
+      if (rec["pcode"] != last_pcode) unknown++;
+    } else if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
       outlets_not_operational += curr_outlet_count;
       if (rec["pcode"] != last_pcode) {
         not_operational++;
@@ -111,11 +114,8 @@ export async function get_station_status_distribution() {
         outlets_used += curr_outlet_count;
         if (rec["pcode"] != last_pcode) {
           used++;
-        }
-      }
-      } else if (UNKNOWN_STATES.includes(rec["pmetadata.state"])) {
-        outlets_unknown += curr_outlet_count;
-        if (rec["pcode"] != last_pcode) unknown++;
+        }    
+       }
       } else {
         console.warn("Unhandled state:", rec["pmetadata.state"]);
         outlets_unknown += curr_outlet_count; // Optional safety net
