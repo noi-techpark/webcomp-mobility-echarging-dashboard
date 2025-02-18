@@ -91,7 +91,7 @@ export async function get_station_status_distribution() {
 
     outlets_total += curr_outlet_count;
 
-    if (rec["mvalue"] == 1) {
+    if (rec["mvalue"] == 0) {
       curr_is_used = true;
     }
 
@@ -101,7 +101,7 @@ export async function get_station_status_distribution() {
 
     const is_state_known = rec["mvalue"] >= 0;
 
-    if (rec["pmetadata.state"] === "UNKNOWN") { // Handle unknowns first
+    if (rec["pmetadata.state"] === "UNKNOWN") { 
       outlets_unknown += curr_outlet_count;
       if (rec["pcode"] != last_pcode) unknown++;
     } else if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
@@ -118,12 +118,12 @@ export async function get_station_status_distribution() {
        }
       } else {
         console.warn("Unhandled state:", rec["pmetadata.state"]);
-        outlets_unknown += curr_outlet_count; // Optional safety net
+        outlets_unknown += curr_outlet_count; 
       }
     //console.log("Current outlet count:", curr_outlet_count, "for scode:", rec.scode)
   }
 
-  console.log("===== FINAL COUNTS ====="); // <-- ADD THIS
+  console.log("===== FINAL COUNTS ====="); 
   console.log("Total outlets:", outlets_total);
   console.log("Used:", outlets_used);
   console.log("Not used:", outlets_not_used);
