@@ -103,7 +103,13 @@ export async function request_station_states(bz) {
   // since the measurement API does not return stations without measurement, we have to do two calls
   const plugs_status = await request_plug_status(bz);
   const plugs = await request_plugs(bz)
-  const plugs_with_status = plugs.map(p => ({...p, mvalue: plugs_status[p.scode]}));
+  const plugs_with_status = plugs.map(p => ({
+    ...p,
+    mvalue: plugs_status[p.scode],
+    // Explicitly carry critical fields
+    "smetadata.outlets": p["smetadata.outlets"],
+    "pmetadata.state": p["pmetadata.state"]
+  }));
   return plugs_with_status;
 }
 
@@ -136,12 +142,11 @@ async function request_plugs(bz) {
     const request = await fetch(url, fetch_options);
     const response = await request.json();
 
-    // Normalize the data to handle both structures
     const normalizedData = response.data.map(item => ({
-      pcode: item.pcode,
-      scode: item.scode,
-      state: item.pmetadata?.state,
-      plugDetails: item.smetadata?.outlets || item.smetadata?.connectors || []
+      ...item,  // Keep original structure
+      "pmetadata.state": item.pmetadata?.state || item["pmetadata.state"],
+      "smetadata.outlets": item.smetadata?.outlets || item["smetadata.outlets"],
+      "smetadata.connectors": item.smetadata?.connectors || item["smetadata.connectors"]
     }));
 
     return normalizedData;

@@ -18,16 +18,20 @@ import {
   make_percentage
 } from './utils';
 
+const OPERATIONAL_STATES = [
+  "ACTIVE", 
+  "AVAILABLE", 
+  "OCCUPIED",
+  "UNAVAILABLE" 
+];
+
 const NOT_OPERATIONAL_STATES = [
   "TEMPORARYUNAVAILABLE",
   "FAULT",
-]
+  "UNKNOWN" // Explicitly handle
+];
 
-const OPERATIONAL_STATES = [
-  "ACTIVE",
-  "AVAILABLE",
-  "OCCUPIED"
-]
+const UNKNOWN_STATES = ["UNKNOWN"]; 
 
 export async function get_station_status_distribution() {
   const station_states = await request_station_states(this.bz);
@@ -47,6 +51,11 @@ export async function get_station_status_distribution() {
     );
   });
 
+  console.log("Sorted station states (raw):", 
+  JSON.stringify(station_states_sorted.slice(0, 5), null, 2)); // First 5 entries
+  console.log("Total stations:", station_states_sorted.length);
+
+
   let outlets_total = 0;
   let outlets_used = 0;
   let outlets_not_used = 0;
@@ -61,14 +70,28 @@ export async function get_station_status_distribution() {
   let curr_is_used = false;
   let unknown = 0;
 
+  console.log("===== BEGIN PROCESSING ====="); // <-- ADD THIS
+
   for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
+
+    // DEBUG: Log raw outlet data
+    console.log(`REC ${key}:`, {
+      outlets: rec["smetadata.outlets"]?.length,
+      connectors: rec["smetadata.connectors"]?.length,
+      mvalue: rec.mvalue,
+      state: rec["pmetadata.state"]
+    });
+
     let curr_outlet_count = (rec["smetadata.outlets"] || rec["smetadata.connectors"] || []).length;
 
-    total_plugs++;
+    // DEBUG: Log count calculation
+    console.log(`  ${rec.scode} outlets:`, curr_outlet_count, 
+      `(from ${rec["smetadata.outlets"] ? 'outlets' : 'connectors'})`);
+
     outlets_total += curr_outlet_count;
 
-    if (rec["mvalue"] == 0) {
+    if (rec["mvalue"] == 1) {
       curr_is_used = true;
     }
 
@@ -89,21 +112,24 @@ export async function get_station_status_distribution() {
         if (rec["pcode"] != last_pcode) {
           used++;
         }
+      }
+      } else if (UNKNOWN_STATES.includes(rec["pmetadata.state"])) {
+        outlets_unknown += curr_outlet_count;
+        if (rec["pcode"] != last_pcode) unknown++;
       } else {
-        outlets_not_used += curr_outlet_count;
-        if (rec["pcode"] != last_pcode) {
-          not_used++;
-        }
+        console.warn("Unhandled state:", rec["pmetadata.state"]);
+        outlets_unknown += curr_outlet_count; // Optional safety net
       }
-    } else {
-      outlets_unknown += curr_outlet_count;
-      if (rec["pcode"] != last_pcode) {
-        unknown++;
-      }
-    }
-    curr_is_used = false;
-    last_pcode = rec["pcode"];
+    //console.log("Current outlet count:", curr_outlet_count, "for scode:", rec.scode)
   }
+
+  console.log("===== FINAL COUNTS ====="); // <-- ADD THIS
+  console.log("Total outlets:", outlets_total);
+  console.log("Used:", outlets_used);
+  console.log("Not used:", outlets_not_used);
+  console.log("Not operational:", outlets_not_operational);
+  console.log("Unknown:", outlets_unknown);
+  
 
   this.station_status_distribution = [
     [used, total, make_percentage(used, total)],

@@ -9,8 +9,10 @@ import { t } from '../../translations';
 const state_color_mapper = {
   NOT_OPERATIONAL: '#e6040e',
   OPERATIONAL_IN_USE: '#97be0e',
-  OPERATIONAL_NOT_IN_USE: '#4285f4'
-}
+  OPERATIONAL_NOT_IN_USE: '#4285f4',
+  UNKNOWN: '#cccccc' 
+};
+
 
 function drawNumber(tooltipItems, data, number) {
   let activeItem = data.datasets[0].distrib[tooltipItems.index]
