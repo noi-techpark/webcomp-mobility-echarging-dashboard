@@ -37,7 +37,7 @@ export async function request_station_active_details(bz) {
 export async function request_plug_details({ bz, outlets }) {
   try {
     const url = fetch_url(
-      "flat/EChargingStation,EChargingPlug", 
+      "flat/EChargingStation,EChargingPlug", //what's the point of having EChargingStation here?
       "scode,smetadata.outlets,smetadata.connectors", 
       "sactive.eq.true,pactive.eq.true", 
       bz
@@ -75,7 +75,7 @@ export async function request_plug_types(bz) {
       "flat/EChargingPlug", 
       "smetadata.outlets.0.outletTypeCode,smetadata.connectors.0.standard", 
       "sactive.eq.true", 
-      bz
+      bz 
     );
 
     const request = await fetch(url, fetch_options);
@@ -104,8 +104,6 @@ export async function request_station_states(bz) {
   const plugs_with_status = plugs.map(p => ({
     ...p,
     mvalue: plugs_status[p.scode],
-    "smetadata.outlets": p["smetadata.outlets"],
-    "pmetadata.state": p["pmetadata.state"]
   }));
   return plugs_with_status;
 }
@@ -138,15 +136,7 @@ async function request_plugs(bz) {
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-
-    const normalizedData = response.data.map(item => ({
-      ...item,  
-      "pmetadata.state": item.pmetadata?.state || item["pmetadata.state"],
-      "smetadata.outlets": item.smetadata?.outlets || item["smetadata.outlets"],
-      "smetadata.connectors": item.smetadata?.connectors || item["smetadata.connectors"]
-    }));
-
-    return normalizedData;
+    return response.data
   } catch (e) {
     console.log(e);
     return undefined;
