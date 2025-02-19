@@ -31,8 +31,6 @@ const NOT_OPERATIONAL_STATES = [
   "UNKNOWN" 
 ];
 
-const UNKNOWN_STATES = ["UNKNOWN"]; 
-
 export async function get_station_status_distribution() {
   const station_states = await request_station_states(this.bz);
   const station_states_sorted = station_states.sort((a, b) => {
@@ -52,7 +50,7 @@ export async function get_station_status_distribution() {
   });
 
   console.log("Sorted station states (raw):", 
-  JSON.stringify(station_states_sorted.slice(0, 5), null, 2)); // First 5 entries
+  JSON.stringify(station_states_sorted.slice(0, 5), null, 2)); 
   console.log("Total stations:", station_states_sorted.length);
 
 
@@ -70,7 +68,7 @@ export async function get_station_status_distribution() {
   let curr_is_used = false;
   let unknown = 0;
 
-  console.log("===== BEGIN PROCESSING ====="); // <-- ADD THIS
+  console.log("===== BEGIN PROCESSING ====="); 
 
   for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
@@ -192,9 +190,9 @@ export async function get_stations_access_distribution() {
   const stations_details = await request_station_active_details(this.bz);
   const tot_stations = stations_details.length;
 
-  //possible fix: if accessType is not present, set it to PUBLIC... TBD
+  //possible fix: if accessType is not present, set it to UNKNOWN... TBD
   const only_accessType = stations_details.map(o => {
-    return o["smetadata.accessType"] || "PUBLIC";
+    return o["smetadata.accessType"] || "UNKNOWN";
   });
   console.log(stations_details)
   console.log(only_accessType)

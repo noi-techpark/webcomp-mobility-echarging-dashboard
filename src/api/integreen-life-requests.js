@@ -60,7 +60,6 @@ export async function request_plug_details({ bz, outlets }) {
 /* Plug types */
 export async function request_plug_types(bz) {
   try {
-    // Function to normalize connector/outlet type
     function normalizePlugType(item) {
       if (item["smetadata.outlets.0.outletTypeCode"]) {
         return item["smetadata.outlets.0.outletTypeCode"];
@@ -83,7 +82,6 @@ export async function request_plug_types(bz) {
     const response = await request.json();
     console.log(response.data)
 
-    // Filter out nulls and create unique array
     const response_array = Array.from(new Set(
       response.data
         .map(normalizePlugType)
@@ -106,7 +104,6 @@ export async function request_station_states(bz) {
   const plugs_with_status = plugs.map(p => ({
     ...p,
     mvalue: plugs_status[p.scode],
-    // Explicitly carry critical fields
     "smetadata.outlets": p["smetadata.outlets"],
     "pmetadata.state": p["pmetadata.state"]
   }));
@@ -143,7 +140,7 @@ async function request_plugs(bz) {
     const response = await request.json();
 
     const normalizedData = response.data.map(item => ({
-      ...item,  // Keep original structure
+      ...item,  
       "pmetadata.state": item.pmetadata?.state || item["pmetadata.state"],
       "smetadata.outlets": item.smetadata?.outlets || item["smetadata.outlets"],
       "smetadata.connectors": item.smetadata?.connectors || item["smetadata.connectors"]
