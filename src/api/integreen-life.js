@@ -27,7 +27,6 @@ const OPERATIONAL_STATES = [
 const NOT_OPERATIONAL_STATES = [
   "TEMPORARYUNAVAILABLE",
   "FAULT",
-  "UNKNOWN" ,
   "UNAVAILABLE"
 ];
 
@@ -55,6 +54,7 @@ export async function get_station_status_distribution() {
 
 
   let outlets_total = 0;
+  let connectors_total = 0;
   let outlets_used = 0;
   let outlets_not_used = 0;
   let outlets_not_operational = 0;
@@ -83,12 +83,10 @@ export async function get_station_status_distribution() {
     });
 
     let curr_outlet_count = (rec["smetadata.outlets"] || rec["smetadata.connectors"] || []).length;
-
-    // DEBUG: Log count calculation
-    console.log(`  ${rec.scode} outlets:`, curr_outlet_count, 
-      `(from ${rec["smetadata.outlets"] ? 'outlets' : 'connectors'})`);
-
     outlets_total += curr_outlet_count;
+    if(rec["smetadata.connectors"]?.length){ 
+      connectors_total += curr_outlet_count;
+    }
 
     //shouldn't be 1 the value for a used station?
     if (rec["mvalue"] == 0) {
@@ -120,17 +118,28 @@ export async function get_station_status_distribution() {
        }
       } else {
         outlets_unknown += curr_outlet_count; 
+        if (rec["pcode"] != last_pcode){ 
+          unknown++;
+        }
       }
       last_pcode = rec["pcode"];
   }
 
-  console.log("===== FINAL COUNTS ====="); 
+  console.log("===== FINAL COUNTS FOR PLUGS====="); 
   console.log("Total outlets:", outlets_total);
-  console.log("Used:", outlets_used);
-  console.log("Not used:", outlets_not_used);
-  console.log("Not operational:", outlets_not_operational);
-  console.log("Unknown:", outlets_unknown);
+  console.log("Total connectors:", connectors_total);
+  console.log("Plugs Used:", outlets_used);
+  console.log("Plugs Not used:", outlets_not_used);
+  console.log("Plugs Not operational:", outlets_not_operational);
+  console.log("Plugs Unknown:", outlets_unknown);
   
+  console.log("===== FINAL COUNTS FOR STATIONS=====");
+  console.log("Total stations:", total);
+  console.log("Stations Used:", used);
+  console.log("Stations Not used:", not_used);
+  console.log("Stations Not operational:", not_operational);
+  console.log("Stations Unknown:", unknown);
+
   this.station_status_distribution = [
     [used, total, make_percentage(used, total)],
     [not_used, total, make_percentage(not_used, total)],
