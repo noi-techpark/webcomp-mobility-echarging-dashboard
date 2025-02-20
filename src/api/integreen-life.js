@@ -200,13 +200,37 @@ export async function get_stations_access_distribution() {
   const distribution_percentage = [];
   const stations_details = await request_station_active_details(this.bz);
   const tot_stations = stations_details.length;
-
+  
+  console.log("===== ACCESS STATION LOGGING=====")
+  console.log("Total stations:", tot_stations);
+  
   //possible fix: if accessType is not present, set it to UNKNOWN... TBD
+  let unknownCount = 0;
+  let publicCount = 0;
+  let privateCount = 0;
+  let privateWithPublicAccessCount = 0;
   const only_accessType = stations_details.map(o => {
-    return o["smetadata.accessType"] || "UNKNOWN";
+    const accessType = o["smetadata.accessType"] || "UNKNOWN";
+    if (accessType === "UNKNOWN") {
+      unknownCount++;
+    }
+    if (accessType === "PUBLIC") {
+      publicCount++;
+    }
+    if (accessType === "PRIVATE") {
+      privateCount++;
+    }
+    if (accessType === "PRIVATE_WITHPUBLICACCESS") {
+      privateWithPublicAccessCount++;
+    }
+    return accessType;
   });
-  console.log(stations_details)
-  console.log(only_accessType)
+  console.log("Number of stations with UNKNOWN access type:", unknownCount);
+  console.log("Number of stations with PUBLIC access type:", publicCount);
+  console.log("Number of stations with PRIVATE access type:", privateCount);
+  console.log("Number of stations with PRIVATE_WITH_PUBLIC_ACCESS access type:", privateWithPublicAccessCount);
+  console.log("Access types:", only_accessType);
+
   const count_by_type = countBy(only_accessType);
 
   const access_types = only_accessType.filter((v, i, a) => a.indexOf(v) === i);
@@ -223,7 +247,7 @@ export async function get_stations_access_distribution() {
   });
 
   this.access_types = access_types;
-  console.log(access_types)
+  console.log("Access types post FILTERING:",access_types)
   this.station_access_distribution = distribution_percentage;
   this.number_of_stations = tot_stations;
 }
