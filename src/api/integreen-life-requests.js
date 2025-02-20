@@ -101,10 +101,13 @@ export async function request_station_states(bz) {
   // since the measurement API does not return stations without measurement, we have to do two calls
   const plugs_status = await request_plug_status(bz);
   const plugs = await request_plugs(bz)
-  const plugs_with_status = plugs.map(p => ({
-    ...p,
-    mvalue: plugs_status[p.scode],
-  }));
+  //only return plugs that have a status measurement
+  const plugs_with_status = plugs
+    .map(p => ({
+      ...p,
+      mvalue: plugs_status[p.scode],
+    }));
+  console.log('Plugs with status:', plugs_with_status);
   return plugs_with_status;
 }
 
@@ -119,6 +122,10 @@ async function request_plug_status(bz) {
     const request = await fetch(url, fetch_options);
     const response = await request.json();
     const status_by_plug = Object.fromEntries(response.data.map(e => [e.scode, e.mvalue]));
+    console.log('Plug status values:', status_by_plug);  
+    // Alternative ways to print:
+    // console.log('Values only:', Object.values(status_by_plug));
+    // Object.entries(status_by_plug).forEach(([key, value]) => console.log(`${key}: ${value}`));
     return status_by_plug;
   } catch (e) {
     console.log(e);

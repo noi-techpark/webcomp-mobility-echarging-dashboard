@@ -21,14 +21,14 @@ import {
 const OPERATIONAL_STATES = [
   "ACTIVE", 
   "AVAILABLE", 
-  "OCCUPIED",
-  "UNAVAILABLE" 
+  "OCCUPIED", 
 ];
 
 const NOT_OPERATIONAL_STATES = [
   "TEMPORARYUNAVAILABLE",
   "FAULT",
-  "UNKNOWN" 
+  "UNKNOWN" ,
+  "UNAVAILABLE"
 ];
 
 export async function get_station_status_distribution() {
@@ -72,12 +72,13 @@ export async function get_station_status_distribution() {
 
   for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
+    total_plugs++;
 
     // DEBUG: Log raw outlet data
     console.log(`REC ${key}:`, {
       outlets: rec["smetadata.outlets"]?.length,
       connectors: rec["smetadata.connectors"]?.length,
-      mvalue: rec.mvalue,
+      mvalue: rec.mvalue, //mvalue has too many undefined values, but this is due to the fact that many station don't have the status measurement
       state: rec["pmetadata.state"]
     });
 
@@ -89,6 +90,7 @@ export async function get_station_status_distribution() {
 
     outlets_total += curr_outlet_count;
 
+    //shouldn't be 1 the value for a used station?
     if (rec["mvalue"] == 0) {
       curr_is_used = true;
     }
@@ -101,7 +103,9 @@ export async function get_station_status_distribution() {
 
     if (rec["pmetadata.state"] === "UNKNOWN") { 
       outlets_unknown += curr_outlet_count;
-      if (rec["pcode"] != last_pcode) unknown++;
+      if (rec["pcode"] != last_pcode){ 
+        unknown++;
+      }
     } else if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
       outlets_not_operational += curr_outlet_count;
       if (rec["pcode"] != last_pcode) {
@@ -115,10 +119,9 @@ export async function get_station_status_distribution() {
         }    
        }
       } else {
-        console.warn("Unhandled state:", rec["pmetadata.state"]);
         outlets_unknown += curr_outlet_count; 
       }
-    //console.log("Current outlet count:", curr_outlet_count, "for scode:", rec.scode)
+      last_pcode = rec["pcode"];
   }
 
   console.log("===== FINAL COUNTS ====="); 
@@ -128,7 +131,6 @@ export async function get_station_status_distribution() {
   console.log("Not operational:", outlets_not_operational);
   console.log("Unknown:", outlets_unknown);
   
-
   this.station_status_distribution = [
     [used, total, make_percentage(used, total)],
     [not_used, total, make_percentage(not_used, total)],
