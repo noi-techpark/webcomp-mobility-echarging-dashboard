@@ -164,7 +164,7 @@ export async function get_plug_type_distribution() {
     return (o["smetadata.outlets"] ?? o["smetadata.connectors"]) ?? [];
   });
   const count_by_type = countBy(only_outlets.flat(), o => {
-    return o.outletTypeCode || o.standard;
+    return o.outletTypeCode || "Type2Mennekes";
   });
   const tot_outlets = only_outlets.flat().length;
   let distribution_percentage = [];

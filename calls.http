@@ -14,9 +14,9 @@ GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets,
 
 
 ###
-GET {{host}}/flat/EChargingStation?where=sorigin.eq.ALPERIA,sactive.eq.true
+GET {{host}}/flat/EChargingStation?where=sorigin.eq.DRIWE,sactive.eq.true
 ###
-GET {{host}}/flat/EChargingPlug?where=sorigin.eq.Neogy&limit=5
+GET {{host}}/flat/EChargingPlug?where=sorigin.eq.DRIWE,sactive.eq.true
 
 ALPERIA
 DRIWE
@@ -28,8 +28,31 @@ route220
 
 ###
 
-GET {{host}}/flat/EChargingPlug?where=sorigin.eq.ALPERIA&limit=5
+GET {{host}}/flat/EChargingPlug?where=sorigin.eq.IIT,sactive.eq.true
+
+###
+//how to get values for sorigin where they have at least one smetadata state?
+GET {{host}}/flat/EChargingStation?select=smetadata.state,sorigin&where=sactive.eq.true
+
+/// NEW API CALLS FOR DEBUGGING
+
+###
+GET {{host}}/flat/EChargingStation?select=scode,smetadata.state,smetadata.accessType&where=sactive.eq.true
+
+###
+GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets,smetadata.connectors&where=sactive.eq.true,pactive.eq.true
 
 ###
 
-GET {{host}}/flat/EChargingStation?select=scode,smetadata.state,smetadata.accessType&where=sactive.eq.true
+GET {{host}}flat/EChargingPlug/echarging-plug-status/latest?select=scode,mvalue,sorigin&where=sactive.eq.true&limit=-1
+
+
+//RISPOSTE PER ULTIMO UPDATE DI ROBERTO
+
+### 
+GET {{host}}/flat/EChargingStation?select=smetadata.state&where=and(sactive.eq.true,sorigin.eq.Neogy)&limit=-1&distinct=true
+
+//neogy non ha station states da questa query mi risultano 0 risultati
+
+//for ocpi the endpoint from which we fetch the data is different!!!!
+GET {{host}}/flat/EChargingPlug/echarging-plug-status-ocpi/latest?select=mvalue&where=and(sactive.eq.true,sorigin.eq.Neogy)&distinct=true
