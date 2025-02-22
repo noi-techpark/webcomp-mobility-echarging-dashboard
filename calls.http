@@ -55,4 +55,6 @@ GET {{host}}/flat/EChargingStation?select=smetadata.state&where=and(sactive.eq.t
 //neogy non ha station states da questa query mi risultano 0 risultati
 
 //for ocpi the endpoint from which we fetch the data is different!!!!
+//have to change the logic of how data is fetched for ocpi and mvalue computed given that now it is a string!!!!!
+
 GET {{host}}/flat/EChargingPlug/echarging-plug-status-ocpi/latest?select=mvalue&where=and(sactive.eq.true,sorigin.eq.Neogy)&distinct=true
