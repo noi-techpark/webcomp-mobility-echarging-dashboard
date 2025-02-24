@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+// SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+//
+// SPDX-License-Identifier: CC0-1.0
+
 module.exports = {
   env: {
     browser: true,

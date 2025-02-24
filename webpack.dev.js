@@ -1,4 +1,10 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+// SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+//
+// SPDX-License-Identifier: CC0-1.0
+
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
@@ -41,5 +47,8 @@ module.exports = {
     open: true,
     openPage: "",
     overlay: true,
-  }
+  },
+  plugins: [
+    new Dotenv()
+  ]
 };

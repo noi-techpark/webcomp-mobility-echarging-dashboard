@@ -1,0 +1,60 @@
+#  SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+#  SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+@host={{$dotenv NINJA_BASE_PATH}}
+
+###
+GET {{host}}/flat/EChargingStation
+
+###
+GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets,smetadata.connectors&where=sactive.eq.true,pactive.eq.true&distinct=true&shownull=false&offset=0&limit=-1&origin=webcomp-mobility-echarging-dashboard
+
+
+
+###
+GET {{host}}/flat/EChargingStation?where=sorigin.eq.DRIWE,sactive.eq.true
+###
+GET {{host}}/flat/EChargingPlug?where=sorigin.eq.DRIWE,sactive.eq.true
+
+ALPERIA
+DRIWE
+DRIWE-OCPI
+IIT
+Neogy
+Nevicam
+route220
+
+###
+
+GET {{host}}/flat/EChargingPlug?where=sorigin.eq.IIT,sactive.eq.true
+
+###
+//how to get values for sorigin where they have at least one smetadata state?
+GET {{host}}/flat/EChargingStation?select=smetadata.state,sorigin&where=sactive.eq.true
+
+/// NEW API CALLS FOR DEBUGGING
+
+###
+GET {{host}}/flat/EChargingStation?select=scode,smetadata.state,smetadata.accessType&where=sactive.eq.true
+
+###
+GET {{host}}/flat/EChargingStation,EChargingPlug?select=scode,smetadata.outlets,smetadata.connectors&where=sactive.eq.true,pactive.eq.true
+
+###
+
+GET {{host}}flat/EChargingPlug/echarging-plug-status/latest?select=scode,mvalue,sorigin&where=sactive.eq.true&limit=-1
+
+
+//RISPOSTE PER ULTIMO UPDATE DI ROBERTO
+
+### 
+GET {{host}}/flat/EChargingStation?where=and(sactive.eq.true,sorigin.eq.Neogy)&limit=-1&distinct=true
+
+//neogy non ha station states da questa query mi risultano 0 risultati
+
+//for ocpi the endpoint from which we fetch the data is different!!!!
+//have to change the logic of how data is fetched for ocpi and mvalue computed given that now it is a string!!!!!
+###
+GET {{host}}/flat/EChargingPlug/echarging-plug-status-ocpi/latest?select=mvalue&where=and(sactive.eq.true,sorigin.eq.Neogy)&distinct=true

@@ -37,8 +37,8 @@ export async function request_station_active_details(bz) {
 export async function request_plug_details({ bz, outlets }) {
   try {
     const url = fetch_url(
-      "flat/EChargingStation,EChargingPlug", 
-      "scode,smetadata.outlets,smetadata.connectors", // Request both fields
+      "flat/EChargingStation,EChargingPlug", //what's the point of having EChargingStation here?
+      "scode,smetadata.outlets,smetadata.connectors", 
       "sactive.eq.true,pactive.eq.true", 
       bz
     );
@@ -60,12 +60,11 @@ export async function request_plug_details({ bz, outlets }) {
 /* Plug types */
 export async function request_plug_types(bz) {
   try {
-    // Function to normalize connector/outlet type
     function normalizePlugType(item) {
-      if (item["smetadata.outlets"]) {
+      if (item["smetadata.outlets.0.outletTypeCode"]) {
         return item["smetadata.outlets.0.outletTypeCode"];
       }
-      if (item["smetadata.connectors"]) {
+      if (item["smetadata.connectors.0.standard"]) {
         return item["smetadata.connectors.0.standard"];
       }
       return null;
@@ -76,13 +75,13 @@ export async function request_plug_types(bz) {
       "flat/EChargingPlug", 
       "smetadata.outlets.0.outletTypeCode,smetadata.connectors.0.standard", 
       "sactive.eq.true", 
-      bz
+      bz 
     );
 
     const request = await fetch(url, fetch_options);
     const response = await request.json();
+    console.log(response.data)
 
-    // Filter out nulls and create unique array
     const response_array = Array.from(new Set(
       response.data
         .map(normalizePlugType)
@@ -98,11 +97,26 @@ export async function request_plug_types(bz) {
 
 
 export async function request_station_states(bz) {
-  // not all stations have status measurements.
-  // since the measurement API does not return stations without measurement, we have to do two calls
-  const plugs_status = await request_plug_status(bz);
-  const plugs = await request_plugs(bz)
-  const plugs_with_status = plugs.map(p => ({...p, mvalue: plugs_status[p.scode]}));
+  // Fetch both regular and OCPI plug statuses along with plug data
+  const [regular_status, ocpi_status, plugs] = await Promise.all([
+    request_plug_status(bz),
+    request_plug_status_ocpi(bz),
+    request_plugs(bz)
+  ]);
+
+  // Combine both status sources
+  const combined_status = {
+    ...regular_status,
+    ...ocpi_status
+  };
+
+  // Map the plugs with their status
+  const plugs_with_status = plugs.map(p => ({
+    ...p,
+    mvalue: combined_status[p.scode]
+  }));
+
+  console.log('Plugs with status:', plugs_with_status);
   return plugs_with_status;
 }
 
@@ -117,10 +131,33 @@ async function request_plug_status(bz) {
     const request = await fetch(url, fetch_options);
     const response = await request.json();
     const status_by_plug = Object.fromEntries(response.data.map(e => [e.scode, e.mvalue]));
+    console.log('Plug status values:', status_by_plug);  
+    // Alternative ways to print:
+    // console.log('Values only:', Object.values(status_by_plug));
+    // Object.entries(status_by_plug).forEach(([key, value]) => console.log(`${key}: ${value}`));
     return status_by_plug;
   } catch (e) {
     console.log(e);
     return undefined;
+  }
+}
+
+async function request_plug_status_ocpi(bz) {
+  try {
+    const url = fetch_url(
+      "flat/EChargingPlug/echarging-plug-status-ocpi/latest",
+      "scode,mvalue",
+      "and(sactive.eq.true,sorigin.eq.Neogy)",
+      bz
+    );
+    const request = await fetch(url, fetch_options);
+    const response = await request.json();
+    const status_by_plug = Object.fromEntries(response.data.map(e => [e.scode, e.mvalue]));
+    console.log('OCPI plug status values:', status_by_plug);
+    return status_by_plug;
+  } catch (e) {
+    console.error('Error fetching OCPI plug status:', e);
+    return {};
   }
 }
 
@@ -134,16 +171,7 @@ async function request_plugs(bz) {
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-
-    // Normalize the data to handle both structures
-    const normalizedData = response.data.map(item => ({
-      pcode: item.pcode,
-      scode: item.scode,
-      state: item.pmetadata?.state,
-      plugDetails: item.smetadata?.outlets || item.smetadata?.connectors || []
-    }));
-
-    return normalizedData;
+    return response.data
   } catch (e) {
     console.log(e);
     return undefined;

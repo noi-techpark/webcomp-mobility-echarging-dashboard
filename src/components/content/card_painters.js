@@ -1,11 +1,18 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+// SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import Chart from 'chart.js';
 import { t } from '../../translations';
 
 const state_color_mapper = {
   NOT_OPERATIONAL: '#e6040e',
   OPERATIONAL_IN_USE: '#97be0e',
-  OPERATIONAL_NOT_IN_USE: '#4285f4'
-}
+  OPERATIONAL_NOT_IN_USE: '#4285f4',
+  UNKNOWN: '#cccccc' 
+};
+
 
 function drawNumber(tooltipItems, data, number) {
   let activeItem = data.datasets[0].distrib[tooltipItems.index]
@@ -82,6 +89,7 @@ const plugs_color_mapper = {
 export async function card2_painter() {
   this.card2_loading_percentage = 0;
   await this.get_plug_type_distribution();
+  console.log(this.plug_type_distribution)
   let percentages = this.plug_type_distribution.map(o => o[2])
   this.card2_loading_percentage = 100;
 

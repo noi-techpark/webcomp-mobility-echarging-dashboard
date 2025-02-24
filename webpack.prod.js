@@ -1,5 +1,11 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+// SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+//
+// SPDX-License-Identifier: CC0-1.0
+
 const path = require('path');
 const TerserPlugin = require("terser-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'production',
@@ -34,5 +40,8 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
-  }
+  },
+  plugins: [
+    new Dotenv()
+  ]
 };
