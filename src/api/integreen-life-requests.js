@@ -97,16 +97,25 @@ export async function request_plug_types(bz) {
 
 
 export async function request_station_states(bz) {
-  // not all stations have status measurements.
-  // since the measurement API does not return stations without measurement, we have to do two calls
-  const plugs_status = await request_plug_status(bz);
-  const plugs = await request_plugs(bz)
-  //only return plugs that have a status measurement
-  const plugs_with_status = plugs
-    .map(p => ({
-      ...p,
-      mvalue: plugs_status[p.scode],
-    }));
+  // Fetch both regular and OCPI plug statuses along with plug data
+  const [regular_status, ocpi_status, plugs] = await Promise.all([
+    request_plug_status(bz),
+    request_plug_status_ocpi(bz),
+    request_plugs(bz)
+  ]);
+
+  // Combine both status sources
+  const combined_status = {
+    ...regular_status,
+    ...ocpi_status
+  };
+
+  // Map the plugs with their status
+  const plugs_with_status = plugs.map(p => ({
+    ...p,
+    mvalue: combined_status[p.scode]
+  }));
+
   console.log('Plugs with status:', plugs_with_status);
   return plugs_with_status;
 }
@@ -130,6 +139,25 @@ async function request_plug_status(bz) {
   } catch (e) {
     console.log(e);
     return undefined;
+  }
+}
+
+async function request_plug_status_ocpi(bz) {
+  try {
+    const url = fetch_url(
+      "flat/EChargingPlug/echarging-plug-status-ocpi/latest",
+      "scode,mvalue",
+      "and(sactive.eq.true,sorigin.eq.Neogy)",
+      bz
+    );
+    const request = await fetch(url, fetch_options);
+    const response = await request.json();
+    const status_by_plug = Object.fromEntries(response.data.map(e => [e.scode, e.mvalue]));
+    console.log('OCPI plug status values:', status_by_plug);
+    return status_by_plug;
+  } catch (e) {
+    console.error('Error fetching OCPI plug status:', e);
+    return {};
   }
 }
 

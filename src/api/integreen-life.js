@@ -30,6 +30,17 @@ const NOT_OPERATIONAL_STATES = [
   "UNAVAILABLE"
 ];
 
+const NEOGY_MVALUES_OPERATIONAL = [  
+  "AVAILABLE",
+  "CHARGING"
+]
+
+const NEOGY_MVALUES_NOT_OPERATIONAL = [
+  "OUTOFORDER",
+  "UNKNOWN",
+  "BLOCKED"
+]
+
 export async function get_station_status_distribution() {
   const station_states = await request_station_states(this.bz);
   const station_states_sorted = station_states.sort((a, b) => {
@@ -89,7 +100,7 @@ export async function get_station_status_distribution() {
     }
 
     //shouldn't be 1 the value for a used station?
-    if (rec["mvalue"] == 0) {
+    if (rec["mvalue"] == 0 || NEOGY_MVALUES_OPERATIONAL.includes(rec["mvalue"])) {
       curr_is_used = true;
     }
 
@@ -97,24 +108,31 @@ export async function get_station_status_distribution() {
       total++;
     }
 
-    const is_state_known = rec["mvalue"] >= 0;
+    const is_state_known = rec["mvalue"] >= 0 || NEOGY_MVALUES_OPERATIONAL.includes(rec["mvalue"]) || NEOGY_MVALUES_NOT_OPERATIONAL.includes(rec["mvalue"]);
 
-    if (rec["pmetadata.state"] === "UNKNOWN") { 
+    if (rec["pmetadata.state"] === "UNKNOWN" || rec["mvalue"] === "UNKNOWN") { 
       outlets_unknown += curr_outlet_count;
       if (rec["pcode"] != last_pcode){ 
         unknown++;
       }
-    } else if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"])) {
+    } else if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"]) || NEOGY_MVALUES_NOT_OPERATIONAL.includes(rec["mvalue"])) {
       outlets_not_operational += curr_outlet_count;
       if (rec["pcode"] != last_pcode) {
         not_operational++;
       }
-    } else if (OPERATIONAL_STATES.includes(rec["pmetadata.state"]) && is_state_known) {
+    } else if ((OPERATIONAL_STATES.includes(rec["pmetadata.state"]) && is_state_known) || NEOGY_MVALUES_OPERATIONAL.includes(rec["mvalue"])) {
       if (curr_is_used) {
+        if (rec["pmetadata.state"] === "AVAILABLE" || rec["pmetadata.state"] === "ACTIVE" || rec["mvalue"] === "AVAILABLE") {
+          outlets_not_used += curr_outlet_count;
+          if (rec["pcode"] != last_pcode) {
+            not_used++;
+          }
+        } else {
         outlets_used += curr_outlet_count;
         if (rec["pcode"] != last_pcode) {
           used++;
-        }    
+        } 
+        }  
        }
       } else {
         outlets_unknown += curr_outlet_count; 
