@@ -12,57 +12,31 @@ import {
   request_plug_types,
   request_plug_details,
   request_station_active_details,
-  request_station_states
+  request_station_states,
+  request_station_accessibility_poi
 } from './integreen-life-requests';
-import {
-  make_percentage
-} from './utils';
+import { make_percentage } from './utils';
 
-const OPERATIONAL_STATES = [
-  "ACTIVE", 
-  "AVAILABLE", 
-  "OCCUPIED", 
-];
+const OPERATIONAL_STATES = ['ACTIVE', 'AVAILABLE', 'OCCUPIED'];
 
-const NOT_OPERATIONAL_STATES = [
-  "TEMPORARYUNAVAILABLE",
-  "FAULT",
-  "UNAVAILABLE"
-];
+const NOT_OPERATIONAL_STATES = ['TEMPORARYUNAVAILABLE', 'FAULT', 'UNAVAILABLE'];
 
-const NEOGY_MVALUES_OPERATIONAL = [  
-  "AVAILABLE",
-  "CHARGING"
-]
+const NEOGY_MVALUES_OPERATIONAL = ['AVAILABLE', 'CHARGING'];
 
-const NEOGY_MVALUES_NOT_OPERATIONAL = [
-  "OUTOFORDER",
-  "UNKNOWN",
-  "BLOCKED"
-]
+const NEOGY_MVALUES_NOT_OPERATIONAL = ['OUTOFORDER', 'UNKNOWN', 'BLOCKED'];
 
 export async function get_station_status_distribution() {
   const station_states = await request_station_states(this.bz);
   const station_states_sorted = station_states.sort((a, b) => {
-    if (a.pcode < b.pcode)
-      return -1;
-    if (a.pcode > b.pcode)
-      return 1;
-    if (a.mvalue < b.mvalue)
-      return -1;
-    if (a.mvalue > b.mvalue)
-      return 1;
-    return (
-      (a["pmetadata.state"] < b["pmetadata.state"])
-      -
-      (a["pmetadata.state"] > b["pmetadata.state"])
-    );
+    if (a.pcode < b.pcode) return -1;
+    if (a.pcode > b.pcode) return 1;
+    if (a.mvalue < b.mvalue) return -1;
+    if (a.mvalue > b.mvalue) return 1;
+    return (a['pmetadata.state'] < b['pmetadata.state']) - (a['pmetadata.state'] > b['pmetadata.state']);
   });
 
-  console.log("Sorted station states (raw):", 
-  JSON.stringify(station_states_sorted.slice(0, 5), null, 2)); 
-  console.log("Total stations:", station_states_sorted.length);
-
+  console.log('Sorted station states (raw):', JSON.stringify(station_states_sorted.slice(0, 5), null, 2));
+  console.log('Total stations:', station_states_sorted.length);
 
   let outlets_total = 0;
   let connectors_total = 0;
@@ -71,15 +45,16 @@ export async function get_station_status_distribution() {
   let outlets_not_operational = 0;
   let outlets_unknown = 0;
   let total_plugs = 0;
+
   let total = 0;
   let used = 0;
   let not_used = 0;
   let not_operational = 0;
-  let last_pcode = "";
+  let last_pcode = '';
   let curr_is_used = false;
   let unknown = 0;
 
-  console.log("===== BEGIN PROCESSING ====="); 
+  console.log('===== BEGIN PROCESSING =====');
 
   for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
@@ -87,126 +62,137 @@ export async function get_station_status_distribution() {
 
     // DEBUG: Log raw outlet data
     console.log(`REC ${key}:`, {
-      outlets: rec["smetadata.outlets"]?.length,
-      connectors: rec["smetadata.connectors"]?.length,
-      mvalue: rec.mvalue, //mvalue has too many undefined values, but this is due to the fact that many station don't have the status measurement
-      state: rec["pmetadata.state"]
+      outlets: rec['smetadata.outlets']?.length,
+      connectors: rec['smetadata.connectors']?.length,
+      mvalue: rec.mvalue, // mvalue has too many undefined values, but this is due to the fact that many station don't have the status measurement
+      state: rec['pmetadata.state']
     });
 
-    let curr_outlet_count = (rec["smetadata.outlets"] || rec["smetadata.connectors"] || []).length;
+    let curr_outlet_count = (rec['smetadata.outlets'] || rec['smetadata.connectors'] || []).length;
     outlets_total += curr_outlet_count;
-    if(rec["smetadata.connectors"]?.length){ 
+    if (rec['smetadata.connectors']?.length) {
       connectors_total += curr_outlet_count;
     }
 
-    //shouldn't be 1 the value for a used station?
-    if (rec["mvalue"] == 0 || NEOGY_MVALUES_OPERATIONAL.includes(rec["mvalue"])) {
+    // shouldn't be 1 the value for a used station?
+    if (rec['mvalue'] == 0 || NEOGY_MVALUES_OPERATIONAL.includes(rec['mvalue'])) {
       curr_is_used = true;
     }
 
-    if (rec["pcode"] != last_pcode) {
+    if (rec['pcode'] != last_pcode) {
       total++;
     }
 
-    const is_state_known = rec["mvalue"] >= 0 || NEOGY_MVALUES_OPERATIONAL.includes(rec["mvalue"]) || NEOGY_MVALUES_NOT_OPERATIONAL.includes(rec["mvalue"]);
+    const is_state_known =
+      rec['mvalue'] >= 0 ||
+      NEOGY_MVALUES_OPERATIONAL.includes(rec['mvalue']) ||
+      NEOGY_MVALUES_NOT_OPERATIONAL.includes(rec['mvalue']);
 
-    if (rec["pmetadata.state"] === "UNKNOWN" || rec["mvalue"] === "UNKNOWN") { 
+    if (rec['pmetadata.state'] === 'UNKNOWN' || rec['mvalue'] === 'UNKNOWN') {
       outlets_unknown += curr_outlet_count;
-      if (rec["pcode"] != last_pcode){ 
+      if (rec['pcode'] != last_pcode) {
         unknown++;
       }
-    } else if (NOT_OPERATIONAL_STATES.includes(rec["pmetadata.state"]) || NEOGY_MVALUES_NOT_OPERATIONAL.includes(rec["mvalue"])) {
+    } else if (
+      NOT_OPERATIONAL_STATES.includes(rec['pmetadata.state']) ||
+      NEOGY_MVALUES_NOT_OPERATIONAL.includes(rec['mvalue'])
+    ) {
       outlets_not_operational += curr_outlet_count;
-      if (rec["pcode"] != last_pcode) {
+      if (rec['pcode'] != last_pcode) {
         not_operational++;
       }
-    } else if ((OPERATIONAL_STATES.includes(rec["pmetadata.state"]) && is_state_known) || NEOGY_MVALUES_OPERATIONAL.includes(rec["mvalue"])) {
+    } else if (
+      (OPERATIONAL_STATES.includes(rec['pmetadata.state']) && is_state_known) ||
+      NEOGY_MVALUES_OPERATIONAL.includes(rec['mvalue'])
+    ) {
       if (curr_is_used) {
-        if (rec["pmetadata.state"] === "AVAILABLE" || rec["pmetadata.state"] === "ACTIVE" || rec["mvalue"] === "AVAILABLE") {
+        if (
+          rec['pmetadata.state'] === 'AVAILABLE' ||
+          rec['pmetadata.state'] === 'ACTIVE' ||
+          rec['mvalue'] === 'AVAILABLE'
+        ) {
           outlets_not_used += curr_outlet_count;
-          if (rec["pcode"] != last_pcode) {
+          if (rec['pcode'] != last_pcode) {
             not_used++;
           }
         } else {
-        outlets_used += curr_outlet_count;
-        if (rec["pcode"] != last_pcode) {
-          used++;
-        } 
-        }  
-       }
-      } else {
-        outlets_unknown += curr_outlet_count; 
-        if (rec["pcode"] != last_pcode){ 
-          unknown++;
+          outlets_used += curr_outlet_count;
+          if (rec['pcode'] != last_pcode) {
+            used++;
+          }
         }
       }
-      last_pcode = rec["pcode"];
+    } else {
+      outlets_unknown += curr_outlet_count;
+      if (rec['pcode'] != last_pcode) {
+        unknown++;
+      }
+    }
+    last_pcode = rec['pcode'];
   }
 
-  console.log("===== FINAL COUNTS FOR PLUGS====="); 
-  console.log("Total outlets:", outlets_total);
-  console.log("Total connectors:", connectors_total);
-  console.log("Plugs Used:", outlets_used);
-  console.log("Plugs Not used:", outlets_not_used);
-  console.log("Plugs Not operational:", outlets_not_operational);
-  console.log("Plugs Unknown:", outlets_unknown);
-  
-  console.log("===== FINAL COUNTS FOR STATIONS=====");
-  console.log("Total stations:", total);
-  console.log("Stations Used:", used);
-  console.log("Stations Not used:", not_used);
-  console.log("Stations Not operational:", not_operational);
-  console.log("Stations Unknown:", unknown);
+  console.log('===== FINAL COUNTS FOR PLUGS=====');
+  console.log('Total outlets:', outlets_total);
+  console.log('Total connectors:', connectors_total);
+  console.log('Plugs Used:', outlets_used);
+  console.log('Plugs Not used:', outlets_not_used);
+  console.log('Plugs Not operational:', outlets_not_operational);
+  console.log('Plugs Unknown:', outlets_unknown);
+
+  console.log('===== FINAL COUNTS FOR STATIONS=====');
+  console.log('Total stations:', total);
+  console.log('Stations Used:', used);
+  console.log('Stations Not used:', not_used);
+  console.log('Stations Not operational:', not_operational);
+  console.log('Stations Unknown:', unknown);
 
   this.station_status_distribution = [
     [used, total, make_percentage(used, total)],
     [not_used, total, make_percentage(not_used, total)],
     [not_operational, total, make_percentage(not_operational, total)],
     [unknown, total, make_percentage(unknown, total)]
-  ]
+  ];
 
   this.plug_status_distribution = [
     [outlets_used, outlets_total, make_percentage(outlets_used, outlets_total)],
     [outlets_not_used, outlets_total, make_percentage(outlets_not_used, outlets_total)],
     [outlets_not_operational, outlets_total, make_percentage(outlets_not_operational, outlets_total)],
     [outlets_unknown, outlets_total, make_percentage(outlets_unknown, outlets_total)]
-  ]
+  ];
 }
 
 export async function get_plug_type_distribution() {
-  const plugs_details = await request_plug_details({ bz: this.bz, outlets: true }) || [];
+  const plugs_details = (await request_plug_details({ bz: this.bz, outlets: true })) || [];
   const plug_types = (await request_plug_types(this.bz)) || [];
-  console.log("a",plug_types)
+  console.log('a', plug_types);
 
   const only_outlets = plugs_details.map(o => {
-    return (o["smetadata.outlets"] ?? o["smetadata.connectors"]) ?? [];
+    return o['smetadata.outlets'] ?? o['smetadata.connectors'] ?? [];
   });
+
   const count_by_type = countBy(only_outlets.flat(), o => {
-    return o.outletTypeCode || "Type2Mennekes";
+    return o.outletTypeCode || 'Type2Mennekes';
   });
+
   const tot_outlets = only_outlets.flat().length;
   let distribution_percentage = [];
+
   plug_types.forEach(type => {
-    distribution_percentage.push(
-      [
-        count_by_type[type],
-        tot_outlets,
-        make_percentage(count_by_type[type], tot_outlets),
-        type
-      ]
-    );
+    distribution_percentage.push([
+      count_by_type[type],
+      tot_outlets,
+      make_percentage(count_by_type[type], tot_outlets),
+      type
+    ]);
   });
 
   distribution_percentage = distribution_percentage
     .filter(e => e[0] > 0)
-    .map(e => e[3] === '700 bar small vehicles' ? [...e.slice(0,3),'H2-Station: 700 bar small vehicles'] : e)
+    .map(e => (e[3] === '700 bar small vehicles' ? [...e.slice(0, 3), 'H2-Station: 700 bar small vehicles'] : e))
     .sort(([cnt1, tot, prc, type], [cnt2, tot2, prc2, type2]) => {
-      if (type === 'OTHER')
-        return 1;
-      if (type2 === 'OTHER')
-        return -1;
-      else
-        return cnt2 - cnt1
+      if (type === 'OTHER') return 1;
+      if (type2 === 'OTHER') return -1;
+      return cnt2 - cnt1;
     });
 
   this.plug_types = distribution_percentage.map(e => e[3]);
@@ -218,54 +204,142 @@ export async function get_stations_access_distribution() {
   const distribution_percentage = [];
   const stations_details = await request_station_active_details(this.bz);
   const tot_stations = stations_details.length;
-  
-  console.log("===== ACCESS STATION LOGGING=====")
-  console.log("Total stations:", tot_stations);
-  
-  //possible fix: if accessType is not present, set it to UNKNOWN... TBD
+
+  console.log('===== ACCESS STATION LOGGING=====');
+  console.log('Total stations:', tot_stations);
+
+  // possible fix: if accessType is not present, set it to UNKNOWN... TBD
   let unknownCount = 0;
   let publicCount = 0;
   let privateCount = 0;
   let privateWithPublicAccessCount = 0;
+
   const only_accessType = stations_details.map(o => {
-    const accessType = o["smetadata.accessType"] || "UNKNOWN";
-    if (accessType === "UNKNOWN") {
+    const accessType = o['smetadata.accessType'] || 'UNKNOWN';
+    if (accessType === 'UNKNOWN') {
       unknownCount++;
     }
-    if (accessType === "PUBLIC") {
+    if (accessType === 'PUBLIC') {
       publicCount++;
     }
-    if (accessType === "PRIVATE") {
+    if (accessType === 'PRIVATE') {
       privateCount++;
     }
-    if (accessType === "PRIVATE_WITHPUBLICACCESS") {
+    if (accessType === 'PRIVATE_WITHPUBLICACCESS') {
       privateWithPublicAccessCount++;
     }
     return accessType;
   });
-  console.log("Number of stations with UNKNOWN access type:", unknownCount);
-  console.log("Number of stations with PUBLIC access type:", publicCount);
-  console.log("Number of stations with PRIVATE access type:", privateCount);
-  console.log("Number of stations with PRIVATE_WITH_PUBLIC_ACCESS access type:", privateWithPublicAccessCount);
-  console.log("Access types:", only_accessType);
+
+  console.log('Number of stations with UNKNOWN access type:', unknownCount);
+  console.log('Number of stations with PUBLIC access type:', publicCount);
+  console.log('Number of stations with PRIVATE access type:', privateCount);
+  console.log('Number of stations with PRIVATE_WITH_PUBLIC_ACCESS access type:', privateWithPublicAccessCount);
+  console.log('Access types:', only_accessType);
 
   const count_by_type = countBy(only_accessType);
-
   const access_types = only_accessType.filter((v, i, a) => a.indexOf(v) === i);
 
   access_types.map(type => {
-    distribution_percentage.push(
-      [
-        count_by_type[type],
-        tot_stations,
-        make_percentage(count_by_type[type], tot_stations)
-      ]
-    );
+    distribution_percentage.push([
+      count_by_type[type],
+      tot_stations,
+      make_percentage(count_by_type[type], tot_stations)
+    ]);
     return false;
   });
 
   this.access_types = access_types;
-  console.log("Access types post FILTERING:",access_types)
+  console.log('Access types post FILTERING:', access_types);
   this.station_access_distribution = distribution_percentage;
   this.number_of_stations = tot_stations;
+}
+
+export async function get_plug_access_distribution() {
+  const distribution_percentage = [];
+  const plugs_details = (await request_plug_details({ bz: this.bz, outlets: true })) || [];
+  const stations_details = await request_station_active_details(this.bz);
+
+  // Create a map of station codes to access types
+  const station_access_map = {};
+  stations_details.forEach(station => {
+    station_access_map[station.scode] = station['smetadata.accessType'] || 'UNKNOWN';
+  });
+
+  console.log('===== PLUG ACCESS DISTRIBUTION LOGGING=====');
+  console.log('Total plugs:', plugs_details.length);
+
+  // Count plugs by access type of their station
+  let unknownCount = 0;
+  let publicCount = 0;
+  let privateCount = 0;
+  let privateWithPublicAccessCount = 0;
+
+  const plug_access_types = plugs_details.map(plug => {
+    const station_code = plug.scode;
+    const access_type = station_access_map[station_code] || 'UNKNOWN';
+
+    if (access_type === 'UNKNOWN') {
+      unknownCount++;
+    } else if (access_type === 'PUBLIC') {
+      publicCount++;
+    } else if (access_type === 'PRIVATE') {
+      privateCount++;
+    } else if (access_type === 'PRIVATE_WITHPUBLICACCESS') {
+      privateWithPublicAccessCount++;
+    }
+
+    return access_type;
+  });
+
+  console.log('Number of plugs in UNKNOWN access stations:', unknownCount);
+  console.log('Number of plugs in PUBLIC access stations:', publicCount);
+  console.log('Number of plugs in PRIVATE access stations:', privateCount);
+  console.log('Number of plugs in PRIVATE_WITHPUBLICACCESS stations:', privateWithPublicAccessCount);
+
+  const count_by_type = countBy(plug_access_types);
+  const tot_plugs = plug_access_types.length;
+  const access_types = plug_access_types.filter((v, i, a) => a.indexOf(v) === i);
+
+  access_types.forEach(type => {
+    distribution_percentage.push([count_by_type[type], tot_plugs, make_percentage(count_by_type[type], tot_plugs)]);
+  });
+
+  this.plug_access_distribution = distribution_percentage;
+  console.log('Plug access distribution:', distribution_percentage);
+}
+
+
+export async function get_station_accessibility_distribution() {
+  const details = await request_station_accessibility_poi(this.bz);
+  const tot = details.length;
+
+  let not_surveyed = 0;
+  let accessible = 0;
+  let not_accessible = 0;
+
+  details.forEach((d, idx) => {
+    const ap = d?.AdditionalProperties;
+    const props = ap?.EchargingDataProperties;
+
+    const surveyType = props?.SurveyType;
+    const accessible_bool = props?.ChargingStationAccessible;
+
+    if (surveyType === null || surveyType === undefined) {
+      not_surveyed++;
+    }
+    else if (accessible_bool === true) {
+      accessible++;
+    }
+    else if (accessible_bool === false) {
+      not_accessible++;
+    }
+  });
+
+  this.station_accessibility_distribution = [
+    [not_surveyed, tot, make_percentage(not_surveyed, tot)],
+    [accessible, tot, make_percentage(accessible, tot)],
+    [not_accessible, tot, make_percentage(not_accessible, tot)]
+  ];
+
 }

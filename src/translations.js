@@ -5,29 +5,51 @@
 
 export const t = {
   title: {
-    en: 'All data about Charging Stations',
-    de: 'Gesamte Daten der Ladestationen',
-    it: 'Tutti i dati delle colonnine',
+    en: 'Active charging stations in South Tyrol',
+    de: 'Aktive Ladestationen in Südtirol',
+    it: 'Colonnine di ricarica attive in Alto Adige'
   },
   charging_station_status: {
     en: 'Current functioning of charging stations',
     de: 'Momentaner Zustand der Ladestationen',
-    it: 'Funzionamento momentaneo delle colonnine',
+    it: 'Funzionamento momentaneo delle colonnine'
   },
   type_of_plugs: {
-    en: 'Number and types of plugs',
+    en: 'Number and types of plugs / connectors',
     de: 'Anzahl und Typen der Anschlüsse',
-    it: 'Quantità e tipologia di prese',
+    it: 'Quantità e tipologia di prese / connettori'
   },
   charging_station_access: {
     en: 'Access to charging stations',
     de: 'Zugang zu den Ladestationen',
-    it: 'Accesso alle colonnine',
+    it: 'Accesso alle colonnine'
   },
   outlet_status: {
-    en: 'Current functioning of plugs',
+    en: 'Current functioning of plugs / connectors',
     de: 'Momentaner Zustand der Anschlüsse',
-    it: 'Funzionamento momentaneo delle prese',
+    it: 'Funzionamento momentaneo delle prese / connettori'
+  },
+  number_of_accessible_stations: {
+    en: 'Number of accessible stations',
+    de: 'Anzahl der zugänglichen Ladestationen',
+    it: 'Numero di colonnine accessibili'
+  },
+  survey_status: {
+    NOT_SURVEYED: {
+      en: 'Not surveyed',
+      de: 'Nicht untersucht',
+      it: 'Non rilevata'
+    },
+    ACCESSIBLE: {
+      en: 'Accessible',
+      de: 'Zugänglich',
+      it: 'Accessibile'
+    },
+    NOT_ACCESSIBLE: {
+      en: 'Not accessible',
+      de: 'Nicht zugänglich',
+      it: 'Non accessibile'
+    }
   },
   access_to_stations: {
     PRIVATE: {
