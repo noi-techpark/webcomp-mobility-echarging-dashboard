@@ -3,27 +3,19 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import {
-  fetch_options,
-  fetch_url,
-} from './utils';
+import { fetch_options, fetch_url } from './utils';
 
 /**
  * return the stations details
  */
 export async function request_station_active_details(bz) {
   try {
-    const url = fetch_url(
-      "flat/EChargingStation",
-      "scode,smetadata.state,smetadata.accessType",
-      "sactive.eq.true",
-      bz
-    );
+    const url = fetch_url('flat/EChargingStation', 'scode,smetadata.state,smetadata.accessType', 'sactive.eq.true', bz);
     const request = await fetch(url, fetch_options);
     const response = await request.json();
     return response.data;
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return undefined;
   }
 }
@@ -37,56 +29,51 @@ export async function request_station_active_details(bz) {
 export async function request_plug_details({ bz, outlets }) {
   try {
     const url = fetch_url(
-      "flat/EChargingStation,EChargingPlug", //what's the point of having EChargingStation here?
-      "scode,smetadata.outlets,smetadata.connectors",
-      "sactive.eq.true,pactive.eq.true",
+      'flat/EChargingStation,EChargingPlug', // what's the point of having EChargingStation here?
+      'scode,smetadata.outlets,smetadata.connectors',
+      'sactive.eq.true,pactive.eq.true',
       bz
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
     if (outlets) {
-      return response.data.filter(o =>
-        Boolean(o["smetadata.outlets"]) || Boolean(o["smetadata.connectors"])
-      );
+      return response.data.filter(o => Boolean(o['smetadata.outlets']) || Boolean(o['smetadata.connectors']));
     }
     return response.data;
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return undefined;
   }
 }
-
 
 /* Plug types */
 export async function request_plug_types(bz) {
   try {
     function normalizePlugType(item) {
-      if (item["smetadata.outlets.0.outletTypeCode"]) {
-        return item["smetadata.outlets.0.outletTypeCode"];
+      if (item['smetadata.outlets.0.outletTypeCode']) {
+        return item['smetadata.outlets.0.outletTypeCode'];
       }
-      if (item["smetadata.connectors.0.standard"]) {
-        return item["smetadata.connectors.0.standard"];
+      if (item['smetadata.connectors.0.standard']) {
+        return item['smetadata.connectors.0.standard'];
       }
       return null;
     }
 
     // Request both fields
     const url = fetch_url(
-      "flat/EChargingPlug",
-      "smetadata.outlets.0.outletTypeCode,smetadata.connectors.0.standard",
-      "sactive.eq.true",
+      'flat/EChargingPlug',
+      'smetadata.outlets.0.outletTypeCode,smetadata.connectors.0.standard',
+      'sactive.eq.true',
       bz
     );
 
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-    console.log(response.data)
+    console.log(response.data);
 
-    const response_array = Array.from(new Set(
-      response.data
-        .map(normalizePlugType)
-        .filter(type => type && type !== 'UNKNOWN')
-    ));
+    const response_array = Array.from(
+      new Set(response.data.map(normalizePlugType).filter(type => type && type !== 'UNKNOWN'))
+    );
 
     return response_array;
   } catch (e) {
@@ -94,7 +81,6 @@ export async function request_plug_types(bz) {
     return undefined;
   }
 }
-
 
 export async function request_station_states(bz) {
   // Fetch both regular and OCPI plug statuses along with plug data
@@ -123,9 +109,9 @@ export async function request_station_states(bz) {
 async function request_plug_status(bz) {
   try {
     const url = fetch_url(
-      "flat/EChargingPlug/echarging-plug-status/latest",
-      "scode,mvalue",
-      "sactive.eq.true,pactive.eq.true",
+      'flat/EChargingPlug/echarging-plug-status/latest',
+      'scode,mvalue',
+      'sactive.eq.true,pactive.eq.true',
       bz
     );
     const request = await fetch(url, fetch_options);
@@ -145,9 +131,9 @@ async function request_plug_status(bz) {
 async function request_plug_status_ocpi(bz) {
   try {
     const url = fetch_url(
-      "flat/EChargingPlug/echarging-plug-status-ocpi/latest",
-      "scode,mvalue",
-      "and(sactive.eq.true,sorigin.eq.Neogy)",
+      'flat/EChargingPlug/echarging-plug-status-ocpi/latest',
+      'scode,mvalue',
+      'and(sactive.eq.true,sorigin.eq.Neogy)',
       bz
     );
     const request = await fetch(url, fetch_options);
@@ -164,14 +150,14 @@ async function request_plug_status_ocpi(bz) {
 async function request_plugs(bz) {
   try {
     const url = fetch_url(
-      "flat/EChargingPlug",
-      "pcode,scode,pmetadata.state,smetadata.outlets,smetadata.connectors", // Request both fields
-      "sactive.eq.true,pactive.eq.true",
+      'flat/EChargingPlug',
+      'pcode,scode,pmetadata.state,smetadata.outlets,smetadata.connectors', // Request both fields
+      'sactive.eq.true,pactive.eq.true',
       bz
     );
     const request = await fetch(url, fetch_options);
     const response = await request.json();
-    return response.data
+    return response.data;
   } catch (e) {
     console.log(e);
     return undefined;
@@ -181,20 +167,31 @@ async function request_plugs(bz) {
 /** Station Accessibility from Tourism API */
 export async function request_station_accessibility_poi(bz) {
   try {
-    let url =
-      'https://tourism.api.opendatahub.com/v1/ODHActivityPoi?tagfilter=electric%20charging%20stations&pagesize=0&expand=all';
+    const url = fetch_url(
+      'flat/EChargingPlug',
+      'pcode,scode,pmetadata.state,smetadata.outlets,smetadata.connectors',
+      'sactive.eq.true,pactive.eq.true',
+      bz
+    );
 
-    if (bz) {
-      url += '&areafilter=Bolzano';
-    }
+    const request = await fetch(url, fetch_options);
 
-    console.log('[Tourism POI] Fetching full list from:', url);
+    const requestAccessibility = await fetch(
+      'https://tourism.api.opendatahub.com/v1/ODHActivityPoi?tagfilter=electric%20charging%20stations&pageSize=-1'
+    );
 
-    const listResp = await fetch(url, fetch_options);
-    const listJson = await listResp.json();
-    const items = listJson?.data || listJson?.Items || listJson?.items || [];
+    const response = await request.json();
+    const responseAccessibility = await requestAccessibility.json();
 
-    console.log('[Tourism POI] Total items returned:', items.length);
+    const items = response.data.map(plug => {
+      const accessibility = responseAccessibility.Items.find(
+        i => i.Mapping && i.Mapping.mobility && plug.scode === i.Mapping.mobility.scode
+      );
+      return {
+        ...plug,
+        accessibility
+      };
+    });
 
     return Array.isArray(items) ? items : [];
   } catch (e) {

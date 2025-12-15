@@ -35,9 +35,6 @@ export async function get_station_status_distribution() {
     return (a['pmetadata.state'] < b['pmetadata.state']) - (a['pmetadata.state'] > b['pmetadata.state']);
   });
 
-  console.log('Sorted station states (raw):', JSON.stringify(station_states_sorted.slice(0, 5), null, 2));
-  console.log('Total stations:', station_states_sorted.length);
-
   let outlets_total = 0;
   let connectors_total = 0;
   let outlets_used = 0;
@@ -54,23 +51,13 @@ export async function get_station_status_distribution() {
   let curr_is_used = false;
   let unknown = 0;
 
-  console.log('===== BEGIN PROCESSING =====');
-
   for (let key in station_states_sorted) {
     let rec = station_states_sorted[key];
     total_plugs++;
 
-    // DEBUG: Log raw outlet data
-    console.log(`REC ${key}:`, {
-      outlets: rec['smetadata.outlets']?.length,
-      connectors: rec['smetadata.connectors']?.length,
-      mvalue: rec.mvalue, // mvalue has too many undefined values, but this is due to the fact that many station don't have the status measurement
-      state: rec['pmetadata.state']
-    });
-
     let curr_outlet_count = (rec['smetadata.outlets'] || rec['smetadata.connectors'] || []).length;
     outlets_total += curr_outlet_count;
-    if (rec['smetadata.connectors']?.length) {
+    if (rec['smetadata.connectors'] && rec['smetadata.connectors'].length) {
       connectors_total += curr_outlet_count;
     }
 
@@ -131,21 +118,6 @@ export async function get_station_status_distribution() {
     last_pcode = rec['pcode'];
   }
 
-  console.log('===== FINAL COUNTS FOR PLUGS=====');
-  console.log('Total outlets:', outlets_total);
-  console.log('Total connectors:', connectors_total);
-  console.log('Plugs Used:', outlets_used);
-  console.log('Plugs Not used:', outlets_not_used);
-  console.log('Plugs Not operational:', outlets_not_operational);
-  console.log('Plugs Unknown:', outlets_unknown);
-
-  console.log('===== FINAL COUNTS FOR STATIONS=====');
-  console.log('Total stations:', total);
-  console.log('Stations Used:', used);
-  console.log('Stations Not used:', not_used);
-  console.log('Stations Not operational:', not_operational);
-  console.log('Stations Unknown:', unknown);
-
   this.station_status_distribution = [
     [used, total, make_percentage(used, total)],
     [not_used, total, make_percentage(not_used, total)],
@@ -164,7 +136,6 @@ export async function get_station_status_distribution() {
 export async function get_plug_type_distribution() {
   const plugs_details = (await request_plug_details({ bz: this.bz, outlets: true })) || [];
   const plug_types = (await request_plug_types(this.bz)) || [];
-  console.log('a', plug_types);
 
   const only_outlets = plugs_details.map(o => {
     return o['smetadata.outlets'] ?? o['smetadata.connectors'] ?? [];
@@ -205,9 +176,6 @@ export async function get_stations_access_distribution() {
   const stations_details = await request_station_active_details(this.bz);
   const tot_stations = stations_details.length;
 
-  console.log('===== ACCESS STATION LOGGING=====');
-  console.log('Total stations:', tot_stations);
-
   // possible fix: if accessType is not present, set it to UNKNOWN... TBD
   let unknownCount = 0;
   let publicCount = 0;
@@ -231,12 +199,6 @@ export async function get_stations_access_distribution() {
     return accessType;
   });
 
-  console.log('Number of stations with UNKNOWN access type:', unknownCount);
-  console.log('Number of stations with PUBLIC access type:', publicCount);
-  console.log('Number of stations with PRIVATE access type:', privateCount);
-  console.log('Number of stations with PRIVATE_WITH_PUBLIC_ACCESS access type:', privateWithPublicAccessCount);
-  console.log('Access types:', only_accessType);
-
   const count_by_type = countBy(only_accessType);
   const access_types = only_accessType.filter((v, i, a) => a.indexOf(v) === i);
 
@@ -250,7 +212,6 @@ export async function get_stations_access_distribution() {
   });
 
   this.access_types = access_types;
-  console.log('Access types post FILTERING:', access_types);
   this.station_access_distribution = distribution_percentage;
   this.number_of_stations = tot_stations;
 }
@@ -265,9 +226,6 @@ export async function get_plug_access_distribution() {
   stations_details.forEach(station => {
     station_access_map[station.scode] = station['smetadata.accessType'] || 'UNKNOWN';
   });
-
-  console.log('===== PLUG ACCESS DISTRIBUTION LOGGING=====');
-  console.log('Total plugs:', plugs_details.length);
 
   // Count plugs by access type of their station
   let unknownCount = 0;
@@ -292,11 +250,6 @@ export async function get_plug_access_distribution() {
     return access_type;
   });
 
-  console.log('Number of plugs in UNKNOWN access stations:', unknownCount);
-  console.log('Number of plugs in PUBLIC access stations:', publicCount);
-  console.log('Number of plugs in PRIVATE access stations:', privateCount);
-  console.log('Number of plugs in PRIVATE_WITHPUBLICACCESS stations:', privateWithPublicAccessCount);
-
   const count_by_type = countBy(plug_access_types);
   const tot_plugs = plug_access_types.length;
   const access_types = plug_access_types.filter((v, i, a) => a.indexOf(v) === i);
@@ -306,7 +259,6 @@ export async function get_plug_access_distribution() {
   });
 
   this.plug_access_distribution = distribution_percentage;
-  console.log('Plug access distribution:', distribution_percentage);
 }
 
 
@@ -319,19 +271,18 @@ export async function get_station_accessibility_distribution() {
   let not_accessible = 0;
 
   details.forEach((d, idx) => {
-    const ap = d?.AdditionalProperties;
+    const a = d.accessibility;
+    const ap = a?.AdditionalProperties;
     const props = ap?.EchargingDataProperties;
 
     const surveyType = props?.SurveyType;
     const accessible_bool = props?.ChargingStationAccessible;
 
-    if (surveyType === null || surveyType === undefined) {
+    if (surveyType === null || surveyType === undefined || surveyType === false) {
       not_surveyed++;
-    }
-    else if (accessible_bool === true) {
+    } else if (accessible_bool === true) {
       accessible++;
-    }
-    else if (accessible_bool === false) {
+    } else if (accessible_bool === false) {
       not_accessible++;
     }
   });
