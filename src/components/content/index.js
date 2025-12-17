@@ -1,3 +1,4 @@
+
 // SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
 // SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
 //
@@ -22,7 +23,7 @@ export function Content() {
                 refresh_function: this.card1_painter,
                 title: t['charging_station_status'][this.language],
                 content: card_renderer({
-                  canvas_id: "chart_station_states",
+                  canvas_id: 'chart_station_states',
                   states: this.state_labels,
                   language: this.language,
                   translations: t['states'],
@@ -34,7 +35,7 @@ export function Content() {
                 refresh_function: this.card3_painter,
                 title: t['charging_station_access'][this.language],
                 content: card_renderer({
-                  canvas_id: "chart_access_types",
+                  canvas_id: 'chart_access_types',
                   states: this.access_types,
                   language: this.language,
                   translations: t['access_to_stations'],
@@ -47,7 +48,7 @@ export function Content() {
                 title: t['type_of_plugs'][this.language],
                 big: true,
                 content: card_renderer({
-                  canvas_id: "chart_plug_types",
+                  canvas_id: 'chart_plug_types',
                   states: this.plug_types,
                   number: this.number_of_plugs,
                   translations: false,
@@ -60,10 +61,23 @@ export function Content() {
                 title: t['outlet_status'][this.language],
                 big: true,
                 content: card_renderer({
-                  canvas_id: "chart_outlet_states",
+                  canvas_id: 'chart_outlet_states',
                   states: this.state_labels,
                   language: this.language,
                   translations: t['states'],
+                  pin: orange_pin
+                })
+              })}
+              ${Card({
+                load_perc: this.card5_loading_percentage,
+                refresh_function: this.card5_painter,
+                title: t['number_of_accessible_stations'][this.language],
+                big: true,
+                content: card_renderer({
+                  canvas_id: 'chart_station_accessibility',
+                  states: this.accessibility_labels,
+                  language: this.language,
+                  translations: t['survey_status'],
                   pin: orange_pin
                 })
               })}

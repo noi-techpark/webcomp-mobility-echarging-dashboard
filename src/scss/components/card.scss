@@ -267,6 +267,18 @@ $card-height-big-mobile: 454px;
         color: #e6040e;
         background-color: #ffcacd;
       }
+      &.cnot_surveyed {
+        color: $black-300;
+        background-color: $black-100;
+      }
+      &.caccessible {
+        color: #97be0e;
+        background-color: #dbecae;
+      }
+      &.cnot_accessible {
+        color: #e6040e;
+        background-color: #ffcacd;
+      }
       &.coperational_in_use {
         color: #97be0e;
         background-color: #dbecae;
