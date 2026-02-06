@@ -6,6 +6,7 @@
 export const observed_properties = {
   language: { type: String },
   bz: { type: Boolean },
+  titleKey: { type: String, attribute: 'title-key' },
   number_of_stations: { type: Number },
   number_of_plugs: { type: Number },
   station_access_distribution: { type: Array },

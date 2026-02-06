@@ -158,9 +158,10 @@ export async function get_plug_type_distribution() {
   });
 
   distribution_percentage = distribution_percentage
+    .filter(e => e[3] !== '700 bar small vehicles')
+    .filter(e => e[3] !== 'H2-Station: 700 bar small vehicles')
     .filter(e => e[0] > 0)
-    .map(e => (e[3] === '700 bar small vehicles' ? [...e.slice(0, 3), 'H2-Station: 700 bar small vehicles'] : e))
-    .sort(([cnt1, tot, prc, type], [cnt2, tot2, prc2, type2]) => {
+    .sort(([cnt1, , , type], [cnt2, , , type2]) => {
       if (type === 'OTHER') return 1;
       if (type2 === 'OTHER') return -1;
       return cnt2 - cnt1;
@@ -264,13 +265,15 @@ export async function get_plug_access_distribution() {
 
 export async function get_station_accessibility_distribution() {
   const details = await request_station_accessibility_poi(this.bz);
-  const tot = details.length;
 
   let not_surveyed = 0;
   let accessible = 0;
   let not_accessible = 0;
 
-  details.forEach((d, idx) => {
+  debugger;
+  const stationDetails = Array.from(new Map(details.map(item => [item.pcode, item])).values());
+  const tot = stationDetails.length;
+  stationDetails.forEach((d, idx) => {
     const a = d.accessibility;
     const ap = a?.AdditionalProperties;
     const props = ap?.EchargingDataProperties;
@@ -278,12 +281,12 @@ export async function get_station_accessibility_distribution() {
     const surveyType = props?.SurveyType;
     const accessible_bool = props?.ChargingStationAccessible;
 
-    if (surveyType === null || surveyType === undefined || surveyType === false) {
-      not_surveyed++;
-    } else if (accessible_bool === true) {
+    if (accessible_bool === true) {
       accessible++;
     } else if (accessible_bool === false) {
       not_accessible++;
+    } else if (surveyType === null || surveyType === undefined || surveyType === false) {
+      not_surveyed++;
     }
   });
 
