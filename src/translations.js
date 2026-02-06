@@ -5,6 +5,11 @@
 
 export const t = {
   title: {
+    en: 'Active charging stations',
+    de: 'Aktive Ladestationen',
+    it: 'Colonnine di ricarica attive'
+  },
+  title_bz: {
     en: 'Active charging stations in South Tyrol',
     de: 'Aktive Ladestationen in Südtirol',
     it: 'Colonnine di ricarica attive in Alto Adige'

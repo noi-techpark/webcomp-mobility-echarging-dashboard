@@ -19,6 +19,10 @@ export function fetch_url(call, select, where, bz) {
   return `${NINJA_BASE_PATH}/${call}?select=${select}&where=${_where}&${DEFAULT_PARAMS}`;
 }
 
+export function fetch_url_limit(call, limit, where, bz) {
+  const _where = bz ? where + ',' + BZ_ONLY_FILTER : where;
+  return `${NINJA_BASE_PATH}/${call}?${limit}&where=${_where}&${DEFAULT_PARAMS}`;
+}
 
 function __safe_zero(num) {
   if (num === null || num == undefined || isNaN(num))

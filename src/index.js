@@ -59,18 +59,9 @@ class EMobilityDashboard extends LitElement {
     this.plug_access_distribution = [];
     this.station_accessibility_distribution = [];
 
-    this.state_labels = [
-      "OPERATIONAL_IN_USE",
-      "OPERATIONAL_NOT_IN_USE",
-      "NOT_OPERATIONAL",
-      "UNKNOWN"
-    ]
+    this.state_labels = ['OPERATIONAL_IN_USE', 'OPERATIONAL_NOT_IN_USE', 'NOT_OPERATIONAL', 'UNKNOWN'];
 
-    this.accessibility_labels = [
-      'NOT_SURVEYED',
-      'ACCESSIBLE',
-      'NOT_ACCESSIBLE'
-    ];
+    this.accessibility_labels = ['NOT_SURVEYED', 'ACCESSIBLE', 'NOT_ACCESSIBLE'];
 
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
@@ -108,7 +99,7 @@ class EMobilityDashboard extends LitElement {
         ${getStyle(style__buttons)}
       </style>
       <div class="e_mobility_dasboard">
-        ${Header(this.language)} ${this.Content()}
+        ${Header(this.language, this.titleKey)} ${this.Content()}
       </div>
     `;
   }

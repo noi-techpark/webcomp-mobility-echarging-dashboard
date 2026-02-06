@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { fetch_options, fetch_url } from './utils';
+import { fetch_options, fetch_url, fetch_url_limit } from './utils';
 
 /**
  * return the stations details
@@ -167,19 +167,17 @@ async function request_plugs(bz) {
 /** Station Accessibility from Tourism API */
 export async function request_station_accessibility_poi(bz) {
   try {
-    const url = fetch_url(
+    const url = fetch_url_limit(
       'flat/EChargingPlug',
-      'pcode,scode,pmetadata.state,smetadata.outlets,smetadata.connectors',
-      'sactive.eq.true,pactive.eq.true',
+      'limit=-1&offset=0&shownull=false&distinct=true', // Request both fields
+      'sactive.eq.true',
       bz
     );
-
     const request = await fetch(url, fetch_options);
 
     const requestAccessibility = await fetch(
       'https://tourism.api.opendatahub.com/v1/ODHActivityPoi?tagfilter=electric%20charging%20stations&pageSize=-1'
     );
-
     const response = await request.json();
     const responseAccessibility = await requestAccessibility.json();
 
