@@ -270,7 +270,6 @@ export async function get_station_accessibility_distribution() {
   let accessible = 0;
   let not_accessible = 0;
 
-  debugger;
   const stationDetails = Array.from(new Map(details.map(item => [item.pcode, item])).values());
   const tot = stationDetails.length;
   stationDetails.forEach((d, idx) => {
@@ -281,12 +280,12 @@ export async function get_station_accessibility_distribution() {
     const surveyType = props?.SurveyType;
     const accessible_bool = props?.ChargingStationAccessible;
 
-    if (accessible_bool === true) {
+    if (surveyType === null || surveyType === undefined || surveyType === false) {
+      not_surveyed++;
+    } else if (accessible_bool === true) {
       accessible++;
     } else if (accessible_bool === false) {
       not_accessible++;
-    } else if (surveyType === null || surveyType === undefined || surveyType === false) {
-      not_surveyed++;
     }
   });
 
