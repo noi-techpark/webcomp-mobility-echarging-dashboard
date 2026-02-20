@@ -252,6 +252,7 @@ export async function card4_painter() {
 const station_accessibility_color_mapper = {
   NOT_SURVEYED: '#cccccc',
   ACCESSIBLE: '#97be0e',
+  CONDITIONAL_ACCESSIBLE: '#de7000',
   NOT_ACCESSIBLE: '#e6040e'
 };
 
@@ -259,14 +260,15 @@ export async function card5_painter() {
   this.card5_loading_percentage = 0;
   await this.get_station_accessibility_distribution();
 
-  const accessibility_labels = ['NOT_SURVEYED', 'ACCESSIBLE', 'NOT_ACCESSIBLE'];
+  const accessibility_labels = ['NOT_SURVEYED', 'ACCESSIBLE', 'CONDITIONAL_ACCESSIBLE', 'NOT_ACCESSIBLE'];
 
   const distrib = Array.isArray(this.station_accessibility_distribution) ? this.station_accessibility_distribution : [];
 
   const normalizedDistrib =
-    distrib.length >= 3
-      ? [distrib[0], distrib[1], distrib[2]]
+    distrib.length >= 4
+      ? [distrib[0], distrib[1], distrib[2], distrib[3]]
       : [
+          [0, 0, 0],
           [0, 0, 0],
           [0, 0, 0],
           [0, 0, 0]
