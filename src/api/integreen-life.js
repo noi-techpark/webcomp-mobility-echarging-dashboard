@@ -299,28 +299,6 @@ export async function get_station_accessibility_distribution() {
     }
   })
   const tot = not_surveyed + accessible + conditional_accessible + not_accessible;
-  /*
-  const stationDetails = Array.from(new Map(details.map(item => [item.pcode, item])).values());
-
-  stationDetails.forEach((d, idx) => {
-    const a = d.accessibility;
-    const ap = a?.AdditionalProperties;
-    const props = ap?.EchargingDataProperties;
-
-    const surveyType = props?.SurveyType;
-    const accessible_status = props?.Barrierfree;
-
-    if (surveyType === null || surveyType === undefined || surveyType === false) {
-      not_surveyed++;
-    } else if (accessible_status === 'Accessible') {
-      accessible++;
-    } else if (accessible_status === 'ConditionalAccessibility') {
-      conditional_accessible++;
-    } else if (accessible_status === 'NotAccessible') {
-      not_accessible++;
-    }
-  });
-   */
 
   this.station_accessibility_distribution = [
     [not_surveyed, tot, make_percentage(not_surveyed, tot)],
