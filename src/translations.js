@@ -50,6 +50,11 @@ export const t = {
       de: 'Zugänglich',
       it: 'Accessibile'
     },
+    CONDITIONAL_ACCESSIBLE: {
+      en: 'Conditional accessible',
+      de: 'Bedingt zugänglich',
+      it: 'Limitatamente accessibile'
+    },
     NOT_ACCESSIBLE: {
       en: 'Not accessible',
       de: 'Nicht zugänglich',

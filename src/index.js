@@ -61,7 +61,7 @@ class EMobilityDashboard extends LitElement {
 
     this.state_labels = ['OPERATIONAL_IN_USE', 'OPERATIONAL_NOT_IN_USE', 'NOT_OPERATIONAL', 'UNKNOWN'];
 
-    this.accessibility_labels = ['NOT_SURVEYED', 'ACCESSIBLE', 'NOT_ACCESSIBLE'];
+    this.accessibility_labels = ['NOT_SURVEYED', 'ACCESSIBLE', 'CONDITIONAL_ACCESSIBLE', 'NOT_ACCESSIBLE'];
 
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
