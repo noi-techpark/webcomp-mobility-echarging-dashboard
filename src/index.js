@@ -1,5 +1,4 @@
-// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
-// SPDX-FileCopyrightText: 2020 - 2021 STA <info@sta.bz.it>
+// SPDX-FileCopyrightText: 2025 NOI Techpark <digital@noi.bz.it>
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -7,7 +6,9 @@ import { html, LitElement } from 'lit-element';
 import {
   get_station_status_distribution,
   get_plug_type_distribution,
-  get_stations_access_distribution
+  get_stations_access_distribution,
+  get_plug_access_distribution,
+  get_station_accessibility_distribution
 } from './api/integreen-life';
 import { Content } from './components/content';
 import {
@@ -15,6 +16,7 @@ import {
   card2_painter,
   card3_painter,
   card4_painter,
+  card5_painter,
 } from './components/content/card_painters';
 import { Header } from './components/header';
 import { observed_properties } from './observed_properties';
@@ -32,11 +34,14 @@ class EMobilityDashboard extends LitElement {
     this.get_station_status_distribution = get_station_status_distribution.bind(this);
     this.get_stations_access_distribution = get_stations_access_distribution.bind(this);
     this.get_plug_type_distribution = get_plug_type_distribution.bind(this);
+    this.get_plug_access_distribution = get_plug_access_distribution.bind(this);
+    this.get_station_accessibility_distribution = get_station_accessibility_distribution.bind(this);
     /** Card renderers */
     this.card1_painter = card1_painter.bind(this);
     this.card2_painter = card2_painter.bind(this);
     this.card3_painter = card3_painter.bind(this);
     this.card4_painter = card4_painter.bind(this);
+    this.card5_painter = card5_painter.bind(this);
     /** Observed values */
     this.number_of_stations = 0;
     this.number_of_plugs = 0;
@@ -44,19 +49,19 @@ class EMobilityDashboard extends LitElement {
     this.card2_loading_percentage = 0;
     this.card3_loading_percentage = 0;
     this.card4_loading_percentage = 0;
+    this.card5_loading_percentage = 0;
     this.plug_types = [];
     this.access_types = [];
     this.station_access_distribution = [];
     this.station_status_distribution = [];
     this.plug_type_distribution = [];
     this.plug_status_distribution = [];
+    this.plug_access_distribution = [];
+    this.station_accessibility_distribution = [];
 
-    this.state_labels = [
-      "OPERATIONAL_IN_USE",
-      "OPERATIONAL_NOT_IN_USE",
-      "NOT_OPERATIONAL",
-      "UNKNOWN"
-    ]
+    this.state_labels = ['OPERATIONAL_IN_USE', 'OPERATIONAL_NOT_IN_USE', 'NOT_OPERATIONAL', 'UNKNOWN'];
+
+    this.accessibility_labels = ['NOT_SURVEYED', 'ACCESSIBLE', 'CONDITIONAL_ACCESSIBLE', 'NOT_ACCESSIBLE'];
 
     /* Parameters */
     const userLanguage = window.navigator.userLanguage || window.navigator.language;
@@ -80,6 +85,9 @@ class EMobilityDashboard extends LitElement {
 
     /** Card 4 */
     await this.card4_painter();
+
+    /** Card 5 */
+    await this.card5_painter();
   }
 
   render() {
@@ -91,7 +99,7 @@ class EMobilityDashboard extends LitElement {
         ${getStyle(style__buttons)}
       </style>
       <div class="e_mobility_dasboard">
-        ${Header(this.language)} ${this.Content()}
+        ${Header(this.language, this.titleKey)} ${this.Content()}
       </div>
     `;
   }

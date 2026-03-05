@@ -9,7 +9,9 @@ import { moutain_illustration } from '../../img/moutain_illustration.svg.js';
 import { sudtirol_logo } from '../../img/sudtirol_logo.svg.js';
 import { t } from '../../translations';
 
-export const Header = (language) => {
+export const Header = (language, titleKey = 'title') => {
+  const resolvedTitle = (t[titleKey] && t[titleKey][language]) || (t.title && t.title[language]) || '';
+
   return html`
     <div class="header">
       <div class="container">
@@ -22,7 +24,7 @@ export const Header = (language) => {
               ></div>
             </div>
             <div class="header__title_container mt-3">
-              <h1 class="fs-h1 color-white mt-5">${t['title'][language]}</h1>
+              <h1 class="fs-h1 color-white mt-5">${resolvedTitle}</h1>
             </div>
             ${sudtirol_logo}
           </div>
